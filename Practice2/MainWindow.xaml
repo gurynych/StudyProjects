@@ -1,0 +1,160 @@
+﻿<Window x:Class="Practice2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Practice2"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow"
+        Title="MainWindow" Height="600" Width="600">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="\Image\marathon-skills-2016-marathon-map.jpg"></ImageBrush>
+        </Grid.Background>
+
+        <Button x:Name="Check1"
+                Content="1" 
+                HorizontalAlignment="Left"
+                Margin="521,16,0,0"
+                VerticalAlignment="Top" Height="35" Width="35"
+                Background="#FF00BEF2"
+                FontFamily="Ariel"
+                FontSize="14"
+                HorizontalContentAlignment="Center"
+                Click="Check1_Click"
+                ToolTip="Checkpoint1">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="100"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button x:Name="Check2"
+                Content="2"
+                HorizontalAlignment="Left"
+                Margin="298,251,0,0"
+                VerticalAlignment="Top" Height="35" Width="36"
+                Background="#FF00BEF2"
+                FontFamily="Ariel"
+                FontSize="14"
+                HorizontalContentAlignment="Center"
+                Click="Check1_Click"
+                ToolTip="Checkpoint2">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="100"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button x:Name="Check3"
+                Content="3"
+                HorizontalAlignment="Left"
+                Margin="515,410,0,0"
+                VerticalAlignment="Top" Height="35" Width="36"
+                Background="#FF00BEF2"
+                FontFamily="Ariel"
+                FontSize="14"
+                HorizontalContentAlignment="Center"
+                Click="Check1_Click"
+                ToolTip="Checkpoint3">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="100"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button x:Name="Check4"
+                Content="4"
+                HorizontalAlignment="Left"
+                Margin="222,510,0,0"
+                VerticalAlignment="Top" Height="35" Width="36"
+                Background="#FF00BEF2"
+                FontFamily="Ariel"
+                FontSize="14"
+                HorizontalContentAlignment="Center"
+                Click="Check1_Click"
+                ToolTip="Checkpoint4">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="100"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button x:Name="Check5"
+                Content="5"
+                HorizontalAlignment="Left"
+                Margin="109,195,0,0"
+                VerticalAlignment="Top" Height="35" Width="36"
+                Background="#FF00BEF2"
+                FontFamily="Ariel"
+                FontSize="14"
+                HorizontalContentAlignment="Center"
+                Click="Check1_Click"
+                ToolTip="Checkpoint5">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="100"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button x:Name="Check6"
+                Content="6"
+                HorizontalAlignment="Left"
+                Margin="52,17,0,0"
+                VerticalAlignment="Top" Height="35" Width="36"
+                Background="#FF00BEF2"
+                FontFamily="Ariel"
+                FontSize="14"
+                HorizontalContentAlignment="Center"
+                Click="Check1_Click"
+                ToolTip="Checkpoint6">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="100"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+
+        <Button HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Width="48"
+                Margin="0,0,10,42"
+                ToolTip="Загрузить из файла"
+                Click="SaveFile_Click">
+            <Image Source="D:\Visual_Studio.project\Practice2\Image\open-file_40455 (1).png"/>
+        </Button>
+
+        <Button HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Width="48"
+                Margin="0,0,100,42"
+                ToolTip="Таблица данных"
+                Click="ShowTable_Click">
+            <Image Source="D:\Visual_Studio.project\Practice2\Image\premium-icon-table-4598376.png"/>
+        </Button>
+
+        <ContentControl x:Name="Container"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Width="200" Height="280"
+                        Margin="15"
+                        Opacity="0.9" Background="Black">
+            <ContentControl.Effect>
+                <DropShadowEffect Color="Gray" Opacity="0.7" />
+            </ContentControl.Effect>
+        </ContentControl>
+        
+    </Grid>
+</Window>

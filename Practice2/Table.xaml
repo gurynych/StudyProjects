@@ -1,0 +1,48 @@
+﻿<Window x:Class="Practice2.Table"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Practice2"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Table" Height="250" Width="475">
+    <Grid>
+        <DataGrid x:Name="Data">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Checkpoint"
+                                    Binding="{Binding Name}"
+                                    Width="*">
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Drinks"
+                                    Binding="{Binding DrinksText}"
+                                    Width="*">
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Energy Bars"
+                                    Binding="{Binding EnergyBarsText}"
+                                    Width="*">
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Toilets"
+                                    Binding="{Binding ToiletsText}"
+                                    Width="*">
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Information"
+                                    Binding="{Binding InformationText}"
+                                    Width="*">
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Medical"
+                                    Binding="{Binding MedicalText}"
+                                    Width="*">
+                </DataGridTextColumn>
+                
+            </DataGrid.Columns>
+            
+        </DataGrid>
+    </Grid>
+</Window>

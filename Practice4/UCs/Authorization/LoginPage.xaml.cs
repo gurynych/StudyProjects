@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -21,69 +22,52 @@ namespace Practice4.UCs.Authorization
     /// Логика взаимодействия для LoginPage.xaml
     /// </summary>
     public partial class LoginPage : UserControl
-    {
+    {        
         public LoginPage()
         {
-            InitializeComponent();
+            InitializeComponent();                      
         }
 
         private void DataVerification_Click(object sender, RoutedEventArgs e)
         {
-            if (login.Text.Length > 0) // проверяем введён ли логин     
+            if (username.Text.Length == 0)
             {
-                if (password.Password.Length > 0) // проверяем введён ли пароль         
-                {                                // ищем в базе данных пользователя с такими данными         
-                    DataBase dataBase = new DataBase("Users");
-                    DataTable dt_user = dataBase.SelectData($"SELECT * FROM Users WHERE login = '{login.Text}' AND password = '{password.Password}'");
-                    if (dt_user.Rows.Count > 0) // если такая запись существует
-                    {
-                        MessageBox.Show("Пользователь авторизовался"); // говорим, что авторизовался       
-                    }
-                    else MessageBox.Show("Пользователь не найден"); // выводим ошибку  
-                }
-                else MessageBox.Show("Введите пароль"); // выводим ошибку    
+                SnackbarThree.MessageQueue?.Enqueue("Ввeдетие имя пользователя", null, null, null, false, true, TimeSpan.FromSeconds(1.5));
+                SnackbarThree.IsActive = true;                
+                return;
             }
-            else MessageBox.Show("Введите логин"); // выводим ошибку
+            if (password.Password.Length == 0)
+            {
+                SnackbarThree.MessageQueue?.Enqueue("Ввeдетие пароль", null, null, null, false, true, TimeSpan.FromSeconds(1.5));
+                SnackbarThree.IsActive = true;
+                MessageBox.Show("Введите пароль");
+                return;
+            }            
+
+            DataBase dataBase = new DataBase("newDb.sqlite", "Users");
+            DataTable dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE username = '{username.Text}' AND password = '{password.Password}'");
+            if (dataTable.Rows.Count > 0)
+            {
+                SnackbarThree.MessageQueue?.Enqueue("Успешный вход", null, null, null, false, true, TimeSpan.FromSeconds(1.5));
+                SnackbarThree.IsActive = true;
+            }
+            else 
+            {
+                SnackbarThree.MessageQueue?.Enqueue("Неверный логин или пароль", null, null, null, false, true, TimeSpan.FromSeconds(1.5));
+                SnackbarThree.IsActive = true;
+            }
+
+            if (password.Password.Length < 8)
+            {
+                password.BorderBrush = Brushes.Red;
+            }
+
         }
 
-        private void Registration_Click(object sender, RoutedEventArgs e)
+        private void Button_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            RegistrationPage registrationPage = new RegistrationPage();
-            MainWindow.Instance.Container.Content = null;
-            MainWindow.Instance.Container.Content = registrationPage;
-            
-            //if (login.Text.Length == 0 && password.Password.Length == 0)
-            //{
-            //    MessageBox.Show("Пустой ввод");
-            //    return;
-            //}
-            //DataBase dataBase = new DataBase("Users");
-            //if (dataBase.Contains(login.Text, login.Text))
-            //{
-            //    MessageBox.Show("Уже содержится");
-            //    return;
-            //}            
-            //dataBase.AddData($"INSERT INTO Users (login, email, password) VALUES ('{login.Text}', '{login.Text}', '{password.Password}')");
-        }
-
-        private void ButtonPassword_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            string symbol = e.Text;
-            string symbols2 = "!#$&()*-./:;<=>@[]^_{|}~";
-            if (!Regex.Match(symbol, @"[а-яА-Я]|[a-zA-Z]|[0-9]").Success && symbols2.IndexOf(symbol) < 0)
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void ButtonLogin_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            string symbol = e.Text;
-            string symbols = @"/-()|_";
-            if (!Regex.Match(symbol, @"[а-яА-Я]|[a-zA-Z]|[0-9]").Success && symbols.IndexOf(symbols) < 0)
-            {
-                e.Handled = true;
-            }
+            string symbols = "\"№!#$&()*./:;<=>@[]^{|}~ ";
+            e.Handled = symbols.Contains(e.Text);
         }
     }
 }

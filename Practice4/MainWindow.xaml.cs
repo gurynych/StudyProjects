@@ -26,10 +26,10 @@ namespace Practice4
     {                      
         public static MainWindow Instance { get; private set; }
 
-        public MainWindow()
+        public MainWindow() 
         {
             InitializeComponent();  
-            Container.Content = new LoginPage();
+            Container.Content = new AuthorizationSlides();
             Instance = this;
         }
     }

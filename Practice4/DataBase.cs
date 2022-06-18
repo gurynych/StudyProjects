@@ -13,23 +13,27 @@ namespace Practice4
     internal class DataBase
     {
         private SQLiteConnection Connection;
-        public string NameTableDb { get; set; }
 
-        public DataBase(string nameTableDb)            
+        public string TableNameDb { get; set; }
+
+        private readonly string FileNameDb;
+
+        public DataBase(string fileNameDb, string nameTableDb)  
         {
-            NameTableDb = nameTableDb;
-            if (!File.Exists("Practice4.sqlite"))
+            TableNameDb = nameTableDb;
+            FileNameDb = fileNameDb;
+            if (!File.Exists($"{fileNameDb}"))
             {
-                SQLiteConnection.CreateFile("Practice4.sqlite");
+                SQLiteConnection.CreateFile($"{fileNameDb}.sqlite");
             }
             try
             {
-                Connection = new SQLiteConnection($"Data Source=Practice4;Version=3");
+                Connection = new SQLiteConnection($"Data Source={FileNameDb}.sqlite;Version=3");
                 Connection.Open();
                 SQLiteCommand command = Connection.CreateCommand();
                 command.Connection = Connection;
 
-                command.CommandText = $"CREATE TABLE IF NOT EXISTS '{NameTableDb}' (id INTEGER PRIMARY KEY AUTOINCREMENT, login TEXT, email TEXT, password TEXT)";
+                command.CommandText = $"CREATE TABLE IF NOT EXISTS '{TableNameDb}' (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, password TEXT)";
                 command.ExecuteNonQuery();
 
                 MessageBox.Show("Connected");
@@ -54,13 +58,7 @@ namespace Practice4
         {            
             SQLiteCommand command = Connection.CreateCommand();
             command.CommandText = SQLCommand;
-            command.ExecuteNonQuery();           
-        }
-
-        public bool Contains(string login, string email)
-        {
-            DataTable dt_user = SelectData($"SELECT * FROM '{NameTableDb}' WHERE login = '{login}' AND email = '{email}'");
-            return dt_user.Rows.Count > 0;
+            command.ExecuteNonQuery();
         }
     }
 }

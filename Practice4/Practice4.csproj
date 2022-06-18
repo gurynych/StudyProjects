@@ -83,6 +83,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataBase.cs" />
+    <Compile Include="UCs\Authorization\AuthorizationSlides.xaml.cs">
+      <DependentUpon>AuthorizationSlides.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UCs\Authorization\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -101,6 +104,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UCs\Authorization\AuthorizationSlides.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UCs\Authorization\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

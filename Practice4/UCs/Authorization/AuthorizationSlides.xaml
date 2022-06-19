@@ -4,13 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Practice4.UCs.Authorization"
+             xmlns:start="clr-namespace:Practice4.UCs.Start"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
         <md:Transitioner SelectedIndex="0"
-                     AutoApplyTransitionOrigins="True">
+                         AutoApplyTransitionOrigins="True">
 
+            <md:TransitionerSlide>
+                <md:TransitionerSlide.ForwardWipe>
+                    <md:SlideOutWipe/>
+                </md:TransitionerSlide.ForwardWipe>
+                <start:StartPage/>
+            </md:TransitionerSlide>
+            
             <md:TransitionerSlide>
                 <md:TransitionerSlide.OpeningEffects>
                     <md:TransitionEffect Kind="SlideInFromLeft"/>
@@ -20,6 +28,9 @@
                 <md:TransitionerSlide.ForwardWipe>
                     <md:SlideOutWipe/>
                 </md:TransitionerSlide.ForwardWipe>
+                <md:TransitionerSlide.BackwardWipe>
+                    <md:SlideOutWipe/>
+                </md:TransitionerSlide.BackwardWipe>
                 <local:LoginPage/>
             </md:TransitionerSlide>
 

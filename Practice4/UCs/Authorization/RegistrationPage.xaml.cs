@@ -26,45 +26,90 @@ namespace Practice4.UCs.Authorization
 
         public RegistrationPage()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }      
 
         private void RegistrateNewAccount_Click(object sender, RoutedEventArgs e)
         {
             if (username.Text.Length == 0)
             {
-                MessageBox.Show("Ввдетие имя пользователя");
-                return;
+                ShowNotify("Введите имя пользователя");
             }
-            if (!IsValidEmail(email.Text))
+            else if (!IsValidEmail(email.Text))
+            {                
+                ShowNotify("Введите корректный email");
+            }
+            else if (!IsValidPassword(password.Password))
             {
-                MessageBox.Show("Ввдетие email");
-                return;
+                Error.Visibility = Visibility.Visible;
+                ShowNotify("Введите корректный пароль!");
             }
-            if (password.Password.Length < CorrectPasswLength)
+            else
             {
-                MessageBox.Show("Введите пароль\nНе менее 8 символов!");
-                return;
+                Error.Visibility = Visibility.Hidden;
+                DataBase dataBase = new DataBase("Accounts.sqlite", "Users");
+                DataTable dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE username='{username.Text}'");
+                if (dataTable.Rows.Count > 0)
+                {
+                    ShowNotify("Имя пользователя занято");                    
+                }
+                else
+                {
+                    dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE email='{email.Text}'");
+                    if (dataTable.Rows.Count > 0)
+                    {
+                        ShowNotify("Адрес электронной почты уже зарегистрирован");
+                    }
+                    else 
+                    {
+                        dataBase.AddData($"INSERT INTO Users (username, email, password) VALUES ('{username.Text}', '{email.Text}', '{password.Password}')");
+                        ShowNotify("Успешная регистрация!");
+                    }
+                }                
             }
-
-            DataBase dataBase = new DataBase("newDb.sqlite", "Users");
-            DataTable dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE username='{username.Text}'");
-            if (dataTable.Rows.Count > 0)
-            {                            
-                MessageBox.Show("Имя пользователя занято");
-                return;
-            }
-
-            dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE email='{email.Text}'");
-            if (dataTable.Rows.Count > 0)
-            {
-                MessageBox.Show("Адрес электронной почты уже зарегистрирован");
-                return;
-            }
-
-            dataBase.AddData($"INSERT INTO Users (username, email, password) VALUES ('{username.Text}', '{email.Text}', '{password.Password}')");            
         }
-        
+
+        private bool IsValidPassword(string password)
+        {
+            string errorText;
+            errorText = "• Не менее 8 симолов\n" +
+                        "• Как минимум одна заглавная и одна строчная буква\n" +
+                        "• Как минимум одна цифра\n" +
+                        "• Без пробелов\n" +
+                        "• Допустимые символы:~ ! ? @ # $ % ^ & * _ - + ( ) [ ] { } > < / \\ | \" ' . , : ;";
+            TextError.Text = errorText;
+            if (password.Length < CorrectPasswLength)
+            {
+                return false;
+            }
+
+            errorText = "• Как минимум одна заглавная и одна строчная буква\n" +
+                        "• Как минимум одна цифра\n" +
+                        "• Допустимые символы:~ ! ? @ # $ % ^ & * _ - + ( ) [ ] { } > < / \\ | \" ' . , : ;";
+            bool isCapitalLetter = false;
+            bool isSmallLetter = false;
+            bool isDigit = false;
+            bool isNotSpace = true;
+            bool isSpecialSymbol = false;
+            bool isNotOtherSymbol = true;
+            foreach (char c in password)
+            {
+                if (char.IsUpper(c) && !isCapitalLetter) isCapitalLetter = true;
+                else if (char.IsLower(c) && !isSmallLetter) isSmallLetter = true;
+                else if (char.IsDigit(c) && !isDigit) isDigit = true;
+                else if (char.IsWhiteSpace(c) && !isNotSpace) isNotSpace = false;
+                else if ("~!?@#$%^&*_-+()[]{}></\\|\"'.,:;".Contains(c) && !isSpecialSymbol) isSpecialSymbol = true;
+                else isNotOtherSymbol = false;
+            }
+            TextError.Text = errorText;
+            return isCapitalLetter && isSmallLetter && isDigit && isNotSpace && isSpecialSymbol && isNotOtherSymbol;
+        }
+
+        private void ShowNotify(string textNotify)
+        {
+            SnackbarNotify.MessageQueue?.Enqueue(textNotify, null, null, null, false, true, TimeSpan.FromSeconds(1.5));
+            SnackbarNotify.IsActive = true;
+        }
 
         private bool IsValidEmail(string email)
         {
@@ -78,8 +123,8 @@ namespace Practice4.UCs.Authorization
 
         private void Button_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            string symbols = "\"№!#$&()*./:;<=>@[]^{|}~ ";
+            string symbols = "№!#&()*:;<=>@[]^{|}~";
             e.Handled = symbols.Contains(e.Text);
-        }       
+        }        
     }
 }

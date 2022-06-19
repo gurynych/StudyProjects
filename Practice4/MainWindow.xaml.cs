@@ -31,6 +31,10 @@ namespace Practice4
             InitializeComponent();  
             Container.Content = new AuthorizationSlides();
             Instance = this;
+            if (!Directory.Exists("Database"))
+            {
+                Directory.CreateDirectory("Database");
+            }
         }
     }
 }

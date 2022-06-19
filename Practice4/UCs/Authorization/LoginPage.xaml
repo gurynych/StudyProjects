@@ -4,38 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"              
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:local="clr-namespace:Practice4.UCs.Authorization"                          
-             xmlns:validate="clr-namespace:Practice4"                          
+             xmlns:local="clr-namespace:Practice4.UCs.Authorization"             
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <md:Card Grid.RowSpan="3"
-                 VerticalAlignment="Center"
+        <md:Card VerticalAlignment="Center"
                  HorizontalAlignment="Center"
-                 Padding="50"
+                 Padding="50,50,50,0"
                  UniformCornerRadius="8"
                  md:ShadowAssist.ShadowDepth="Depth5"
                  md:ShadowAssist.ShadowEdges="All">
 
             <UniformGrid Columns="1">
-                <Label VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       Content="Авторизация"                       
-                       FontSize="26">
-                </Label>
+                <TextBlock VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Text="Авторизация"                       
+                           FontSize="26">
+                </TextBlock>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <md:PackIcon Foreground="{Binding ElementName=username, Path=BorderBrush, UpdateSourceTrigger=PropertyChanged}"
                                  Grid.Row="1"
                                  Grid.Column="1"
                                  Kind="Account" VerticalAlignment="Center"
-                                 Margin="10"
+                                 Margin="0,0,10,0"
                                  Height="25" Width="25">
                     </md:PackIcon>
 
@@ -49,7 +42,7 @@
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              VerticalAlignment="Top"
                              Height="50"
-                             Width="200"
+                             Width="250"
                              TextWrapping="NoWrap"
                              PreviewTextInput="Button_PreviewTextInput">
                     </TextBox>
@@ -61,7 +54,7 @@
                                  Grid.Column="0"
                                  Kind="Key"    
                                  VerticalAlignment="Center"
-                                 Margin="10"
+                                 Margin="0,0,10,0"
                                  Height="25" Width="25">
                     </md:PackIcon>
 
@@ -76,7 +69,7 @@
                                  Grid.Column="1" 
                                  Grid.Row="2"
                                  Height="50"
-                                 Width="200"
+                                 Width="250"
                                  PreviewTextInput="Button_PreviewTextInput"
                                  md:TextFieldAssist.HasClearButton="True">
                     </PasswordBox>
@@ -92,8 +85,7 @@
                             Style="{StaticResource MaterialDesignRaisedLightButton}"
                             Width="150"
                             Margin="5"
-                            Content="Войти"                            
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"                             
+                            Content="Войти"
                             Click="DataVerification_Click">
                     </Button>
 
@@ -101,17 +93,16 @@
                             Style="{StaticResource MaterialDesignFlatSecondaryLightButton}"
                             Width="150"
                             Margin="5"
-                            Content="Регистрация"                            
-                            FontFamily="Cascadia Mono"                            
+                            Content="Регистрация"
                             Command="{x:Static md:Transitioner.MoveNextCommand}">
                     </Button>
                 </Grid>
 
-                <md:Snackbar
-                        x:Name="SnackbarThree"
-                        MessageQueue="{md:MessageQueue}"
-                        Background="AliceBlue">
+
+                <md:Snackbar x:Name="SnackbarNotify"                             
+                             MessageQueue="{md:MessageQueue}">
                 </md:Snackbar>
+
             </UniformGrid>
         </md:Card>
     </Grid>

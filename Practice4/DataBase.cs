@@ -12,23 +12,22 @@ namespace Practice4
 {
     internal class DataBase
     {
-        private SQLiteConnection Connection;
+        private SQLiteConnection Connection;        
+        private const string DatabaseDir = "Database";
+        private readonly string FileDb;
+        private readonly string TableNameDb;
 
-        public string TableNameDb { get; set; }
-
-        private readonly string FileNameDb;
-
-        public DataBase(string fileNameDb, string nameTableDb)  
-        {
+        public DataBase(string fileDb, string nameTableDb)
+        {            
             TableNameDb = nameTableDb;
-            FileNameDb = fileNameDb;
-            if (!File.Exists($"{fileNameDb}"))
+            FileDb = $"{DatabaseDir}/{fileDb}";
+            if (!File.Exists(FileDb))
             {
-                SQLiteConnection.CreateFile($"{fileNameDb}.sqlite");
+                SQLiteConnection.CreateFile($"{FileDb}");
             }
             try
             {
-                Connection = new SQLiteConnection($"Data Source={FileNameDb}.sqlite;Version=3");
+                Connection = new SQLiteConnection($"Data Source={FileDb};Version=3");
                 Connection.Open();
                 SQLiteCommand command = Connection.CreateCommand();
                 command.Connection = Connection;

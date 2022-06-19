@@ -8,32 +8,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <md:Card Grid.RowSpan="3"                 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="2.2*"/>
+        </Grid.ColumnDefinitions>
+        <md:Card Grid.ColumnSpan="2"
                  VerticalAlignment="Center"
                  HorizontalAlignment="Center"
-                 Padding="50"                 
+                 Padding="50,50,50,0"
                  UniformCornerRadius="8"
                  md:ShadowAssist.ShadowDepth="Depth5"
                  md:ShadowAssist.ShadowEdges="All">
-
-            <UniformGrid Columns="1">
-                <Label VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       Content="Регистрация"               
-                       FontSize="26">
-                </Label>
+            <UniformGrid Grid.Column="0"
+                             Columns="1">
+                <TextBlock VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Text="Регистрация"                       
+                           FontSize="26">
+                </TextBlock>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <md:PackIcon Foreground="{Binding ElementName=username, Path=BorderBrush}"
                                  Grid.Row="1"
                                  Grid.Column="1"
                                  Kind="Account" VerticalAlignment="Center"
-                                 Margin="10"
+                                 Margin="0,0,10,0"
                                  Height="25" Width="25">
                     </md:PackIcon>
 
@@ -47,7 +46,7 @@
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              VerticalAlignment="Top"
                              Height="50"
-                             Width="200"
+                             Width="250"
                              TextWrapping="NoWrap"
                              PreviewTextInput="Button_PreviewTextInput">
                     </TextBox>
@@ -59,7 +58,7 @@
                                  Grid.Column="0"
                                  Kind="Email"    
                                  VerticalAlignment="Center"
-                                 Margin="10"
+                                 Margin="0,0,10,0"
                                  Height="25" Width="25">
                     </md:PackIcon>
 
@@ -74,7 +73,7 @@
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              VerticalAlignment="Top"
                              Height="50"
-                             Width="200"
+                             Width="250"
                              TextWrapping="NoWrap">
                     </TextBox>
                 </StackPanel>
@@ -85,7 +84,7 @@
                                  Grid.Column="0"
                                  Kind="Key"    
                                  VerticalAlignment="Center"
-                                 Margin="10"
+                                 Margin="0,0,10,0"
                                  Height="25" Width="25">
                     </md:PackIcon>
 
@@ -93,16 +92,15 @@
                                  md:HintAssist.Hint="Пароль"                     
                                  md:HintAssist.Foreground="{DynamicResource SecondaryHueLightBrush}"
                                  md:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueMidBrush}"
-                                 md:HintAssist.HelperText="Не менее 8 символов"
-                                 VerticalAlignment="Top"                                
+                                 md:HintAssist.HelperText="Не менее 8 символов"                                 
+                                 VerticalAlignment="Top"         
                                  HorizontalAlignment="Center" 
                                  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" 
-                                 MaxLength="15"
+                                 MaxLength="20"
                                  Grid.Column="1" 
                                  Grid.Row="2"
                                  Height="50"
-                                 Width="200"                                 
-                                 PreviewTextInput="Button_PreviewTextInput"
+                                 Width="250"                                                                  
                                  md:TextFieldAssist.HasClearButton="True">
                     </PasswordBox>
                 </StackPanel>
@@ -117,8 +115,7 @@
                             Style="{StaticResource MaterialDesignRaisedLightButton}"
                             Width="150"
                             Margin="5"
-                            Content="Регистрация"
-                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            Content="Регистрация"                            
                             Click="RegistrateNewAccount_Click">
                     </Button>
 
@@ -127,11 +124,35 @@
                             Width="150"
                             Margin="5"
                             Content="Назад"
-                            FontFamily="Cascadia Mono"                                                        
                             Command="{x:Static md:Transitioner.MovePreviousCommand}">
                     </Button>
                 </Grid>
+
+                <md:Snackbar x:Name="SnackbarNotify"                             
+                             MessageQueue="{md:MessageQueue}"
+                             HorizontalAlignment="Stretch">
+                </md:Snackbar>
+
             </UniformGrid>
         </md:Card>
+
+        <md:PackIcon Grid.Column="1"
+                     x:Name="Error"
+                     Foreground="Red"
+                     Kind="Information"
+                     VerticalAlignment="Center"
+                     Width="20" Height="20"
+                     Visibility="Collapsed"
+                     Margin="0,110,0,0">
+            <md:PackIcon.ToolTip>
+                <Border BorderBrush="red"
+                        BorderThickness="1"
+                        Padding="5">
+                    <TextBlock x:Name="TextError"
+                               Foreground="red"/>
+                </Border>
+            </md:PackIcon.ToolTip>
+        </md:PackIcon>
+
     </Grid>
 </UserControl>

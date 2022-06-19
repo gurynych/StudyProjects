@@ -32,36 +32,32 @@ namespace Practice4.UCs.Authorization
         {
             if (username.Text.Length == 0)
             {
-                SnackbarThree.MessageQueue?.Enqueue("Ввeдетие имя пользователя", null, null, null, false, true, TimeSpan.FromSeconds(1.5));
-                SnackbarThree.IsActive = true;                
-                return;
+                ShowNotify("Ввeдите имя пользователя");
             }
-            if (password.Password.Length == 0)
+            else if (password.Password.Length == 0)
             {
-                SnackbarThree.MessageQueue?.Enqueue("Ввeдетие пароль", null, null, null, false, true, TimeSpan.FromSeconds(1.5));
-                SnackbarThree.IsActive = true;
-                MessageBox.Show("Введите пароль");
-                return;
-            }            
+                ShowNotify("Ввeдите пароль");             
+            }
+            else
+            {
+                DataBase dataBase = new DataBase("Accounts.sqlite", "Users");
+                DataTable dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE username = '{username.Text}' AND password = '{password.Password}'");
 
-            DataBase dataBase = new DataBase("newDb.sqlite", "Users");
-            DataTable dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE username = '{username.Text}' AND password = '{password.Password}'");
-            if (dataTable.Rows.Count > 0)
-            {
-                SnackbarThree.MessageQueue?.Enqueue("Успешный вход", null, null, null, false, true, TimeSpan.FromSeconds(1.5));
-                SnackbarThree.IsActive = true;
+                if (dataTable.Rows.Count > 0)
+                {
+                    ShowNotify("Успешный вход");
+                }
+                else
+                {
+                    ShowNotify("Неверный логин или пароль");
+                }
             }
-            else 
-            {
-                SnackbarThree.MessageQueue?.Enqueue("Неверный логин или пароль", null, null, null, false, true, TimeSpan.FromSeconds(1.5));
-                SnackbarThree.IsActive = true;
-            }
+        }
 
-            if (password.Password.Length < 8)
-            {
-                password.BorderBrush = Brushes.Red;
-            }
-
+        private void ShowNotify(string textNotify)
+        {
+            SnackbarNotify.MessageQueue?.Enqueue(textNotify, null, null, null, false, true, TimeSpan.FromSeconds(1.5));
+            SnackbarNotify.IsActive = true;
         }
 
         private void Button_PreviewTextInput(object sender, TextCompositionEventArgs e)

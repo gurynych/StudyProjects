@@ -37,7 +37,7 @@
 
                 <TextBlock Grid.Row="1"
                            Margin="5"
-                           Text="Разработчик: Покровскиий Михаил Олегович"
+                           Text="Разработчик: Покровскиий Михаил"
                            HorizontalAlignment="Left"                           
                            VerticalAlignment="Bottom">
                 </TextBlock>

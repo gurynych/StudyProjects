@@ -30,40 +30,82 @@ namespace Practice4.UCs.Authorization
 
         private void DataVerification_Click(object sender, RoutedEventArgs e)
         {
+            password.Password = (EyeIcon.Kind.ToString() == "EyeOutline") ? password.Password : HiddenTextBox.Text;
             if (username.Text.Length == 0)
             {
-                ShowNotify("Ввeдите имя пользователя");
+                TextBlockNotify.Text = "Ввeдите имя пользователя";
+                BorderNotify.Visibility = Visibility.Visible;
             }
             else if (password.Password.Length == 0)
             {
-                ShowNotify("Ввeдите пароль");             
+                TextBlockNotify.Text = "Ввeдите пароль";
+                BorderNotify.Visibility = Visibility.Visible;
             }
             else
             {
                 DataBase dataBase = new DataBase("Accounts.sqlite", "Users");
                 DataTable dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE username = '{username.Text}' AND password = '{password.Password}'");
 
-                if (dataTable.Rows.Count > 0)
+                if (dataTable.Rows.Count < 1)
                 {
-                    ShowNotify("Успешный вход");
-                }
-                else
-                {
-                    ShowNotify("Неверный логин или пароль");
-                }
+                    TextBlockNotify.Text = "Неверный логин или пароль";
+                    BorderNotify.Visibility = Visibility.Visible;
+                }                
             }
-        }
+        }        
 
-        private void ShowNotify(string textNotify)
-        {
-            SnackbarNotify.MessageQueue?.Enqueue(textNotify, null, null, null, false, true, TimeSpan.FromSeconds(1.5));
-            SnackbarNotify.IsActive = true;
-        }
-
-        private void Button_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void Username_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             string symbols = "\"№!#$&()*./:;<=>@[]^{|}~ ";
             e.Handled = symbols.Contains(e.Text);
+        }
+
+        private void CloseNotify_Click(object sender, RoutedEventArgs e)
+        {
+            BorderNotify.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowPassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (password.Password == string.Empty)
+            {
+                return;
+            }
+            if (EyeIcon.Kind.ToString() == "EyeOffOutline")
+            {
+                Binding bindingForeground = new Binding();
+                bindingForeground.ElementName = password.Name;
+                bindingForeground.Path = new PropertyPath("BorderBrush");
+                EyeIcon.SetBinding(MaterialDesignThemes.Wpf.PackIcon.ForegroundProperty, bindingForeground);
+
+                EyeIcon.Kind = PackIconKind.EyeOutline;
+                if (HiddenTextBox.Text != string.Empty)
+                {
+                    password.Password = HiddenTextBox.Text;
+                    password.Visibility = Visibility.Visible;
+                    HiddenTextBox.Visibility = Visibility.Collapsed;
+                }
+                if (HiddenTextBox.Text == string.Empty)
+                {
+                    password.Password = string.Empty;
+                    HiddenTextBox.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                Binding bindingForeground = new Binding();
+                bindingForeground.ElementName = HiddenTextBox.Name;
+                bindingForeground.Path = new PropertyPath("BorderBrush");
+                EyeIcon.SetBinding(MaterialDesignThemes.Wpf.PackIcon.ForegroundProperty, bindingForeground);
+
+                EyeIcon.Kind = PackIconKind.EyeOffOutline;
+                if (password.Password != string.Empty)
+                {
+                    HiddenTextBox.Text = password.Password;
+                    password.Visibility = Visibility.Collapsed;
+                    HiddenTextBox.Visibility = Visibility.Visible;
+                }
+            }
         }
     }
 }

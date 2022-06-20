@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Practice4.UCs.Authorization
     /// </summary>
     public partial class RegistrationPage : UserControl
     {
-        int CorrectPasswLength = 8;
+        int CorrectPasswLength = 8;        
 
         public RegistrationPage()
         {
@@ -31,39 +32,50 @@ namespace Practice4.UCs.Authorization
 
         private void RegistrateNewAccount_Click(object sender, RoutedEventArgs e)
         {
+            password.Password = (EyeIcon.Kind.ToString() == "EyeOutline") ? password.Password : HiddenTextBox.Text;
             if (username.Text.Length == 0)
             {
-                ShowNotify("Введите имя пользователя");
+                TextBlockNotify.Text = "Введите имя пользователя";
+                BorderNotify.Visibility = Visibility.Visible;
             }
             else if (!IsValidEmail(email.Text))
-            {                
-                ShowNotify("Введите корректный email");
+            {
+                TextBlockNotify.Text = "Введите корректный email";
+                BorderNotify.Visibility = Visibility.Visible;
             }
             else if (!IsValidPassword(password.Password))
             {
-                Error.Visibility = Visibility.Visible;
-                ShowNotify("Введите корректный пароль!");
+                IconNotify.Visibility = Visibility.Visible;
+                TextBlockNotify.Text = "Введите корректный пароль!";
+                BorderNotify.Visibility = Visibility.Visible;
             }
             else
             {
-                Error.Visibility = Visibility.Hidden;
+                IconNotify.Visibility = Visibility.Collapsed;                
+
                 DataBase dataBase = new DataBase("Accounts.sqlite", "Users");
                 DataTable dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE username='{username.Text}'");
                 if (dataTable.Rows.Count > 0)
                 {
-                    ShowNotify("Имя пользователя занято");                    
+                    TextBlockNotify.Text = "Имя пользователя занято";
+                    BorderNotify.Visibility = Visibility.Visible;
                 }
                 else
                 {
                     dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE email='{email.Text}'");
                     if (dataTable.Rows.Count > 0)
                     {
-                        ShowNotify("Адрес электронной почты уже зарегистрирован");
+                        TextBlockNotify.Text = "Email уже зарегистрирован";
+                        BorderNotify.Visibility = Visibility.Visible;
                     }
                     else 
                     {
                         dataBase.AddData($"INSERT INTO Users (username, email, password) VALUES ('{username.Text}', '{email.Text}', '{password.Password}')");
-                        ShowNotify("Успешная регистрация!");
+                        //BorderNotify.Visibility = Visibility.Collapsed;
+                        //BorderNotify.BorderBrush = Brushes.Green;
+                        //BorderNotify.Background = new SolidColorBrush(Color.FromRgb(0,255,0)) { Opacity = 0.1 };
+                        //TextBlockNotify.Text = "Успешная регистрация!";
+                        //BorderNotify.Visibility = Visibility.Visible;
                     }
                 }                
             }
@@ -71,45 +83,28 @@ namespace Practice4.UCs.Authorization
 
         private bool IsValidPassword(string password)
         {
-            string errorText;
-            errorText = "• Не менее 8 симолов\n" +
-                        "• Как минимум одна заглавная и одна строчная буква\n" +
-                        "• Как минимум одна цифра\n" +
-                        "• Без пробелов\n" +
-                        "• Допустимые символы:~ ! ? @ # $ % ^ & * _ - + ( ) [ ] { } > < / \\ | \" ' . , : ;";
-            TextError.Text = errorText;
+            TextError.Text = "• Не менее 8 симолов и не более 24 символов\n" +
+                             "• Как минимум одна заглавная и одна строчная буква\n" +
+                             "• Как минимум одна цифра\n" +
+                             "• Без пробелов\n" +
+                             "• Дополнительные допустимые символы:~ ! ? @ # $ % ^ & * _ - + ( ) [ ] { } > < / \\ | \" ' . , : ;";            
             if (password.Length < CorrectPasswLength)
             {
                 return false;
-            }
-
-            errorText = "• Как минимум одна заглавная и одна строчная буква\n" +
-                        "• Как минимум одна цифра\n" +
-                        "• Допустимые символы:~ ! ? @ # $ % ^ & * _ - + ( ) [ ] { } > < / \\ | \" ' . , : ;";
+            }            
             bool isCapitalLetter = false;
             bool isSmallLetter = false;
             bool isDigit = false;
             bool isNotSpace = true;
-            bool isSpecialSymbol = false;
-            bool isNotOtherSymbol = true;
             foreach (char c in password)
             {
                 if (char.IsUpper(c) && !isCapitalLetter) isCapitalLetter = true;
                 else if (char.IsLower(c) && !isSmallLetter) isSmallLetter = true;
                 else if (char.IsDigit(c) && !isDigit) isDigit = true;
                 else if (char.IsWhiteSpace(c) && !isNotSpace) isNotSpace = false;
-                else if ("~!?@#$%^&*_-+()[]{}></\\|\"'.,:;".Contains(c) && !isSpecialSymbol) isSpecialSymbol = true;
-                else isNotOtherSymbol = false;
-            }
-            TextError.Text = errorText;
-            return isCapitalLetter && isSmallLetter && isDigit && isNotSpace && isSpecialSymbol && isNotOtherSymbol;
-        }
-
-        private void ShowNotify(string textNotify)
-        {
-            SnackbarNotify.MessageQueue?.Enqueue(textNotify, null, null, null, false, true, TimeSpan.FromSeconds(1.5));
-            SnackbarNotify.IsActive = true;
-        }
+            }            
+            return isCapitalLetter && isSmallLetter && isDigit && isNotSpace;
+        }        
 
         private bool IsValidEmail(string email)
         {
@@ -121,10 +116,63 @@ namespace Practice4.UCs.Authorization
             return regex.IsMatch(email);
         }
 
-        private void Button_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void CloseNotify_Click(object sender, RoutedEventArgs e)
         {
-            string symbols = "№!#&()*:;<=>@[]^{|}~";
-            e.Handled = symbols.Contains(e.Text);
-        }        
+            BorderNotify.Visibility = Visibility.Collapsed;
+            IconNotify.Visibility = Visibility.Collapsed;
+        }
+
+        private void Username_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = "№!#&()*:;<=>@[]^{|}~".Contains(e.Text);
+        }
+
+        private void Password_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !("~!?@#$%^&*_-+()[]{}></\\|\"'.,:;".Contains(e.Text) || Regex.IsMatch(e.Text, @"[a-z0-9]", RegexOptions.IgnoreCase));
+        }
+
+        private void ShowPassword_Click(object sender, RoutedEventArgs e)
+        {
+            if (password.Password == string.Empty)
+            {
+                return;
+            }
+            if (EyeIcon.Kind.ToString() == "EyeOffOutline")
+            {
+                Binding bindingForeground = new Binding();
+                bindingForeground.ElementName = password.Name;
+                bindingForeground.Path = new PropertyPath("BorderBrush");
+                EyeIcon.SetBinding(MaterialDesignThemes.Wpf.PackIcon.ForegroundProperty, bindingForeground);
+
+                EyeIcon.Kind = PackIconKind.EyeOutline;
+                if (HiddenTextBox.Text != string.Empty)
+                {
+                    password.Password = HiddenTextBox.Text;
+                    password.Visibility = Visibility.Visible;
+                    HiddenTextBox.Visibility = Visibility.Collapsed;
+                }
+                if (HiddenTextBox.Text == string.Empty)
+                {
+                    password.Password = string.Empty;
+                    HiddenTextBox.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                Binding bindingForeground = new Binding();
+                bindingForeground.ElementName = HiddenTextBox.Name;
+                bindingForeground.Path = new PropertyPath("BorderBrush");
+                EyeIcon.SetBinding(MaterialDesignThemes.Wpf.PackIcon.ForegroundProperty, bindingForeground);
+
+                EyeIcon.Kind = PackIconKind.EyeOffOutline;
+                if (password.Password != string.Empty)
+                {
+                    HiddenTextBox.Text = password.Password;
+                    password.Visibility = Visibility.Collapsed;
+                    HiddenTextBox.Visibility = Visibility.Visible;
+                }
+            }
+        }
     }
 }

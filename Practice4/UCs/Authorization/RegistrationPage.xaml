@@ -10,7 +10,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="2.2*"/>
+            <ColumnDefinition Width="2.3*"/>
         </Grid.ColumnDefinitions>
         <md:Card Grid.ColumnSpan="2"
                  VerticalAlignment="Center"
@@ -39,8 +39,7 @@
                     <TextBox x:Name="username"
                              Grid.Column="1"
                              Grid.Row="1"
-                             md:HintAssist.Hint="Логин"
-                             md:TextFieldAssist.HasClearButton="True"
+                             md:HintAssist.Hint="Логин"                             
                              md:HintAssist.Foreground="{DynamicResource SecondaryHueLightBrush}"
                              md:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueMidBrush}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -48,7 +47,7 @@
                              Height="50"
                              Width="250"
                              TextWrapping="NoWrap"
-                             PreviewTextInput="Button_PreviewTextInput">
+                             PreviewTextInput="Username_PreviewTextInput">
                     </TextBox>
                 </StackPanel>
 
@@ -62,11 +61,8 @@
                                  Height="25" Width="25">
                     </md:PackIcon>
 
-                    <TextBox x:Name="email"
-                             Grid.Column="1"
-                             Grid.Row="1"
+                    <TextBox x:Name="email"                                                          
                              md:HintAssist.Hint="Email"
-                             md:TextFieldAssist.HasClearButton="True"
                              md:HintAssist.HelperText="Формат: yourname@example.com"
                              md:HintAssist.Foreground="{DynamicResource SecondaryHueLightBrush}"
                              md:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueMidBrush}"
@@ -78,9 +74,12 @@
                     </TextBox>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <md:PackIcon Foreground="{Binding ElementName=password, Path=BorderBrush}" 
-                                 Grid.Row="2"
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <md:PackIcon Foreground="{Binding ElementName=password, Path=BorderBrush}"                                  
                                  Grid.Column="0"
                                  Kind="Key"    
                                  VerticalAlignment="Center"
@@ -88,24 +87,57 @@
                                  Height="25" Width="25">
                     </md:PackIcon>
 
-                    <PasswordBox x:Name="password"
+                    <TextBox Grid.Column="1"
+                             x:Name="HiddenTextBox"
+                             md:HintAssist.Hint="Пароль"
+                             md:HintAssist.HelperText="Не менее 8 символов"
+                             md:HintAssist.Foreground="{DynamicResource SecondaryHueLightBrush}"
+                             md:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueMidBrush}"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             VerticalAlignment="Top"         
+                             HorizontalAlignment="Center" 
+                             Height="50"
+                             Width="250"
+                             TextWrapping="NoWrap"
+                             MaxLength="24"
+                             md:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                             Visibility="Collapsed"
+                             PreviewTextInput="Password_PreviewTextInput">
+                    </TextBox>
+
+                    <PasswordBox Grid.Column="1"
+                                 x:Name="password"
                                  md:HintAssist.Hint="Пароль"                     
                                  md:HintAssist.Foreground="{DynamicResource SecondaryHueLightBrush}"
                                  md:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueMidBrush}"
-                                 md:HintAssist.HelperText="Не менее 8 символов"                                 
+                                 md:HintAssist.HelperText="Не менее 8 символов"
                                  VerticalAlignment="Top"         
                                  HorizontalAlignment="Center" 
                                  Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" 
-                                 MaxLength="20"
-                                 Grid.Column="1" 
-                                 Grid.Row="2"
+                                 MaxLength="24"                                 
                                  Height="50"
-                                 Width="250"                                                                  
-                                 md:TextFieldAssist.HasClearButton="True">
+                                 Width="250"
+                                 PreviewTextInput="Password_PreviewTextInput">
                     </PasswordBox>
-                </StackPanel>
 
-                <Grid Margin="0,20,0,0">
+                    <Button Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            Foreground="{Binding ElementName=password, Path=BorderBrush}"                            
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Width="20" Height="20"
+                            Margin="0,0,0,5"
+                            Click="ShowPassword_Click">
+                        <md:PackIcon x:Name="EyeIcon"
+                                     Kind="EyeOutline" 
+                                     HorizontalAlignment="Center"
+                                     Width="20" Height="20">
+                        </md:PackIcon>
+                    </Button>
+                </Grid>
+
+                <Grid Margin="0,20,0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -128,22 +160,53 @@
                     </Button>
                 </Grid>
 
-                <md:Snackbar x:Name="SnackbarNotify"                             
-                             MessageQueue="{md:MessageQueue}"
-                             HorizontalAlignment="Stretch">
-                </md:Snackbar>
+                <Border x:Name="BorderNotify"
+                        BorderBrush="Red"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Margin="5,0,5,10"
+                        Visibility="Collapsed">
+                    <Border.Background>
+                        <SolidColorBrush Color="Red" Opacity="0.1" />
+                    </Border.Background>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="TextBlockNotify"
+                                   HorizontalAlignment="Left"
+                                   Grid.Column="0"                                   
+                                   VerticalAlignment="Center"
+                                   Margin="10,0,0,0"
+                                   Foreground="White">
+                        </TextBlock>
+                        <Button HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                BorderBrush="Transparent"
+                                Background="Transparent"
+                                Grid.Column="1"
+                                Padding="10"
+                                Click="CloseNotify_Click">
+                            <Image HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Width="25" Height="25"
+                                   Source="D:\GurilaFolder\Practice4\Images\icone_cross.png"/>
+                        </Button>
+                    </Grid>
+                </Border>
 
             </UniformGrid>
         </md:Card>
 
         <md:PackIcon Grid.Column="1"
-                     x:Name="Error"
+                     x:Name="IconNotify"
                      Foreground="Red"
                      Kind="Information"
                      VerticalAlignment="Center"
                      Width="20" Height="20"
                      Visibility="Collapsed"
-                     Margin="0,110,0,0">
+                     Margin="0,115,0,0">
             <md:PackIcon.ToolTip>
                 <Border BorderBrush="red"
                         BorderThickness="1"

@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf.Transitions;
 using Practice4.UCs.Start;
+using System.Data.Entity;
 
 namespace Practice4 
 {
@@ -31,12 +32,14 @@ namespace Practice4
         public MainWindow() 
         {
             InitializeComponent();
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                db.DbUsers.Load();
+            }
+
             Container.Content = new AuthorizationSlides();
             Instance = this;            
             DataBase.ExecuteRequest($"CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, password TEXT)");
-            //using (ApplicationContext DB = new ApplicationContext())
-            //{
-            //}            
         }        
     }
 }

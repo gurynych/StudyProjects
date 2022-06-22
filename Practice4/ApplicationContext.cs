@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite.CodeFirst;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SQLite;
@@ -12,11 +13,14 @@ namespace Practice4
     {
         public DbSet<DbUser> DbUsers { get; set; }
 
-        public ApplicationContext() : base(new SQLiteConnection() { ConnectionString = "Data Source =./Test.db" }, false)
+        public ApplicationContext() : base("DefaultConnection")
         {
-            Database.CreateIfNotExists();
-            DbUsers.Add(new DbUser() { Email = "p@p", Password = "123" });
-            SaveChanges();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<ApplicationContext>(modelBuilder, true);
+            Database.SetInitializer(sqliteConnectionInitializer);
         }
     }
 

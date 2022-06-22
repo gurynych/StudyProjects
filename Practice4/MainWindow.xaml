@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice4"
+        xmlns:mainmenu="clr-namespace:Practice4.UCs.MainMenu"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
@@ -13,11 +14,152 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
-        Title="MainWindow" Height="600" Width="800"
+        Title="Blockchain" Height="600" Width="800"
         MinHeight="400" MinWidth="500">
-    
-    <Grid>
-        <ContentControl x:Name="Container"/>
-    </Grid>
 
+    
+    <md:DrawerHost x:Name="DrawerHost"                  
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   BorderThickness="2"
+                   IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
+                   BorderBrush="{DynamicResource MaterialDesignDivider}"
+                   BottomDrawerCornerRadius="20 20 0 0"
+                   BottomDrawerBackground="{DynamicResource SecondaryHueLightBrush}">
+        <md:DrawerHost.LeftDrawerContent>
+            <StackPanel Margin="16">
+                <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                              Command="{x:Static md:DrawerHost.CloseDrawerCommand}"
+                              IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}"                              
+                              HorizontalAlignment="Right"
+                              Margin="5"/>
+                <StackPanel Width="110" Height="110">
+                    <Border BorderBrush="#FF0085CA"
+                            BorderThickness="5"
+                            CornerRadius="100">
+                        <Border.Background>
+                            <SolidColorBrush Color="#FF0085CA" Opacity="0.2"/>
+                        </Border.Background>
+                        <Image Source="D:\GurilaFolder\Practice4\Images\icon_user.png"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Height="100" Width="100">
+                        </Image>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <md:PackIcon Foreground="{Binding ElementName=TheoryButton, Path=Foreground}"
+                                 Kind="TextBoxOutline"
+                                 Margin="0,0,10,0"
+                                 VerticalAlignment="Center"                                
+                                 Height="25" Width="25">
+                    </md:PackIcon>
+
+
+                    <Button x:Name="TheoryButton"
+                        Style="{StaticResource MaterialDesignFlatLightButton}"
+                        HorizontalAlignment="Left"                        
+                        Margin="4"
+                        Content="Теория"
+                        HorizontalContentAlignment="Left">
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <md:PackIcon Foreground="{Binding ElementName=TestsButton, Path=Foreground}"
+                                 Kind="AbTesting"
+                                 Margin="0,0,10,0"
+                                 VerticalAlignment="Center"
+                                 Height="25" Width="25">
+                    </md:PackIcon>
+
+
+                    <Button x:Name="TestsButton"
+                            Style="{StaticResource MaterialDesignFlatLightButton}"
+                            HorizontalAlignment="Left"                            
+                            Margin="4"
+                            Content="Тесты"
+                            HorizontalContentAlignment="Left"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <md:PackIcon Foreground="{Binding ElementName=StatisticButton, Path=Foreground}"
+                                 Kind="ListStatus"
+                                 Margin="0,0,10,0"
+                                 VerticalAlignment="Center"
+                                 Height="25" Width="25">
+                    </md:PackIcon>
+
+                    <Button x:Name="StatisticButton"
+                            Style="{StaticResource MaterialDesignFlatLightButton}"
+                            HorizontalAlignment="Left"
+                            Width="150"
+                            Margin="4"
+                            Content="Статистика"
+                            HorizontalContentAlignment="Left">
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <md:PackIcon Foreground="{Binding ElementName=StatisticButton, Path=Foreground}"
+                                 Kind="ExitToApp"
+                                 Margin="0,0,10,0"
+                                 VerticalAlignment="Center"                                
+                                 Height="25" Width="25">
+                    </md:PackIcon>
+
+                    <Button x:Name="ExitButton"
+                            Command="{x:Static md:DrawerHost.CloseDrawerCommand}"
+                            Margin="4"
+                            Width="150"
+                            Height="50"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource MaterialDesignFlatLightButton}"                        
+                            HorizontalContentAlignment="Left">
+                        <TextBlock TextAlignment="Left">Выйти из<LineBreak/>приложения</TextBlock>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </md:DrawerHost.LeftDrawerContent>
+
+        <Grid>
+
+            <!--<md:Transitioner x:Name="Container1"
+                         SelectedIndex="0"
+                         AutoApplyTransitionOrigins="True">
+            <md:TransitioningContent>
+                
+                
+                
+            </md:TransitioningContent>
+        </md:Transitioner>-->
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <ContentControl x:Name="Container"/>
+                </Grid>
+            </ScrollViewer>
+
+            <md:ColorZone x:Name="MunuColorZone"
+                          Visibility="Collapsed"
+                          Mode="PrimaryLight"
+                          Padding="15"
+                          md:ShadowAssist.ShadowDepth="Depth2">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ToggleButton x:Name="MenuToggleButton"
+                                      Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                      Command="{x:Static md:DrawerHost.OpenDrawerCommand}"
+                                      IsChecked="False"
+                                      AutomationProperties.Name="HamburgerToggleButton"/>
+                        <TextBlock VerticalAlignment="Center"
+                               Margin="15 0 0 0"
+                               Text="Test ColorZone" />
+                    </StackPanel>
+                </DockPanel>
+            </md:ColorZone>
+        </Grid>
+        
+    </md:DrawerHost>
 </Window>

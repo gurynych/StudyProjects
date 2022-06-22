@@ -16,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf.Transitions;
+using Practice4.UCs.Start;
 
 namespace Practice4 
 {
@@ -28,13 +30,13 @@ namespace Practice4
 
         public MainWindow() 
         {
-            InitializeComponent();  
+            InitializeComponent();
             Container.Content = new AuthorizationSlides();
-            Instance = this;
-            if (!Directory.Exists("Database"))
-            {
-                Directory.CreateDirectory("Database");
-            }
-        }
+            Instance = this;            
+            DataBase.ExecuteRequest($"CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, password TEXT)");
+            //using (ApplicationContext DB = new ApplicationContext())
+            //{
+            //}            
+        }        
     }
 }

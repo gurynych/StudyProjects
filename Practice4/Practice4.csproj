@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApplicationContext.cs" />
     <Compile Include="DataBase.cs" />
     <Compile Include="UCs\Authorization\AuthorizationSlides.xaml.cs">
       <DependentUpon>AuthorizationSlides.xaml</DependentUpon>
@@ -91,6 +92,9 @@
     </Compile>
     <Compile Include="UCs\Authorization\RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\MainMenu\UserPage.xaml.cs">
+      <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UCs\Start\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
@@ -116,6 +120,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UCs\Authorization\RegistrationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\MainMenu\UserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -153,6 +161,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icone_cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon_user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\blockchain.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

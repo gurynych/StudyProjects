@@ -7,12 +7,6 @@
              xmlns:local="clr-namespace:Practice4.UCs.Authorization"             
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-
-    <UserControl.Resources>
-        <Style x:Key="BorderBackgroundOpacity" TargetType="Border">
-            <Setter Property="Background" Value="Red"/>
-        </Style>
-    </UserControl.Resources>
     <Grid>
         <md:Card VerticalAlignment="Center"
                  HorizontalAlignment="Center"
@@ -29,7 +23,7 @@
                 </TextBlock>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <md:PackIcon Foreground="{Binding ElementName=username, Path=BorderBrush, UpdateSourceTrigger=PropertyChanged}"
+                    <md:PackIcon Foreground="{Binding ElementName=username, Path=BorderBrush}"
                                  Grid.Row="1"
                                  Grid.Column="1"
                                  Kind="Account" 
@@ -68,8 +62,7 @@
 
                     <TextBox Grid.Column="1"
                              x:Name="HiddenTextBox"
-                             md:HintAssist.Hint="Пароль"
-                             md:HintAssist.HelperText="Не менее 8 символов"
+                             md:HintAssist.Hint="Пароль"                             
                              md:HintAssist.Foreground="{DynamicResource SecondaryHueLightBrush}"
                              md:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueMidBrush}"
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}"

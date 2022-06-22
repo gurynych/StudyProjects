@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using Practice4.UCs.MainMenu;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -42,16 +43,16 @@ namespace Practice4.UCs.Authorization
                 BorderNotify.Visibility = Visibility.Visible;
             }
             else
-            {
-                DataBase dataBase = new DataBase("Accounts.sqlite", "Users");
-                DataTable dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE username = '{username.Text}' AND password = '{password.Password}'");
+            {                
+                DataTable dataTable = DataBase.ExecuteRequest($"SELECT * FROM Users WHERE username = '{username.Text}' AND password = '{password.Password}'");
 
                 if (dataTable.Rows.Count < 1)
                 {
                     TextBlockNotify.Text = "Неверный логин или пароль";
                     BorderNotify.Visibility = Visibility.Visible;
-                }                
-            }
+                }
+                else MainWindow.Instance.Container.Content = new UserPage();
+            }            
         }        
 
         private void Username_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -89,6 +90,7 @@ namespace Practice4.UCs.Authorization
                 {
                     password.Password = string.Empty;
                     HiddenTextBox.Visibility = Visibility.Collapsed;
+                    password.Visibility = Visibility.Visible;
                 }
             }
             else

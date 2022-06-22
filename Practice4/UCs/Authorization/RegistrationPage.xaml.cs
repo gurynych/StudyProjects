@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using Practice4.UCs.MainMenu;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -51,10 +52,9 @@ namespace Practice4.UCs.Authorization
             }
             else
             {
-                IconNotify.Visibility = Visibility.Collapsed;                
-
-                DataBase dataBase = new DataBase("Accounts.sqlite", "Users");
-                DataTable dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE username='{username.Text}'");
+                IconNotify.Visibility = Visibility.Collapsed;
+                
+                DataTable dataTable = DataBase.ExecuteRequest($"SELECT * FROM Users WHERE username='{username.Text}'");
                 if (dataTable.Rows.Count > 0)
                 {
                     TextBlockNotify.Text = "Имя пользователя занято";
@@ -62,7 +62,7 @@ namespace Practice4.UCs.Authorization
                 }
                 else
                 {
-                    dataTable = dataBase.SelectData($"SELECT * FROM Users WHERE email='{email.Text}'");
+                    dataTable = DataBase.ExecuteRequest($"SELECT * FROM Users WHERE email='{email.Text}'");
                     if (dataTable.Rows.Count > 0)
                     {
                         TextBlockNotify.Text = "Email уже зарегистрирован";
@@ -70,12 +70,8 @@ namespace Practice4.UCs.Authorization
                     }
                     else 
                     {
-                        dataBase.AddData($"INSERT INTO Users (username, email, password) VALUES ('{username.Text}', '{email.Text}', '{password.Password}')");
-                        //BorderNotify.Visibility = Visibility.Collapsed;
-                        //BorderNotify.BorderBrush = Brushes.Green;
-                        //BorderNotify.Background = new SolidColorBrush(Color.FromRgb(0,255,0)) { Opacity = 0.1 };
-                        //TextBlockNotify.Text = "Успешная регистрация!";
-                        //BorderNotify.Visibility = Visibility.Visible;
+                        DataBase.ExecuteRequest($"INSERT INTO Users (username, email, password) VALUES ('{username.Text}', '{email.Text}', '{password.Password}')");
+                        MainWindow.Instance.Container.Content = new UserPage();
                     }
                 }                
             }
@@ -156,6 +152,7 @@ namespace Practice4.UCs.Authorization
                 {
                     password.Password = string.Empty;
                     HiddenTextBox.Visibility = Visibility.Collapsed;
+                    password.Visibility = Visibility.Visible;
                 }
             }
             else

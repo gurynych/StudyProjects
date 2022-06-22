@@ -42,11 +42,11 @@
                            VerticalAlignment="Bottom">
                 </TextBlock>
 
-                <TextBlock Grid.Row="0"
+                <TextBlock Grid.Row="1"
                            Margin="5"
                            Text="Год разработки: 2022"
                            HorizontalAlignment="Right"                           
-                           VerticalAlignment="Top">
+                           VerticalAlignment="Bottom">
                 </TextBlock>
 
             </Grid>

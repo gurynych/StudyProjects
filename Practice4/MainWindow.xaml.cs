@@ -26,20 +26,38 @@ namespace Practice4
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {                      
+    {        
+        public DbUser ActiveUser;
+
         public static MainWindow Instance { get; private set; }
 
         public MainWindow() 
         {
             InitializeComponent();
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                db.DbUsers.Load();
-            }
+
+            ApplicationContext Db = new ApplicationContext();
+
+                //Db.DbTheories.Add(new DbTheory() { Topic =})
+
+            //DbQuestion q = new DbQuestion() { Type = "1", QuestionText = "1"};
+            //Db.DbQuestions.Add(q);
+            //DbAnswer a = new DbAnswer() { Text = "123", IsCorrect = true, DbQuestion = q};
+            //DbAnswer a1 = new DbAnswer() { Text = "456", DbQuestion = q};
+            //Db.DbAnswers.AddRange(new List<DbAnswer>() { a, a1 });
+            //Db.SaveChanges();
+
+
+            List<DbQuestion> test = Db.DbQuestions.Include(q => q.DbAnswers).ToList();
+            
 
             Container.Content = new AuthorizationSlides();
             Instance = this;            
-            DataBase.ExecuteRequest($"CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, password TEXT)");
-        }        
-    }
+        }
+
+
+        public void SetPage(UserControl control)
+        {
+            Container.Content = control;
+        }
+    }    
 }

@@ -3,6 +3,7 @@ using Practice4.UCs.MainMenu;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -23,10 +24,14 @@ namespace Practice4.UCs.Authorization
     /// Логика взаимодействия для LoginPage.xaml
     /// </summary>
     public partial class LoginPage : UserControl
-    {        
+    {
+        private readonly ApplicationContext Db;
+        
         public LoginPage()
         {
-            InitializeComponent();                      
+            InitializeComponent();
+            Db = new ApplicationContext();
+            //Db.DbUsers.Load();
         }
 
         private void DataVerification_Click(object sender, RoutedEventArgs e)
@@ -36,23 +41,25 @@ namespace Practice4.UCs.Authorization
             {
                 TextBlockNotify.Text = "Ввeдите имя пользователя";
                 BorderNotify.Visibility = Visibility.Visible;
+                return;
             }
-            else if (password.Password.Length == 0)
+            if (password.Password.Length == 0)
             {
                 TextBlockNotify.Text = "Ввeдите пароль";
                 BorderNotify.Visibility = Visibility.Visible;
+                return;
             }
-            else
-            {                
-                DataTable dataTable = DataBase.ExecuteRequest($"SELECT * FROM Users WHERE username = '{username.Text}' AND password = '{password.Password}'");
+            
+            DbUser user = Db.DbUsers.Local.FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
+            if (user == null)
+            {
+                TextBlockNotify.Text = "Неверный логин или пароль";
+                BorderNotify.Visibility = Visibility.Visible;
+                return;
+            }
 
-                if (dataTable.Rows.Count < 1)
-                {
-                    TextBlockNotify.Text = "Неверный логин или пароль";
-                    BorderNotify.Visibility = Visibility.Visible;
-                }
-                else MainWindow.Instance.Container.Content = new UserPage();
-            }            
+            MainWindow.Instance.ActiveUser = user;
+            MainWindow.Instance.SetPage(new UserPage());
         }        
 
         private void Username_PreviewTextInput(object sender, TextCompositionEventArgs e)

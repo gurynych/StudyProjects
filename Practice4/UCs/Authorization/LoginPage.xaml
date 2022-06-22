@@ -157,10 +157,11 @@
                                 Grid.Column="1"
                                 Padding="10"
                                 Click="CloseNotify_Click">
-                            <Image HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Width="25" Height="25"
-                                   Source="D:\GurilaFolder\Practice4\Images\icone_cross.png"/>
+                            <md:PackIcon Kind="WindowClose"
+                                         Foreground="Red"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Width="20" Height="20"/>
                         </Button>
                     </Grid>
                 </Border>

@@ -1,6 +1,7 @@
 ﻿using SQLite.CodeFirst;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.SQLite;
 using System.Linq;
@@ -12,6 +13,12 @@ namespace Practice4
     internal class ApplicationContext : DbContext
     {
         public DbSet<DbUser> DbUsers { get; set; }
+
+        public DbSet<DbTheory> DbTheories { get; set; }
+
+        public DbSet<DbQuestion> DbQuestions { get; set; }
+        
+        public DbSet<DbAnswer> DbAnswers { get; set; }
 
         public ApplicationContext() : base("DefaultConnection")
         {
@@ -33,10 +40,6 @@ namespace Practice4
         public string Email { get; set; }
 
         public string Password { get; set; }
-
-        public DbUser()
-        {
-        }
     }
 
     public class DbTheory
@@ -46,10 +49,6 @@ namespace Practice4
         public string Topic { get; set; }
 
         public string FilePath { get; set; }
-
-        public DbTheory()
-        {
-        }
     }
 
     public class DbQuestion
@@ -58,13 +57,28 @@ namespace Practice4
 
         public string Type { get; set; }
 
-        public string Header { get; set; }
+        public string QuestionText { get; set; }
 
-        public List<string> AnswerVariants { get; set; }
+        /// <summary>
+        /// Связь один ко многим
+        /// </summary>
+        public List<DbAnswer> DbAnswers { get; set; } = new List<DbAnswer>();              
 
-        public DbQuestion()
-        {
-            AnswerVariants = new List<string>();
-        }
+        /// <summary>
+        /// https://metanit.com/sharp/entityframeworkcore/3.1.php
+        /// </summary>   
+    }
+
+    public class DbAnswer
+    {
+        public int Id { get; set; }
+
+        public string Text { get; set; }
+
+        public int DbQuestionId { get; set; }
+
+        public bool IsCorrect { get; set; }
+
+        public DbQuestion DbQuestion { get; set; }
     }
 }

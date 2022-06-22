@@ -3,6 +3,7 @@ using Practice4.UCs.MainMenu;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -24,58 +25,65 @@ namespace Practice4.UCs.Authorization
     /// </summary>
     public partial class RegistrationPage : UserControl
     {
-        int CorrectPasswLength = 8;        
+        private readonly ApplicationContext Db;
+        private int CorrectPasswLength = 8;
 
         public RegistrationPage()
         {
-            InitializeComponent();            
-        }      
+            InitializeComponent();
+            Db = new ApplicationContext();
+            //Db.DbUsers.Load();
+        }
 
         private void RegistrateNewAccount_Click(object sender, RoutedEventArgs e)
         {
             password.Password = (EyeIcon.Kind.ToString() == "EyeOutline") ? password.Password : HiddenTextBox.Text;
             if (username.Text.Length == 0)
             {
-                TextBlockNotify.Text = "Введите имя пользователя";
-                BorderNotify.Visibility = Visibility.Visible;
+                OpenNotify("Введите имя пользователя");
+                return;
             }
-            else if (!IsValidEmail(email.Text))
+            if (!IsValidEmail(email.Text))
             {
-                TextBlockNotify.Text = "Введите корректный email";
-                BorderNotify.Visibility = Visibility.Visible;
+                OpenNotify("Введите корректный email");                
+                return;
             }
-            else if (!IsValidPassword(password.Password))
+            if (!IsValidPassword(password.Password))
             {
                 IconNotify.Visibility = Visibility.Visible;
-                TextBlockNotify.Text = "Введите корректный пароль!";
-                BorderNotify.Visibility = Visibility.Visible;
+                OpenNotify("Введите корректный пароль!");                
+                return;
             }
-            else
+
+            IconNotify.Visibility = Visibility.Collapsed;            
+            
+            if (Db.DbUsers.Local.Any(u => u.Username == username.Text))
             {
-                IconNotify.Visibility = Visibility.Collapsed;
-                
-                DataTable dataTable = DataBase.ExecuteRequest($"SELECT * FROM Users WHERE username='{username.Text}'");
-                if (dataTable.Rows.Count > 0)
-                {
-                    TextBlockNotify.Text = "Имя пользователя занято";
-                    BorderNotify.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    dataTable = DataBase.ExecuteRequest($"SELECT * FROM Users WHERE email='{email.Text}'");
-                    if (dataTable.Rows.Count > 0)
-                    {
-                        TextBlockNotify.Text = "Email уже зарегистрирован";
-                        BorderNotify.Visibility = Visibility.Visible;
-                    }
-                    else 
-                    {
-                        DataBase.ExecuteRequest($"INSERT INTO Users (username, email, password) VALUES ('{username.Text}', '{email.Text}', '{password.Password}')");
-                        MainWindow.Instance.Container.Content = new UserPage();
-                    }
-                }                
+                OpenNotify("Имя пользователя занято");
+                BorderNotify.Visibility = Visibility.Visible;
+                return;
             }
-        }
+
+            if (Db.DbUsers.Local.Any(u => u.Email == email.Text))
+            {
+                OpenNotify("Email уже зарегистрирован");
+                BorderNotify.Visibility = Visibility.Visible;
+                return;
+            }
+
+            DbUser user = new DbUser()
+            {
+                Username = username.Text,
+                Email = email.Text,
+                Password = password.Password,
+            };            
+
+            Db.DbUsers.Add(user);
+            Db.SaveChanges();
+
+            MainWindow.Instance.ActiveUser = user;
+            MainWindow.Instance.SetPage(new UserPage());
+        }    
 
         private bool IsValidPassword(string password)
         {
@@ -110,6 +118,12 @@ namespace Practice4.UCs.Authorization
 
             Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
             return regex.IsMatch(email);
+        }
+
+        private void OpenNotify(string error)
+        {
+            TextBlockNotify.Text = error;
+            BorderNotify.Visibility = Visibility.Visible;
         }
 
         private void CloseNotify_Click(object sender, RoutedEventArgs e)

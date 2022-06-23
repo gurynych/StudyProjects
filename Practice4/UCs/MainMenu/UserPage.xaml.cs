@@ -26,20 +26,24 @@ namespace Practice4.UCs.MainMenu
         public UserPage()
         {
             InitializeComponent();
-            MainWindow.Instance.MunuColorZone.Visibility = Visibility.Visible;
+            if (MainWindow.Instance.MunuColorZone != null)
+            {
+                MainWindow.Instance.MunuColorZone.Visibility = Visibility.Visible;
+            }
+
             DocxReader();
         }
 
         public void DocxReader()
         {
-            string DocxPath = @"C:\Users\pokro.MY-BOOBYLDA\Рабочий стол\Testttt.docx";
+            string DocxPath = @"../../Blokcheyn.rtf";
             
             TextRange tr = new TextRange(
-             Test.Document.ContentStart, Test.Document.ContentEnd);
+            Test.Document.ContentStart, Test.Document.ContentEnd);
 
             using (FileStream fs = File.Open(DocxPath, FileMode.Open))
             {
-                tr.Load(fs, DataFormats.Xaml);
+                tr.Load(fs, DataFormats.Rtf);
             };
         }
     }

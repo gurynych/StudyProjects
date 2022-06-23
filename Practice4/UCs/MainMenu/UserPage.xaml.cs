@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,11 +22,25 @@ namespace Practice4.UCs.MainMenu
     /// Логика взаимодействия для UserPage.xaml
     /// </summary>
     public partial class UserPage : UserControl
-    {
+    {        
         public UserPage()
         {
             InitializeComponent();
             MainWindow.Instance.MunuColorZone.Visibility = Visibility.Visible;
+            DocxReader();
+        }
+
+        public void DocxReader()
+        {
+            string DocxPath = @"C:\Users\pokro.MY-BOOBYLDA\Рабочий стол\Testttt.docx";
+            
+            TextRange tr = new TextRange(
+             Test.Document.ContentStart, Test.Document.ContentEnd);
+
+            using (FileStream fs = File.Open(DocxPath, FileMode.Open))
+            {
+                tr.Load(fs, DataFormats.Xaml);
+            };
         }
     }
 }

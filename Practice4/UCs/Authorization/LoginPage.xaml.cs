@@ -31,7 +31,7 @@ namespace Practice4.UCs.Authorization
         {
             InitializeComponent();
             Db = new ApplicationContext();
-            //Db.DbUsers.Load();
+            Db.DbUsers.Load();
         }
 
         private void DataVerification_Click(object sender, RoutedEventArgs e)

@@ -21,5 +21,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <RichTextBox x:Name="Test"
+                     Grid.Row="1"
+                     Grid.ColumnSpan="3"
+                     Grid.RowSpan="3"
+                     Background="White"/>
+
     </Grid>
 </UserControl>

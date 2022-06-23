@@ -30,8 +30,7 @@ namespace Practice4.UCs.Authorization
         public LoginPage()
         {
             InitializeComponent();
-            Db = new ApplicationContext();
-            Db.DbUsers.Load();
+            Db = new ApplicationContext();         
         }
 
         private void DataVerification_Click(object sender, RoutedEventArgs e)
@@ -50,7 +49,7 @@ namespace Practice4.UCs.Authorization
                 return;
             }
             
-            DbUser user = Db.DbUsers.Local.FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
+            DbUser user = Db.DbUsers.FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
             if (user == null)
             {
                 TextBlockNotify.Text = "Неверный логин или пароль";

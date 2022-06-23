@@ -68,7 +68,7 @@
 
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <md:PackIcon Foreground="{Binding ElementName=TestsButton, Path=Foreground}"
-                                 Kind="AbTesting"
+                                 Kind="Brain"
                                  Margin="0,0,10,0"
                                  VerticalAlignment="Center"
                                  Height="25" Width="25">
@@ -153,9 +153,6 @@
                                       Command="{x:Static md:DrawerHost.OpenDrawerCommand}"
                                       IsChecked="False"
                                       AutomationProperties.Name="HamburgerToggleButton"/>
-                        <TextBlock VerticalAlignment="Center"
-                               Margin="15 0 0 0"
-                               Text="Test ColorZone" />
                     </StackPanel>
                 </DockPanel>
             </md:ColorZone>

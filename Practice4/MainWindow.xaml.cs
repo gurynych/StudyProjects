@@ -37,14 +37,24 @@ namespace Practice4
 
             ApplicationContext Db = new ApplicationContext();
 
-                //Db.DbTheories.Add(new DbTheory() { Topic =})
+            DirectoryInfo dirTheory = new DirectoryInfo("Theory");
+
+
+            for (int i = 0; i < dirTheory.GetFiles().Length; i++)
+            {
+                Db.DbTheories.Add(new DbTheory()
+                {
+                    Topic = System.IO.Path.GetFileNameWithoutExtension(dirTheory.GetFiles()[i].ToString()), 
+                    FilePath = $"Theory\\{dirTheory.GetFiles()[i].Name}"
+                });
+            }
 
             //DbQuestion q = new DbQuestion() { Type = "1", QuestionText = "1"};
             //Db.DbQuestions.Add(q);
             //DbAnswer a = new DbAnswer() { Text = "123", IsCorrect = true, DbQuestion = q};
             //DbAnswer a1 = new DbAnswer() { Text = "456", DbQuestion = q};
-            //Db.DbAnswers.AddRange(new List<DbAnswer>() { a, a1 });
-            //Db.SaveChanges();
+                //Db.DbAnswers.AddRange(new List<DbAnswer>() { a, a1 });
+            Db.SaveChanges();
 
 
             List<DbQuestion> test = Db.DbQuestions.Include(q => q.DbAnswers).ToList();

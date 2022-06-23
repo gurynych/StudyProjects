@@ -30,21 +30,19 @@ namespace Practice4.UCs.MainMenu
             {
                 MainWindow.Instance.MunuColorZone.Visibility = Visibility.Visible;
             }
-
-            DocxReader();
         }
 
-        public void DocxReader()
-        {
-            string DocxPath = @"../../Blokcheyn.rtf";
+        //public void DocxReader()
+        //{
+        //    string DocxPath = @"Theory\Blokcheyn.rtf";
             
-            TextRange tr = new TextRange(
-            Test.Document.ContentStart, Test.Document.ContentEnd);
+        //    TextRange tr = new TextRange(
+        //    Test.Document.ContentStart, Test.Document.ContentEnd);
 
-            using (FileStream fs = File.Open(DocxPath, FileMode.Open))
-            {
-                tr.Load(fs, DataFormats.Rtf);
-            };
-        }
+        //    using (FileStream fs = File.Open(DocxPath, FileMode.Open))
+        //    {
+        //        tr.Load(fs, DataFormats.Rtf);
+        //    };
+        //}
     }
 }

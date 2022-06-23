@@ -32,7 +32,6 @@ namespace Practice4.UCs.Authorization
         {
             InitializeComponent();
             Db = new ApplicationContext();
-            //Db.DbUsers.Load();
         }
 
         private void RegistrateNewAccount_Click(object sender, RoutedEventArgs e)
@@ -57,14 +56,14 @@ namespace Practice4.UCs.Authorization
 
             IconNotify.Visibility = Visibility.Collapsed;            
             
-            if (Db.DbUsers.Local.Any(u => u.Username == username.Text))
+            if (Db.DbUsers.Any(u => u.Username == username.Text))
             {
                 OpenNotify("Имя пользователя занято");
                 BorderNotify.Visibility = Visibility.Visible;
                 return;
             }
 
-            if (Db.DbUsers.Local.Any(u => u.Email == email.Text))
+            if (Db.DbUsers.Any(u => u.Email == email.Text))
             {
                 OpenNotify("Email уже зарегистрирован");
                 BorderNotify.Visibility = Visibility.Visible;

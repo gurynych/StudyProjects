@@ -33,41 +33,50 @@ namespace Practice4
 
         public MainWindow() 
         {
-            InitializeComponent();
-
-            ApplicationContext Db = new ApplicationContext();
-
-            DirectoryInfo dirTheory = new DirectoryInfo("Theory");
-
-
-            for (int i = 0; i < dirTheory.GetFiles().Length; i++)
-            {
-                Db.DbTheories.Add(new DbTheory()
-                {
-                    Topic = System.IO.Path.GetFileNameWithoutExtension(dirTheory.GetFiles()[i].ToString()), 
-                    FilePath = $"Theory\\{dirTheory.GetFiles()[i].Name}"
-                });
-            }
+            InitializeComponent();            
 
             //DbQuestion q = new DbQuestion() { Type = "1", QuestionText = "1"};
             //Db.DbQuestions.Add(q);
             //DbAnswer a = new DbAnswer() { Text = "123", IsCorrect = true, DbQuestion = q};
             //DbAnswer a1 = new DbAnswer() { Text = "456", DbQuestion = q};
-                //Db.DbAnswers.AddRange(new List<DbAnswer>() { a, a1 });
-            Db.SaveChanges();
-
-
-            List<DbQuestion> test = Db.DbQuestions.Include(q => q.DbAnswers).ToList();
+            //Db.DbAnswers.AddRange(new List<DbAnswer>() { a, a1 });            
+            //List<DbQuestion> test = db.DbQuestions.Include(q => q.DbAnswers).ToList();
             
-
-            Container.Content = new AuthorizationSlides();
             Instance = this;            
         }
 
+        private bool IsFirstSlide = false;
+        private RoutedCommand command;
 
         public void SetPage(UserControl control)
         {
-            Container.Content = control;
+            command = Transitioner.MoveNextCommand;
+            TransitionerSlide slide = slide2;
+            if (IsFirstSlide)
+            {
+                slide = slide1;
+                command = Transitioner.MovePreviousCommand;
+            }
+            slide.Content = control;
+            command.CanExecuteChanged += Command_CanExecuteChanged;
+        }
+
+        private void Command_CanExecuteChanged(object sender, EventArgs e)
+        {
+            command.Execute(sender, Container);
+            command.CanExecuteChanged -= Command_CanExecuteChanged;
+            IsFirstSlide = !IsFirstSlide;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetPage(new AuthorizationSlides());
+            ApplicationContext db = new ApplicationContext();
+            db.Load();
+            TheoryTree.ItemsSource = db.DbTheories.ToList();
+            TreeViewItem mainItem = new TreeViewItem() { Header = "Теория" };
+            mainItem.Items.Add(new TreeViewItem() { Header = db.DbTheories });
+            TheoryTree.Items.Add()
         }
     }    
 }

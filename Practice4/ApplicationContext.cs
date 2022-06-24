@@ -1,12 +1,7 @@
 ﻿using SQLite.CodeFirst;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Practice4
 {
@@ -29,6 +24,40 @@ namespace Practice4
             var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<ApplicationContext>(modelBuilder, true);
             Database.SetInitializer(sqliteConnectionInitializer);
         }
+
+        public void Load()
+        {
+            string path = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.Split('=')[1];
+
+            if (!File.Exists(path))
+            {
+                SaveChanges();
+                Theory();
+                SaveChanges();
+            }
+        }
+
+        public void Theory()
+        {
+            DirectoryInfo dirTheory = new DirectoryInfo("Theory");
+            List<string> descriptions = new List<string>()
+            {
+                "Блокчейн – выстроенная по определённым правилам непрерывная последовательная цепочка блоков (связный список), содержащих информацию.",
+                "Существует три общих класса современной криптографии на основе программного обеспечения: хэш-функции, симметричное шифрование и асимметричное шифрование.",
+                "Основополагащие элементы блокчейна: децентрализация, узлы, консенсус, смарт-контракты и оракулы.",
+                "Контейнером для информации выступает прозрачная структура - блок, который проверяется на достоверность. Блоки соединяются в цепь."
+            };
+
+            for (int i = 0; i < dirTheory.GetFiles().Length; i++)
+            {
+                DbTheories.Add(new DbTheory()
+                {
+                    Topic = System.IO.Path.GetFileNameWithoutExtension(dirTheory.GetFiles()[i].ToString().Remove(0, 1)),
+                    Description = descriptions[i],
+                    FilePath = $"Theory\\{dirTheory.GetFiles()[i].Name}"
+                });
+            }
+        }
     }
 
     public class DbUser
@@ -47,6 +76,8 @@ namespace Practice4
         public int Id { get; set; }
 
         public string Topic { get; set; }
+
+        public string Description { get; set; }
 
         public string FilePath { get; set; }
     }

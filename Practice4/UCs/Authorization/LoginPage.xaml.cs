@@ -25,12 +25,12 @@ namespace Practice4.UCs.Authorization
     /// </summary>
     public partial class LoginPage : UserControl
     {
-        private readonly ApplicationContext Db;
+        private readonly ApplicationContext db;
         
         public LoginPage()
         {
             InitializeComponent();
-            Db = new ApplicationContext();         
+            db = new ApplicationContext();         
         }
 
         private void DataVerification_Click(object sender, RoutedEventArgs e)
@@ -48,8 +48,8 @@ namespace Practice4.UCs.Authorization
                 BorderNotify.Visibility = Visibility.Visible;
                 return;
             }
-            
-            DbUser user = Db.DbUsers.FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
+
+            DbUser user = db.DbUsers.FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
             if (user == null)
             {
                 TextBlockNotify.Text = "Неверный логин или пароль";

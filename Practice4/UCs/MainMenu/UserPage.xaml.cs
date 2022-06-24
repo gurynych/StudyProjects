@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
+using Practice4.UCs.Theory;
 
 namespace Practice4.UCs.MainMenu
 {
@@ -30,19 +32,18 @@ namespace Practice4.UCs.MainMenu
             {
                 MainWindow.Instance.MunuColorZone.Visibility = Visibility.Visible;
             }
+
+            MainWindow.Instance.PageInfo.Text = MainWindow.Instance.ActiveUser?.Username;
+
+            ApplicationContext db = new ApplicationContext();
+            CardConteiner.ItemsSource = db.DbTheories.ToList();
         }
-
-        //public void DocxReader()
-        //{
-        //    string DocxPath = @"Theory\Blokcheyn.rtf";
-            
-        //    TextRange tr = new TextRange(
-        //    Test.Document.ContentStart, Test.Document.ContentEnd);
-
-        //    using (FileStream fs = File.Open(DocxPath, FileMode.Open))
-        //    {
-        //        tr.Load(fs, DataFormats.Rtf);
-        //    };
-        //}
+        
+        public void GoToTheory_Click(object sender, RoutedEventArgs e)
+        { 
+            Button button = sender as Button;
+            DbTheory theory = button.Tag as DbTheory;
+            MainWindow.Instance.SetPage(new TheoryPage(theory.FilePath));
+        }
     }
 }

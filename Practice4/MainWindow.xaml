@@ -5,23 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice4"
         xmlns:mainmenu="clr-namespace:Practice4.UCs.MainMenu"
-        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"        
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
+        Loaded="Window_Loaded"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         FontFamily="Cascadia Mono"
-        mc:Ignorable="d"
+        mc:Ignorable="d"      
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
         Title="Blockchain" Height="600" Width="800"
         MinHeight="400" MinWidth="500">
 
-    
-    <md:DrawerHost x:Name="DrawerHost"                  
-                   HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch"
-                   BorderThickness="2"
+
+    <md:DrawerHost HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"                   
+                   BorderThickness="0"                   
                    IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
                    BorderBrush="{DynamicResource MaterialDesignDivider}"
                    BottomDrawerCornerRadius="20 20 0 0"
@@ -49,21 +49,23 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <md:PackIcon Foreground="{Binding ElementName=TheoryButton, Path=Foreground}"
+                    <md:PackIcon 
                                  Kind="TextBoxOutline"
                                  Margin="0,0,10,0"
                                  VerticalAlignment="Center"                                
                                  Height="25" Width="25">
                     </md:PackIcon>
+                    <!--<Button x:Name="TheoryButton"
+                            Style="{StaticResource MaterialDesignFlatLightButton}"
+                            HorizontalAlignment="Left"                        
+                            Margin="4"
+                            Content="Теория"
+                            HorizontalContentAlignment="Left">
+                    </Button>-->
 
-
-                    <Button x:Name="TheoryButton"
-                        Style="{StaticResource MaterialDesignFlatLightButton}"
-                        HorizontalAlignment="Left"                        
-                        Margin="4"
-                        Content="Теория"
-                        HorizontalContentAlignment="Left">
-                    </Button>
+                    <TreeView x:Name="TheoryTree"
+                              MinWidth="120">
+                    </TreeView>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -124,28 +126,16 @@
         </md:DrawerHost.LeftDrawerContent>
 
         <Grid>
-
-            <!--<md:Transitioner x:Name="Container1"
-                         SelectedIndex="0"
-                         AutoApplyTransitionOrigins="True">
-            <md:TransitioningContent>
-                
-                
-                
-            </md:TransitioningContent>
-        </md:Transitioner>-->
-
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <Grid>
-                    <ContentControl x:Name="Container"/>
-                </Grid>
-            </ScrollViewer>
-
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
             <md:ColorZone x:Name="MunuColorZone"
                           Visibility="Collapsed"
                           Mode="PrimaryLight"
                           Padding="15"
-                          md:ShadowAssist.ShadowDepth="Depth2">
+                          md:ShadowAssist.ShadowDepth="Depth2"
+                          Grid.Row="0">
                 <DockPanel>
                     <StackPanel Orientation="Horizontal">
                         <ToggleButton x:Name="MenuToggleButton"
@@ -153,10 +143,36 @@
                                       Command="{x:Static md:DrawerHost.OpenDrawerCommand}"
                                       IsChecked="False"
                                       AutomationProperties.Name="HamburgerToggleButton"/>
+                        <TextBlock x:Name="PageInfo"
+                                   VerticalAlignment="Center"
+                                   Margin="100,0,0,0"/>
                     </StackPanel>
                 </DockPanel>
             </md:ColorZone>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          Grid.Row="1">
+                <md:Transitioner x:Name="Container"
+                                 SelectedIndex="0"
+                                 AutoApplyTransitionOrigins="True">
+                    <md:TransitionerSlide x:Name="slide1">
+                        <md:TransitionerSlide.ForwardWipe>
+                            <md:SlideOutWipe/>
+                        </md:TransitionerSlide.ForwardWipe>
+                    </md:TransitionerSlide>
+                    <md:TransitionerSlide x:Name="slide2">
+                        <md:TransitionerSlide.OpeningEffects>
+                            <md:TransitionEffect Kind="SlideInFromRight"/>
+                            <md:TransitionEffect Kind="SlideInFromBottom"/>
+                        </md:TransitionerSlide.OpeningEffects>
+
+                        <md:TransitionerSlide.BackwardWipe>
+                            <md:SlideOutWipe/>
+                        </md:TransitionerSlide.BackwardWipe>
+                    </md:TransitionerSlide>
+                </md:Transitioner>
+            </ScrollViewer>
         </Grid>
-        
+
     </md:DrawerHost>
 </Window>

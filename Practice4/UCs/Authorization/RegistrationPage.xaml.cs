@@ -25,13 +25,13 @@ namespace Practice4.UCs.Authorization
     /// </summary>
     public partial class RegistrationPage : UserControl
     {
-        private readonly ApplicationContext Db;
+        private readonly ApplicationContext db;
         private int CorrectPasswLength = 8;
 
         public RegistrationPage()
-        {
+        {            
             InitializeComponent();
-            Db = new ApplicationContext();
+            db = new ApplicationContext();
         }
 
         private void RegistrateNewAccount_Click(object sender, RoutedEventArgs e)
@@ -56,14 +56,14 @@ namespace Practice4.UCs.Authorization
 
             IconNotify.Visibility = Visibility.Collapsed;            
             
-            if (Db.DbUsers.Any(u => u.Username == username.Text))
+            if (db.DbUsers.Any(u => u.Username == username.Text))
             {
                 OpenNotify("Имя пользователя занято");
                 BorderNotify.Visibility = Visibility.Visible;
                 return;
             }
 
-            if (Db.DbUsers.Any(u => u.Email == email.Text))
+            if (db.DbUsers.Any(u => u.Email == email.Text))
             {
                 OpenNotify("Email уже зарегистрирован");
                 BorderNotify.Visibility = Visibility.Visible;
@@ -77,8 +77,8 @@ namespace Practice4.UCs.Authorization
                 Password = password.Password,
             };            
 
-            Db.DbUsers.Add(user);
-            Db.SaveChanges();
+            db.DbUsers.Add(user);
+            db.SaveChanges();
 
             MainWindow.Instance.ActiveUser = user;
             MainWindow.Instance.SetPage(new UserPage());

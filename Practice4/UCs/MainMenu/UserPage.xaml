@@ -9,34 +9,62 @@
              d:DesignHeight="600" d:DesignWidth="800">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>   
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.15*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <md:Card Grid.Row="2"
-                 Grid.ColumnSpan="2"
-                 Background="{DynamicResource SecondaryHueLightBrush}"
-                 Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"                 
-                 Padding="8"
-                 Margin="30,0,30,0"
-                 UniformCornerRadius="8">
-            <StackPanel Orientation="Vertical">
-                <TextBlock x:Name=""
-                           FontSize="16"
-                           FontWeight="Bold"
-                           Text="Boring Text"
-                           TextWrapping="Wrap"/>
-            </StackPanel>
-        </md:Card>
+        <ItemsControl x:Name="CardConteiner"
+                      Grid.Row="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="2"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
 
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <md:Card Padding="8"
+                             Margin="30,15,30,20"
+                             UniformCornerRadius="8"
+                             md:ShadowAssist.ShadowDepth="Depth3"
+                             md:ShadowAssist.ShadowEdges="All">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Vertical" Grid.Row="0">
+                                <Border BorderThickness="0,0,0,1.5"
+                                        BorderBrush="{Binding ElementName=button, Path=Background}">
+                                    <TextBlock FontSize="20"
+                                               FontWeight="Bold"                                               
+                                               TextWrapping="Wrap"                                               
+                                               Text="{Binding Topic}"
+                                               Margin="5"/>
+                                </Border>
+                                <TextBlock Text="{Binding Description}"
+                                           FontFamily="Segoe UI"
+                                           Margin="15,5,0,5"                                           
+                                           FontSize="14"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <Button x:Name="button"
+                                    Grid.Row="1"
+                                    Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}"
+                                    md:ButtonAssist.CornerRadius="12.5"
+                                    Width="100"
+                                    Height="35"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    Margin="5"
+                                    Content="Изучить!"
+                                    Tag="{Binding}"
+                                    Click="GoToTheory_Click"/>  
+                        </Grid>
+                    </md:Card>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

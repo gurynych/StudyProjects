@@ -11,7 +11,7 @@
         <TextBlock x:Name="TheoryTitle"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="30">
-                <RichTextBox x:Name="TheoryRichText"/>
+                <RichTextBox x:Name="TheoryRichText" IsReadOnly="True"/>
             </StackPanel>
         </ScrollViewer>
     </StackPanel>

@@ -43,7 +43,7 @@ namespace Practice4.UCs.MainMenu
         { 
             Button button = sender as Button;
             DbTheory theory = button.Tag as DbTheory;
-            MainWindow.Instance.SetPage(new TheoryPage(theory.FilePath));
+            MainWindow.Instance.SetPage(new TheoryPage(theory));
         }
     }
 }

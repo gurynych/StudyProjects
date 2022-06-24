@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf.Transitions;
 using Practice4.UCs.Start;
 using System.Data.Entity;
+using Practice4.UCs.MainMenu;
 
 namespace Practice4 
 {
@@ -74,13 +75,20 @@ namespace Practice4
             ApplicationContext db = new ApplicationContext();
             db.Load();
 
-            TheoryTree.ItemsSource = new List<object>()
-            {
-                new {
-                    Topics = db.DbTheories.ToList(),
-                    Topic = "Теории"
-                }
-            };
+            //TheoryTree.ItemsSource = new List<object>()
+            //{
+            //    new
+            //    {
+            //        Topics = db.DbTheories.ToList(),
+            //        Topic = "Теории"
+            //    }
+            //};
+        }
+
+        private void GoUserPage_Click(object sender, RoutedEventArgs e)
+        {
+            //Scroll
+            SetPage(new UserPage());
         }
     }    
 }

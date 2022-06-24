@@ -94,6 +94,7 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="DataBase.cs" />
+    <Compile Include="StringToAllowedNubmerSymbolConverter.cs" />
     <Compile Include="UCs\Authorization\AuthorizationSlides.xaml.cs">
       <DependentUpon>AuthorizationSlides.xaml</DependentUpon>
     </Compile>

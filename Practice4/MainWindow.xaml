@@ -17,7 +17,9 @@
         WindowStyle="SingleBorderWindow"
         Title="Blockchain" Height="600" Width="800"
         MinHeight="400" MinWidth="500">
-
+    <Window.Resources>
+        <local:StringToAllowedNubmerSymbolConverter x:Key="LimitedCountSym"/>
+    </Window.Resources>
 
     <md:DrawerHost HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"                   
@@ -49,28 +51,29 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <md:PackIcon 
+                    <md:PackIcon Foreground="{DynamicResource SecondaryHueLightBrush}"
                                  Kind="TextBoxOutline"
                                  Margin="0,0,10,0"
                                  VerticalAlignment="Center"                                
                                  Height="25" Width="25">
                     </md:PackIcon>
-                    <!--<Button x:Name="TheoryButton"
+                    <Button x:Name="TheoryButton"
                             Style="{StaticResource MaterialDesignFlatLightButton}"
                             HorizontalAlignment="Left"                        
                             Margin="4"
                             Content="Теория"
                             HorizontalContentAlignment="Left">
-                    </Button>-->
+                    </Button>
 
-                    <TreeView x:Name="TheoryTree"
+                    <!--<TreeView x:Name="TheoryTree"
                               MinWidth="120">
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Topics}">
-                                <TextBlock Text="{Binding Topic}"/>
+                                <TextBlock Text="{Binding Topic, Converter={StaticResource LimitedCountSym}, ConverterParameter=8}"
+                                           Foreground="{DynamicResource PrimaryHueLightBrush}"/>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
-                    </TreeView>
+                    </TreeView>-->
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -142,20 +145,36 @@
                           md:ShadowAssist.ShadowDepth="Depth2"
                           Grid.Row="0">
                 <DockPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <ToggleButton x:Name="MenuToggleButton"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Column="0">
+                            <ToggleButton x:Name="MenuToggleButton"
                                       Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                                       Command="{x:Static md:DrawerHost.OpenDrawerCommand}"
                                       IsChecked="False"
                                       AutomationProperties.Name="HamburgerToggleButton"/>
-                        <TextBlock x:Name="PageInfo"
+                            <TextBlock x:Name="PageInfo"
                                    VerticalAlignment="Center"
                                    Margin="100,0,0,0"/>
-                    </StackPanel>
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                ToolTip="На главную"                                
+                                Click="GoUserPage_Click"
+                                Content="{md:PackIcon Kind=Home, Size=30}"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Margin="0,0,20,0"
+                                VerticalAlignment="Center"                                
+                                Foreground="Black"/>
+                    </Grid>
                 </DockPanel>
             </md:ColorZone>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
+            <ScrollViewer x:Name="Scroll"
+                          VerticalScrollBarVisibility="Auto"
                           Grid.Row="1">
                 <md:Transitioner x:Name="Container"
                                  SelectedIndex="0"

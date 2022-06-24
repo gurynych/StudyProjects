@@ -73,10 +73,14 @@ namespace Practice4
             SetPage(new AuthorizationSlides());
             ApplicationContext db = new ApplicationContext();
             db.Load();
-            TheoryTree.ItemsSource = db.DbTheories.ToList();
-            TreeViewItem mainItem = new TreeViewItem() { Header = "Теория" };
-            mainItem.Items.Add(new TreeViewItem() { Header = db.DbTheories });
-            TheoryTree.Items.Add()
+
+            TheoryTree.ItemsSource = new List<object>()
+            {
+                new {
+                    Topics = db.DbTheories.ToList(),
+                    Topic = "Теории"
+                }
+            };
         }
     }    
 }

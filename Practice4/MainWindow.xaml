@@ -65,6 +65,11 @@
 
                     <TreeView x:Name="TheoryTree"
                               MinWidth="120">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Topics}">
+                                <TextBlock Text="{Binding Topic}"/>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
                     </TreeView>
                 </StackPanel>
 

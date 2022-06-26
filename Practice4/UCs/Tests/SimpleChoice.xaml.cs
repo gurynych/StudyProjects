@@ -18,14 +18,20 @@ namespace Practice4.UCs.Tests
     /// <summary>
     /// Логика взаимодействия для SimpleChoice.xaml
     /// </summary>
-    public partial class SimpleChoice : UserControl
-    {        
-
+    public partial class SimpleChoice : UserControl, IQuestionControl
+    {
+        private readonly DbQuestion Question;
         public SimpleChoice(DbQuestion question)
         {   
-            InitializeComponent(); 
+            InitializeComponent();
+            Question = question;
             RadioButtonConteiner.ItemsSource = question.DbAnswers;
             QuestionText.Text = question.QuestionText;
+        }
+
+        public List<DbAnswer> GetUserAnswers()
+        {
+            return new List<DbAnswer>() { Question.DbAnswers.First(x => x.IsUserSelected) };
         }
     }
 }

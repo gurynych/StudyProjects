@@ -63,22 +63,22 @@
 
                             <Button x:Name="buttonTest"
                                     Grid.Row="1"
-                                    md:ButtonAssist.CornerRadius="12.5"                                   
+                                    md:ButtonAssist.CornerRadius="12.5"                   
                                     Height="35"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Bottom"
                                     Margin="5"
                                     Content="Тестирование"
-                                    Tag="{Binding}"
+                                    Tag="{Binding DbTest}"
                                     Click="GoToTest_Click">
                                 <Button.Style>
                                     <Style TargetType="Button"
                                            BasedOn="{StaticResource MaterialDesignFlatSecondaryLightBgButton}">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Questions.Count}"
-                                                 Value="0">
+                                            <DataTrigger Binding="{Binding DbTest.Questions.Count}"
+                                                         Value="0">
                                                 <Setter Property="Visibility"
-                                                Value="Collapsed"/>
+                                                        Value="Collapsed"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>

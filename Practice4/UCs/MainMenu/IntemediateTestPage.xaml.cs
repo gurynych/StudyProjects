@@ -1,4 +1,5 @@
-﻿using Practice4.UCs.Theory;
+﻿using Practice4.UCs.Tests;
+using Practice4.UCs.Theory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,28 +22,25 @@ namespace Practice4.UCs.MainMenu
     /// </summary>
     public partial class IntermediateTestPage : UserControl
     {
-        public IntermediateTestPage(List<DbTheory> ts)
+        public IntermediateTestPage(List<DbTest> ts)
         {
-            List<DbTheory> theories;
+            InitializeComponent();
 
-            InitializeComponent();
-            InitializeComponent();
-            theories = ts.ToList();
             TheoryTree.ItemsSource = new List<object>()
             {
                 new
                 {
-                    Topics = theories.Where(x=>x.Questions.Any()),
+                    Topics = ts.Select(x => new { Topic = x.Name }),
                     Topic = "Тесты"
                 }
             };
         }
 
-        public void GoToTest_Click(object sender, RoutedEventArgs e)
+        private void TestTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Button button = sender as Button;
-            //DbTheory test = button.Tag as DbTheory;
-            //MainWindow.Instance.SetPage(new TheoryPage(theory));
+            TreeView tv = sender as TreeView;
+            DbTest test = tv.SelectedItem as DbTest;
+            MainWindow.Instance.SetPage(new TestPage(test));
         }
     }
 }

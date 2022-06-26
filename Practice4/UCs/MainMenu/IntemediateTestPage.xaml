@@ -9,13 +9,12 @@
     <Grid>
         <TreeView x:Name="TheoryTree"
                   MinWidth="150"
+                  SelectedItemChanged="TestTree_SelectedItemChanged"
                   Margin="30">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Topics}">
-                    <Button Content="{Binding Topic}"
-                            Style="{StaticResource MaterialDesignFlatLightButton}"
+                    <TreeViewItem Header="{Binding Topic}"
                             Foreground="{DynamicResource PrimaryHueLightBrush}"
-                            Click="GoToTest_Click"
                             Tag="{Binding}"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>

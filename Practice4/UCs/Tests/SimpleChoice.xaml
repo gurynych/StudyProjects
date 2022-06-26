@@ -41,8 +41,10 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <RadioButton GroupName="GroupRadoiBtn"
+                        <RadioButton GroupName="GroupRadioBtn"
                                      Margin="10"
+                                     IsChecked="{Binding IsUserSelected}"
+                                     Tag="{Binding}"
                                      Style="{StaticResource MaterialDesignAccentRadioButton}" 
                                      Content="{Binding Text}"/>
                     </DataTemplate>

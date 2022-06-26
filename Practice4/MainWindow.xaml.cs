@@ -84,7 +84,7 @@ namespace Practice4
 
         private void GoToTreeTest_Click(object sender, RoutedEventArgs e)
         {
-            SetPage(new IntermediateTestPage(db.DbTheories.ToList()));
+            SetPage(new IntermediateTestPage(db.DbTests.Include(x => x.DbTheories).Include(x => x.Questions).ToList()));
             MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null, drawer);
         }
     }    

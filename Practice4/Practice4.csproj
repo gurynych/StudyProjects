@@ -94,7 +94,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationContext.cs" />
-    <Compile Include="DataBase.cs" />
     <Compile Include="StringToAllowedNubmerSymbolConverter.cs" />
     <Compile Include="UCs\Authorization\AuthorizationSlides.xaml.cs">
       <DependentUpon>AuthorizationSlides.xaml</DependentUpon>
@@ -123,11 +122,15 @@
     <Compile Include="UCs\Tests\InputVar.xaml.cs">
       <DependentUpon>InputVar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UCs\Tests\IQuestionControl.cs" />
     <Compile Include="UCs\Tests\MultipleChoice.xaml.cs">
       <DependentUpon>MultipleChoice.xaml</DependentUpon>
     </Compile>
     <Compile Include="UCs\Tests\SimpleChoice.xaml.cs">
       <DependentUpon>SimpleChoice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Tests\TestPage.xaml.cs">
+      <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UCs\Theory\TheoryPage.xaml.cs">
       <DependentUpon>TheoryPage.xaml</DependentUpon>
@@ -188,6 +191,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UCs\Tests\TestPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UCs\Theory\TheoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,6 +235,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\blockchain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Images\blokchein_i_ii.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

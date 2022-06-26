@@ -16,7 +16,9 @@ namespace Practice4
 
         public DbSet<DbQuestion> DbQuestions { get; set; }
         
-        public DbSet<DbAnswer> DbAnswers { get; set; }        
+        public DbSet<DbAnswer> DbAnswers { get; set; }
+        
+        public DbSet<DbTest> DbTests { get; set; }
 
         public ApplicationContext() : base("DefaultConnection")
         {
@@ -70,12 +72,13 @@ namespace Practice4
 
             foreach (FileInfo test in dirTest.GetFiles())
             {
+                DbTest dbTest = new DbTest();
                 List<string> questionBlock = File.ReadAllText(test.FullName)
                     .Split(new char[] { '/' }, System.StringSplitOptions.RemoveEmptyEntries)
                     .ToList();
 
                 int id = int.Parse(test.Name.Split('.')[0]);
-                DbTheory theory = DbTheories.FirstOrDefault(x => x.Id == id);  
+                dbTest.DbTheories.Add(DbTheories.FirstOrDefault(x => x.Id == id));
 
                 for (int i = 0; i < questionBlock.Count; i++)
                 {
@@ -90,7 +93,7 @@ namespace Practice4
                     };
 
                     DbQuestions.Add(q);
-                    theory.Questions.Add(q);
+                    dbTest.Questions.Add(q);
 
                     foreach (string line in linesInBlock.Skip(1))
                     {
@@ -103,6 +106,8 @@ namespace Practice4
                         DbAnswers.Add(a);
                     }
                 }
+
+                DbTests.Add(dbTest);
             }
         }
     }
@@ -116,23 +121,36 @@ namespace Practice4
         public string Email { get; set; }
 
         public string Password { get; set; }
+
+        public List<DbTest> FinishedTests { get; set; }
+
+        public DbUser()
+        {
+            FinishedTests = new List<DbTest>();
+        }
     }
 
-    //public class DbUserStatistics
-    //{ 
-    //    public int Id { get; set; }
+    public class DbTest
+    {
+        public int Id { get; set; }
 
-    //    public string Username { get; set; }
+        [NotMapped]
+        public string Name => DbTheories.Any() ? DbTheories.First().Topic : "Итоговый тест";
 
-    //    public int Points2Test { get; set; }
+        public List<DbTheory> DbTheories { get; set; }
 
-    //    public int Points4Test { get; set; }
+        public List<DbQuestion> Questions { get; set; }
 
-    //    public List<DbUser> users { get; set; }
+        public List<DbUser> DbUsers { get; set; }
 
-    //    public int DbUserId { get; set; }
-    //}
-    
+        public DbTest()
+        {
+            DbTheories = new List<DbTheory>();
+            Questions = new List<DbQuestion>();
+            DbUsers = new List<DbUser>();
+        }
+    }
+
     public class DbTheory
     {
         public int Id { get; set; }
@@ -141,14 +159,11 @@ namespace Practice4
 
         public string Description { get; set; }
 
-        public string FilePath { get; set; }        
+        public string FilePath { get; set; }   
 
-        public List<DbQuestion> Questions { get; set; }
+        public int DbTestId { get; set; }
 
-        public DbTheory()
-        {
-            Questions = new List<DbQuestion>();
-        }
+        public DbTest DbTest { get; set; }
     }
 
     public class DbQuestion
@@ -158,15 +173,17 @@ namespace Practice4
         public string Type { get; set; }
 
         public string QuestionText { get; set; }
-
-        /// <summary>
-        /// Связь один ко многим
-        /// </summary>
-        public List<DbAnswer> DbAnswers { get; set; } = new List<DbAnswer>();              
+      
+        public List<DbAnswer> DbAnswers { get; set; }
         
         public DbTheory DbTheory { get; set; }
 
         public int DbTheoryId { get; set; }
+
+        public DbQuestion()
+        {
+            DbAnswers = new List<DbAnswer>();
+        }
     }
 
     public class DbAnswer
@@ -179,6 +196,14 @@ namespace Practice4
 
         public bool IsCorrect { get; set; }
 
+        [NotMapped]
+        public bool IsUserSelected { get; set; }
+
         public DbQuestion DbQuestion { get; set; }
+
+        public DbAnswer(string text = "")
+        {
+            Text = text;
+        }
     }
 }

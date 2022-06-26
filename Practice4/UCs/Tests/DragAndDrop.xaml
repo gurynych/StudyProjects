@@ -53,33 +53,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Canvas>
-
-        <Button Grid.Column="0"
-                Grid.Row="2"
-                HorizontalAlignment="Left"
-                Margin="15,0,0,0"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                Style="{StaticResource MaterialDesignFloatingActionButton}"
-                ToolTip="Предыдущий вопрос">
-            <md:PackIcon Kind="ArrowLeft"
-                         Height="50"
-                         Width="50"
-                         Foreground="{DynamicResource SecondaryHueLightBrush}"/>
-        </Button>
-
-        <Button Grid.Column="1"
-                Grid.Row="2"
-                HorizontalAlignment="Right"
-                Margin="0,0,25,0"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                Style="{StaticResource MaterialDesignFloatingActionButton}"
-                ToolTip="Следующий вопрос">
-            <md:PackIcon Kind="ArrowRight"
-                         Height="50"
-                         Width="50"
-                         Foreground="{DynamicResource SecondaryHueLightBrush}"/>
-        </Button>
     </Grid>
 </UserControl>

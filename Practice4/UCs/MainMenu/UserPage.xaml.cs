@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
+using Practice4.UCs.Tests;
 using Practice4.UCs.Theory;
 
 namespace Practice4.UCs.MainMenu
@@ -35,7 +36,7 @@ namespace Practice4.UCs.MainMenu
             }
 
             MainWindow.Instance.PageInfo.Text = MainWindow.Instance.ActiveUser.Username;
-            CardConteiner.ItemsSource = MainWindow.Instance.db.DbTheories.Include(x => x.Questions).ToList();
+            CardConteiner.ItemsSource = MainWindow.Instance.db.DbTheories.Include(x => x.DbTest).Include(x => x.DbTest.Questions).ToList();
         }
         
         public void GoToTheory_Click(object sender, RoutedEventArgs e)
@@ -47,7 +48,9 @@ namespace Practice4.UCs.MainMenu
 
         public void GoToTest_Click(object sender, RoutedEventArgs e)
         {
-
+            Button button = sender as Button;
+            DbTest test = button.Tag as DbTest;
+            MainWindow.Instance.SetPage(new TestPage(test));
         }
     }
 }

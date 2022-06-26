@@ -18,13 +18,17 @@ namespace Practice4.UCs.Tests
     /// <summary>
     /// Логика взаимодействия для InputVar.xaml
     /// </summary>
-    public partial class InputVar : UserControl
+    public partial class InputVar : UserControl, IQuestionControl
     {
-        public InputVar(List<DbAnswer> answers)
+        public InputVar(DbQuestion question)
         {
-            InitializeComponent();            
-            int aId = answers[0].DbQuestionId;
-            QuestionText.Text = MainWindow.Instance.db.DbQuestions.FirstOrDefault(q => q.Id == aId).QuestionText;
+            InitializeComponent();
+            QuestionText.Text = question.QuestionText;
+        }
+
+        public List<DbAnswer> GetUserAnswers()
+        {
+            return new List<DbAnswer>() { new DbAnswer(UserEntryText.Text) };
         }
     }
 }

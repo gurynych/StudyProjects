@@ -50,6 +50,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Text}"
+                                  IsChecked="{Binding IsUserSelected}"
                                   Margin="10"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

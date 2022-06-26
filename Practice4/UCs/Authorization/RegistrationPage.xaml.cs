@@ -34,39 +34,39 @@ namespace Practice4.UCs.Authorization
 
         private void RegistrateNewAccount_Click(object sender, RoutedEventArgs e)
         {
-            password.Password = (EyeIcon.Kind.ToString() == "EyeOutline") ? password.Password : HiddenTextBox.Text;
-            if (username.Text.Length == 0)
-            {
-                OpenNotify("Введите имя пользователя");
-                return;
-            }
-            if (!IsValidEmail(email.Text))
-            {
-                OpenNotify("Введите корректный email");                
-                return;
-            }
-            if (!IsValidPassword(password.Password))
-            {
-                IconNotify.Visibility = Visibility.Visible;
-                OpenNotify("Введите корректный пароль!");                
-                return;
-            }
+            //password.Password = (EyeIcon.Kind.ToString() == "EyeOutline") ? password.Password : HiddenTextBox.Text;
+            //if (username.Text.Length == 0)
+            //{
+            //    OpenNotify("Введите имя пользователя");
+            //    return;
+            //}
+            //if (!IsValidEmail(email.Text))
+            //{
+            //    OpenNotify("Введите корректный email");                
+            //    return;
+            //}
+            //if (!IsValidPassword(password.Password))
+            //{
+            //    IconNotify.Visibility = Visibility.Visible;
+            //    OpenNotify("Введите корректный пароль!");                
+            //    return;
+            //}
 
-            IconNotify.Visibility = Visibility.Collapsed;           
+            //IconNotify.Visibility = Visibility.Collapsed;           
             
-            if (MainWindow.Instance.db.DbUsers.Any(u => u.Username == username.Text))
-            {
-                OpenNotify("Имя пользователя занято");
-                BorderNotify.Visibility = Visibility.Visible;
-                return;
-            }
+            //if (MainWindow.Instance.db.DbUsers.Any(u => u.Username == username.Text))
+            //{
+            //    OpenNotify("Имя пользователя занято");
+            //    BorderNotify.Visibility = Visibility.Visible;
+            //    return;
+            //}
 
-            if (MainWindow.Instance.db.DbUsers.Any(u => u.Email == email.Text))
-            {
-                OpenNotify("Email уже зарегистрирован");
-                BorderNotify.Visibility = Visibility.Visible;
-                return;
-            }
+            //if (MainWindow.Instance.db.DbUsers.Any(u => u.Email == email.Text))
+            //{
+            //    OpenNotify("Email уже зарегистрирован");
+            //    BorderNotify.Visibility = Visibility.Visible;
+            //    return;
+            //}
 
             DbUser user = new DbUser()
             {

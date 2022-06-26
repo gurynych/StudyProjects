@@ -18,14 +18,20 @@ namespace Practice4.UCs.Tests
     /// <summary>
     /// Логика взаимодействия для MultipleChoice.xaml
     /// </summary>
-    public partial class MultipleChoice : UserControl
+    public partial class MultipleChoice : UserControl, IQuestionControl
     {
-        public MultipleChoice(List<DbAnswer> answers)
+        private readonly DbQuestion Question;
+        public MultipleChoice(DbQuestion question)
         {
             InitializeComponent();
-            CheckBoxConteiner.ItemsSource = answers;
-            int aId = answers[0].DbQuestionId;      
-            QuestionText.Text = MainWindow.Instance.db.DbQuestions.FirstOrDefault(q => q.Id == aId).QuestionText;
+            Question = question;
+            CheckBoxConteiner.ItemsSource = question.DbAnswers;
+            QuestionText.Text = question.QuestionText;
+        }
+
+        public List<DbAnswer> GetUserAnswers()
+        {
+            return Question.DbAnswers.Where(x => x.IsUserSelected).ToList();
         }
     }
 }

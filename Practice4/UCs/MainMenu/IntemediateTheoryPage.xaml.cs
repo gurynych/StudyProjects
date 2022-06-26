@@ -26,22 +26,21 @@ namespace Practice4.UCs.MainMenu
         public IntermediateTheoryPage(List<DbTheory> ts)
         {
             InitializeComponent();
-            InitializeComponent();
-            theories = ts.ToList();
+
             TheoryTree.ItemsSource = new List<object>()
             {
                 new
                 {
-                    Topics = theories,
+                    Topics = ts,
                     Topic = "Теории"
                 }
             };
         }                 
 
-        public void GoToTheory_Click(object sender, RoutedEventArgs e)
+        private void TheoryTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Button button = sender as Button;
-            DbTheory theory = button.Tag as DbTheory;
+            TreeView button = sender as TreeView;
+            DbTheory theory = button.SelectedItem as DbTheory;
             MainWindow.Instance.SetPage(new TheoryPage(theory));
         }
     }

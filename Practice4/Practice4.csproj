@@ -105,6 +105,12 @@
     <Compile Include="UCs\Authorization\RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UCs\MainMenu\IntemediateTestPage.xaml.cs">
+      <DependentUpon>IntemediateTestPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\MainMenu\IntemediateTheoryPage.xaml.cs">
+      <DependentUpon>IntemediateTheoryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UCs\MainMenu\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
@@ -122,9 +128,6 @@
     </Compile>
     <Compile Include="UCs\Tests\SimpleChoice.xaml.cs">
       <DependentUpon>SimpleChoice.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UCs\Theory\IntermediateTheoryPage.xaml.cs">
-      <DependentUpon>IntermediateTheoryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UCs\Theory\TheoryPage.xaml.cs">
       <DependentUpon>TheoryPage.xaml</DependentUpon>
@@ -153,6 +156,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UCs\MainMenu\IntemediateTestPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\MainMenu\IntemediateTheoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UCs\MainMenu\UserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -174,10 +185,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UCs\Tests\SimpleChoice.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UCs\Theory\IntermediateTheoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

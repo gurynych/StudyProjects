@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Practice4.UCs.MainMenu"
-             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"             
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
 
@@ -52,15 +52,38 @@
                             <Button x:Name="button"
                                     Grid.Row="1"
                                     Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}"
-                                    md:ButtonAssist.CornerRadius="12.5"
-                                    Width="100"
+                                    md:ButtonAssist.CornerRadius="12.5"                                   
                                     Height="35"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
                                     Margin="5"
                                     Content="Изучить!"
                                     Tag="{Binding}"
-                                    Click="GoToTheory_Click"/>  
+                                    Click="GoToTheory_Click"/>
+
+                            <Button x:Name="buttonTest"
+                                    Grid.Row="1"
+                                    md:ButtonAssist.CornerRadius="12.5"                                   
+                                    Height="35"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Bottom"
+                                    Margin="5"
+                                    Content="Тестирование"
+                                    Tag="{Binding}"
+                                    Click="GoToTest_Click">
+                                <Button.Style>
+                                    <Style TargetType="Button"
+                                           BasedOn="{StaticResource MaterialDesignFlatSecondaryLightBgButton}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Questions.Count}"
+                                                 Value="0">
+                                                <Setter Property="Visibility"
+                                                Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                         </Grid>
                     </md:Card>
                 </DataTemplate>

@@ -21,7 +21,8 @@
         <local:StringToAllowedNubmerSymbolConverter x:Key="LimitedCountSym"/>
     </Window.Resources>
 
-    <md:DrawerHost HorizontalAlignment="Stretch"
+    <md:DrawerHost x:Name="drawer"
+                   HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"                   
                    BorderThickness="0"                   
                    IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
@@ -63,7 +64,7 @@
                             Margin="4"
                             Content="Теория"
                             HorizontalContentAlignment="Left"
-                            Click="GoIntermediateTheoryPage_Click">
+                            Click="GoToTreeTheory_Click">
                     </Button>
                 </StackPanel>
 
@@ -75,13 +76,13 @@
                                  Height="25" Width="25">
                     </md:PackIcon>
 
-
                     <Button x:Name="TestsButton"
                             Style="{StaticResource MaterialDesignFlatLightButton}"
                             HorizontalAlignment="Left"                            
                             Margin="4"
                             Content="Тесты"
-                            HorizontalContentAlignment="Left"/>
+                            HorizontalContentAlignment="Left"
+                            Click="GoToTreeTest_Click"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">

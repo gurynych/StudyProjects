@@ -76,9 +76,16 @@ namespace Practice4
             SetPage(new UserPage());
         }
 
-        private void GoIntermediateTheoryPage_Click(object sender, RoutedEventArgs e)
+        private void GoToTreeTheory_Click(object sender, RoutedEventArgs e)
         {
-            SetPage(new IntermediateTheoryPage(db.DbTheories));
+            SetPage(new IntermediateTheoryPage(db.DbTheories.ToList()));
+            MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null, drawer);
+        }
+
+        private void GoToTreeTest_Click(object sender, RoutedEventArgs e)
+        {
+            SetPage(new IntermediateTestPage(db.DbTheories.ToList()));
+            MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null, drawer);
         }
     }    
 }

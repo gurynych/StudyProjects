@@ -21,11 +21,11 @@ namespace Practice4.UCs.Tests
     public partial class SimpleChoice : UserControl
     {        
 
-        public SimpleChoice(List<DbAnswer> answers)
-        {
-            InitializeComponent();
-            RadioButtonConteiner.ItemsSource = answers;
-            QuestionText.Text = answers[0].DbQuestion.QuestionText;
+        public SimpleChoice(DbQuestion question)
+        {   
+            InitializeComponent(); 
+            RadioButtonConteiner.ItemsSource = question.DbAnswers;
+            QuestionText.Text = question.QuestionText;
         }
     }
 }

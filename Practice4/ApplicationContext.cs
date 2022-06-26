@@ -1,5 +1,7 @@
 ﻿using SQLite.CodeFirst;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -14,7 +16,7 @@ namespace Practice4
 
         public DbSet<DbQuestion> DbQuestions { get; set; }
         
-        public DbSet<DbAnswer> DbAnswers { get; set; }
+        public DbSet<DbAnswer> DbAnswers { get; set; }        
 
         public ApplicationContext() : base("DefaultConnection")
         {
@@ -34,6 +36,7 @@ namespace Practice4
             {
                 SaveChanges();
                 AddTheory();
+                SaveChanges();
                 AddTests();
                 SaveChanges();
             }
@@ -56,7 +59,7 @@ namespace Practice4
                 {
                     Topic = Path.GetFileNameWithoutExtension(dirTheory.GetFiles()[i].ToString().Remove(0, 1)),
                     Description = descriptions[i],
-                    FilePath = $"Theory\\{dirTheory.GetFiles()[i].Name}"
+                    FilePath = dirTheory.GetFiles()[i].FullName
                 });
             }
         }
@@ -67,26 +70,29 @@ namespace Practice4
 
             foreach (FileInfo test in dirTest.GetFiles())
             {
-                List<string> questionBlock = File.ReadAllText($"Tests\\{test.Name}")
-                    .Split('/')
-                    .Where(b => b != "")
+                List<string> questionBlock = File.ReadAllText(test.FullName)
+                    .Split(new char[] { '/' }, System.StringSplitOptions.RemoveEmptyEntries)
                     .ToList();
+
+                int id = int.Parse(test.Name.Split('.')[0]);
+                DbTheory theory = DbTheories.FirstOrDefault(x => x.Id == id);  
 
                 for (int i = 0; i < questionBlock.Count; i++)
                 {
                     List<string> linesInBlock = questionBlock[i]
                         .Split(new char[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries)
                         .ToList();
-
+                    
                     DbQuestion q = new DbQuestion()
                     {
                         Type = linesInBlock[0][0].ToString(),
                         QuestionText = linesInBlock[0].Remove(0, 1)
                     };
-                    DbQuestions.Add(q);
-                    linesInBlock.RemoveAt(0);
 
-                    foreach (string line in linesInBlock)
+                    DbQuestions.Add(q);
+                    theory.Questions.Add(q);
+
+                    foreach (string line in linesInBlock.Skip(1))
                     {
                         DbAnswer a = new DbAnswer()
                         {
@@ -95,7 +101,7 @@ namespace Practice4
                             DbQuestion = q
                         };
                         DbAnswers.Add(a);
-                    }                    
+                    }
                 }
             }
         }
@@ -112,6 +118,21 @@ namespace Practice4
         public string Password { get; set; }
     }
 
+    //public class DbUserStatistics
+    //{ 
+    //    public int Id { get; set; }
+
+    //    public string Username { get; set; }
+
+    //    public int Points2Test { get; set; }
+
+    //    public int Points4Test { get; set; }
+
+    //    public List<DbUser> users { get; set; }
+
+    //    public int DbUserId { get; set; }
+    //}
+    
     public class DbTheory
     {
         public int Id { get; set; }
@@ -120,9 +141,14 @@ namespace Practice4
 
         public string Description { get; set; }
 
-        public string FilePath { get; set; }
+        public string FilePath { get; set; }        
 
-        public bool HaveTest { get; set; }
+        public List<DbQuestion> Questions { get; set; }
+
+        public DbTheory()
+        {
+            Questions = new List<DbQuestion>();
+        }
     }
 
     public class DbQuestion
@@ -137,10 +163,10 @@ namespace Practice4
         /// Связь один ко многим
         /// </summary>
         public List<DbAnswer> DbAnswers { get; set; } = new List<DbAnswer>();              
+        
+        public DbTheory DbTheory { get; set; }
 
-        /// <summary>
-        /// https://metanit.com/sharp/entityframeworkcore/3.1.php
-        /// </summary>   
+        public int DbTheoryId { get; set; }
     }
 
     public class DbAnswer

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
@@ -33,9 +34,8 @@ namespace Practice4.UCs.MainMenu
                 MainWindow.Instance.MunuColorZone.Visibility = Visibility.Visible;
             }
 
-            MainWindow.Instance.PageInfo.Text = MainWindow.Instance.ActiveUser?.Username;
-            
-            CardConteiner.ItemsSource = MainWindow.Instance.db.DbTheories.ToList();
+            MainWindow.Instance.PageInfo.Text = MainWindow.Instance.ActiveUser.Username;
+            CardConteiner.ItemsSource = MainWindow.Instance.db.DbTheories.Include(x => x.Questions).ToList();
         }
         
         public void GoToTheory_Click(object sender, RoutedEventArgs e)
@@ -43,6 +43,11 @@ namespace Practice4.UCs.MainMenu
             Button button = sender as Button;
             DbTheory theory = button.Tag as DbTheory;
             MainWindow.Instance.SetPage(new TheoryPage(theory));
+        }
+
+        public void GoToTest_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

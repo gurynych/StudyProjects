@@ -10,7 +10,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.15*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -28,7 +28,7 @@
                              Margin="30,15,30,20"
                              UniformCornerRadius="8"
                              md:ShadowAssist.ShadowDepth="Depth3"
-                             md:ShadowAssist.ShadowEdges="All">
+                             md:ShadowAssist.ShadowEdges="Bottom">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
+using System.Linq;
 
 namespace Practice4
 {
-    internal class ApplicationContext : DbContext
+    public class ApplicationContext : DbContext
     {
         public DbSet<DbUser> DbUsers { get; set; }
 
@@ -32,12 +33,13 @@ namespace Practice4
             if (!File.Exists(path))
             {
                 SaveChanges();
-                Theory();
+                AddTheory();
+                AddTests();
                 SaveChanges();
             }
         }
 
-        public void Theory()
+        private void AddTheory()
         {
             DirectoryInfo dirTheory = new DirectoryInfo("Theory");
             List<string> descriptions = new List<string>()
@@ -52,10 +54,49 @@ namespace Practice4
             {
                 DbTheories.Add(new DbTheory()
                 {
-                    Topic = System.IO.Path.GetFileNameWithoutExtension(dirTheory.GetFiles()[i].ToString().Remove(0, 1)),
+                    Topic = Path.GetFileNameWithoutExtension(dirTheory.GetFiles()[i].ToString().Remove(0, 1)),
                     Description = descriptions[i],
                     FilePath = $"Theory\\{dirTheory.GetFiles()[i].Name}"
                 });
+            }
+        }
+
+        private void AddTests()
+        {
+            DirectoryInfo dirTest = new DirectoryInfo("Tests");
+
+            foreach (FileInfo test in dirTest.GetFiles())
+            {
+                List<string> questionBlock = File.ReadAllText($"Tests\\{test.Name}")
+                    .Split('/')
+                    .Where(b => b != "")
+                    .ToList();
+
+                for (int i = 0; i < questionBlock.Count; i++)
+                {
+                    List<string> linesInBlock = questionBlock[i]
+                        .Split(new char[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries)
+                        .ToList();
+
+                    DbQuestion q = new DbQuestion()
+                    {
+                        Type = linesInBlock[0][0].ToString(),
+                        QuestionText = linesInBlock[0].Remove(0, 1)
+                    };
+                    DbQuestions.Add(q);
+                    linesInBlock.RemoveAt(0);
+
+                    foreach (string line in linesInBlock)
+                    {
+                        DbAnswer a = new DbAnswer()
+                        {
+                            IsCorrect = line.Last() == '!',
+                            Text = line.Replace("!", ""),
+                            DbQuestion = q
+                        };
+                        DbAnswers.Add(a);
+                    }                    
+                }
             }
         }
     }
@@ -80,6 +121,8 @@ namespace Practice4
         public string Description { get; set; }
 
         public string FilePath { get; set; }
+
+        public bool HaveTest { get; set; }
     }
 
     public class DbQuestion

@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Practice4.UCs.MainMenu;
+using Practice4.UCs.Tests;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,42 +25,43 @@ namespace Practice4.UCs.Authorization
     /// Логика взаимодействия для LoginPage.xaml
     /// </summary>
     public partial class LoginPage : UserControl
-    {
-        private readonly ApplicationContext db;
+    {        
         
         public LoginPage()
         {
-            InitializeComponent();
-            db = new ApplicationContext();         
+            InitializeComponent();         
         }
 
-        private void DataVerification_Click(object sender, RoutedEventArgs e)
+        private async void DataVerification_Click(object sender, RoutedEventArgs e)
         {
-            password.Password = (EyeIcon.Kind.ToString() == "EyeOutline") ? password.Password : HiddenTextBox.Text;
-            if (username.Text.Length == 0)
-            {
-                TextBlockNotify.Text = "Ввeдите имя пользователя";
-                BorderNotify.Visibility = Visibility.Visible;
-                return;
-            }
-            if (password.Password.Length == 0)
-            {
-                TextBlockNotify.Text = "Ввeдите пароль";
-                BorderNotify.Visibility = Visibility.Visible;
-                return;
-            }
+            //password.Password = (EyeIcon.Kind.ToString() == "EyeOutline") ? password.Password : HiddenTextBox.Text;
+            //if (username.Text.Length == 0)
+            //{
+            //    TextBlockNotify.Text = "Ввeдите имя пользователя";
+            //    BorderNotify.Visibility = Visibility.Visible;
+            //    return;
+            //}
+            //if (password.Password.Length == 0)
+            //{
+            //    TextBlockNotify.Text = "Ввeдите пароль";
+            //    BorderNotify.Visibility = Visibility.Visible;
+            //    return;
+            //}
 
-            DbUser user = db.DbUsers.FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
-            if (user == null)
-            {
-                TextBlockNotify.Text = "Неверный логин или пароль";
-                BorderNotify.Visibility = Visibility.Visible;
-                return;
-            }
+            //DbUser user = MainWindow.Instance.db.DbUsers.FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
+            //if (user == null)
+            //{
+            //    TextBlockNotify.Text = "Неверный логин или пароль";
+            //    BorderNotify.Visibility = Visibility.Visible;
+            //    return;
+            //}
 
-            MainWindow.Instance.ActiveUser = user;
-            MainWindow.Instance.SetPage(new UserPage());
-        }        
+            //MainWindow.Instance.ActiveUser = user;
+            //MainWindow.Instance.SetPage(new UserPage());            
+            MainWindow.Instance.SetPage(new SimpleChoice(MainWindow.Instance.db.DbAnswers.Include(a=>a.DbQuestion)
+                .Where(a => a.DbQuestionId == 1)
+                .ToList()));
+        }
 
         private void Username_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {

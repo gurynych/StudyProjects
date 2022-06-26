@@ -33,6 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -110,6 +111,21 @@
     <Compile Include="UCs\Start\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UCs\Tests\DragAndDrop.xaml.cs">
+      <DependentUpon>DragAndDrop.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Tests\InputVar.xaml.cs">
+      <DependentUpon>InputVar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Tests\MultipleChoice.xaml.cs">
+      <DependentUpon>MultipleChoice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Tests\SimpleChoice.xaml.cs">
+      <DependentUpon>SimpleChoice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Theory\IntermediateTheoryPage.xaml.cs">
+      <DependentUpon>IntermediateTheoryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UCs\Theory\TheoryPage.xaml.cs">
       <DependentUpon>TheoryPage.xaml</DependentUpon>
     </Compile>
@@ -142,6 +158,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UCs\Start\StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Tests\DragAndDrop.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Tests\InputVar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Tests\MultipleChoice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Tests\SimpleChoice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Theory\IntermediateTheoryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

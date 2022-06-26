@@ -24,14 +24,12 @@ namespace Practice4.UCs.Authorization
     /// Логика взаимодействия для RegistrationPage.xaml
     /// </summary>
     public partial class RegistrationPage : UserControl
-    {
-        private readonly ApplicationContext db;
+    {        
         private int CorrectPasswLength = 8;
 
         public RegistrationPage()
         {            
-            InitializeComponent();
-            db = new ApplicationContext();
+            InitializeComponent();           
         }
 
         private void RegistrateNewAccount_Click(object sender, RoutedEventArgs e)
@@ -54,16 +52,16 @@ namespace Practice4.UCs.Authorization
                 return;
             }
 
-            IconNotify.Visibility = Visibility.Collapsed;            
+            IconNotify.Visibility = Visibility.Collapsed;           
             
-            if (db.DbUsers.Any(u => u.Username == username.Text))
+            if (MainWindow.Instance.db.DbUsers.Any(u => u.Username == username.Text))
             {
                 OpenNotify("Имя пользователя занято");
                 BorderNotify.Visibility = Visibility.Visible;
                 return;
             }
 
-            if (db.DbUsers.Any(u => u.Email == email.Text))
+            if (MainWindow.Instance.db.DbUsers.Any(u => u.Email == email.Text))
             {
                 OpenNotify("Email уже зарегистрирован");
                 BorderNotify.Visibility = Visibility.Visible;
@@ -75,10 +73,10 @@ namespace Practice4.UCs.Authorization
                 Username = username.Text,
                 Email = email.Text,
                 Password = password.Password,
-            };            
+            };
 
-            db.DbUsers.Add(user);
-            db.SaveChanges();
+            MainWindow.Instance.db.DbUsers.Add(user);
+            MainWindow.Instance.db.SaveChanges();
 
             MainWindow.Instance.ActiveUser = user;
             MainWindow.Instance.SetPage(new UserPage());

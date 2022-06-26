@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Packaging;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,31 +13,33 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MaterialDesignThemes.Wpf;
-using Practice4.UCs.Theory;
 
-namespace Practice4.UCs.MainMenu
+namespace Practice4.UCs.Theory
 {
     /// <summary>
-    /// Логика взаимодействия для UserPage.xaml
+    /// Логика взаимодействия для IntermediateTheoryPage.xaml
     /// </summary>
-    public partial class UserPage : UserControl
-    {        
-        public UserPage()
+    public partial class IntermediateTheoryPage : UserControl
+    {
+
+        List<DbTheory> theories;
+
+        public IntermediateTheoryPage(DbSet<DbTheory> ts)
         {
             InitializeComponent();
-            if (MainWindow.Instance.MunuColorZone != null)
+            theories = ts.ToList();
+            TheoryTree.ItemsSource = new List<object>()
             {
-                MainWindow.Instance.MunuColorZone.Visibility = Visibility.Visible;
-            }
-
-            MainWindow.Instance.PageInfo.Text = MainWindow.Instance.ActiveUser?.Username;
-            
-            CardConteiner.ItemsSource = MainWindow.Instance.db.DbTheories.ToList();
+                new
+                {
+                    Topics = theories,
+                    Topic = "Теории"
+                }
+            };
         }
-        
+
         public void GoToTheory_Click(object sender, RoutedEventArgs e)
-        { 
+        {
             Button button = sender as Button;
             DbTheory theory = button.Tag as DbTheory;
             MainWindow.Instance.SetPage(new TheoryPage(theory));

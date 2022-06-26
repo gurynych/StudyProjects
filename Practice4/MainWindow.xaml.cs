@@ -20,6 +20,7 @@ using MaterialDesignThemes.Wpf.Transitions;
 using Practice4.UCs.Start;
 using System.Data.Entity;
 using Practice4.UCs.MainMenu;
+using Practice4.UCs.Theory;
 
 namespace Practice4 
 {
@@ -32,18 +33,12 @@ namespace Practice4
 
         public static MainWindow Instance { get; private set; }
 
+        public ApplicationContext db;
+
         public MainWindow() 
         {
-            InitializeComponent();            
-
-            //DbQuestion q = new DbQuestion() { Type = "1", QuestionText = "1"};
-            //Db.DbQuestions.Add(q);
-            //DbAnswer a = new DbAnswer() { Text = "123", IsCorrect = true, DbQuestion = q};
-            //DbAnswer a1 = new DbAnswer() { Text = "456", DbQuestion = q};
-            //Db.DbAnswers.AddRange(new List<DbAnswer>() { a, a1 });            
-            //List<DbQuestion> test = db.DbQuestions.Include(q => q.DbAnswers).ToList();
-            
-            Instance = this;            
+            InitializeComponent();
+            Instance = this;         
         }
 
         private bool IsFirstSlide = false;
@@ -72,23 +67,18 @@ namespace Practice4
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetPage(new AuthorizationSlides());
-            ApplicationContext db = new ApplicationContext();
+            db = new ApplicationContext();
             db.Load();
-
-            //TheoryTree.ItemsSource = new List<object>()
-            //{
-            //    new
-            //    {
-            //        Topics = db.DbTheories.ToList(),
-            //        Topic = "Теории"
-            //    }
-            //};
         }
 
         private void GoUserPage_Click(object sender, RoutedEventArgs e)
         {
-            //Scroll
             SetPage(new UserPage());
+        }
+
+        private void GoIntermediateTheoryPage_Click(object sender, RoutedEventArgs e)
+        {
+            SetPage(new IntermediateTheoryPage(db.DbTheories));
         }
     }    
 }

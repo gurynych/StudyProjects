@@ -42,7 +42,7 @@
                         <Border.Background>
                             <SolidColorBrush Color="#FF0085CA" Opacity="0.2"/>
                         </Border.Background>
-                        <Image Source="D:\GurilaFolder\Practice4\Images\icon_user.png"
+                        <Image Source="\Images\icon_user.png"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Height="100" Width="100">
@@ -51,7 +51,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <md:PackIcon Foreground="{DynamicResource SecondaryHueLightBrush}"
+                    <md:PackIcon Foreground="{DynamicResource PrimaryHueLightBrush}"
                                  Kind="TextBoxOutline"
                                  Margin="0,0,10,0"
                                  VerticalAlignment="Center"                                
@@ -62,18 +62,9 @@
                             HorizontalAlignment="Left"                        
                             Margin="4"
                             Content="Теория"
-                            HorizontalContentAlignment="Left">
+                            HorizontalContentAlignment="Left"
+                            Click="GoIntermediateTheoryPage_Click">
                     </Button>
-
-                    <!--<TreeView x:Name="TheoryTree"
-                              MinWidth="120">
-                        <TreeView.ItemTemplate>
-                            <HierarchicalDataTemplate ItemsSource="{Binding Topics}">
-                                <TextBlock Text="{Binding Topic, Converter={StaticResource LimitedCountSym}, ConverterParameter=8}"
-                                           Foreground="{DynamicResource PrimaryHueLightBrush}"/>
-                            </HierarchicalDataTemplate>
-                        </TreeView.ItemTemplate>
-                    </TreeView>-->
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -153,13 +144,14 @@
                         <StackPanel Orientation="Horizontal"
                                     Grid.Column="0">
                             <ToggleButton x:Name="MenuToggleButton"
-                                      Style="{StaticResource MaterialDesignHamburgerToggleButton}"
-                                      Command="{x:Static md:DrawerHost.OpenDrawerCommand}"
-                                      IsChecked="False"
-                                      AutomationProperties.Name="HamburgerToggleButton"/>
+                                          Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                          Command="{x:Static md:DrawerHost.OpenDrawerCommand}"
+                                          IsChecked="False"
+                                          AutomationProperties.Name="HamburgerToggleButton"/>
                             <TextBlock x:Name="PageInfo"
-                                   VerticalAlignment="Center"
-                                   Margin="100,0,0,0"/>
+                                       VerticalAlignment="Center"
+                                       Margin="100,0,0,0"
+                                       FontSize="16"/>
                         </StackPanel>
                         <Button Grid.Column="1"
                                 ToolTip="На главную"                                
@@ -173,29 +165,25 @@
                 </DockPanel>
             </md:ColorZone>
 
-            <ScrollViewer x:Name="Scroll"
-                          VerticalScrollBarVisibility="Auto"
-                          Grid.Row="1">
-                <md:Transitioner x:Name="Container"
-                                 SelectedIndex="0"
-                                 AutoApplyTransitionOrigins="True">
-                    <md:TransitionerSlide x:Name="slide1">
-                        <md:TransitionerSlide.ForwardWipe>
-                            <md:SlideOutWipe/>
-                        </md:TransitionerSlide.ForwardWipe>
-                    </md:TransitionerSlide>
-                    <md:TransitionerSlide x:Name="slide2">
-                        <md:TransitionerSlide.OpeningEffects>
-                            <md:TransitionEffect Kind="SlideInFromRight"/>
-                            <md:TransitionEffect Kind="SlideInFromBottom"/>
-                        </md:TransitionerSlide.OpeningEffects>
+            <md:Transitioner x:Name="Container"
+                             SelectedIndex="0"
+                             Grid.Row="1">
+                <md:TransitionerSlide x:Name="slide1">
+                    <md:TransitionerSlide.ForwardWipe>
+                        <md:SlideOutWipe/>
+                    </md:TransitionerSlide.ForwardWipe>
+                </md:TransitionerSlide>
+                <md:TransitionerSlide x:Name="slide2">
+                    <md:TransitionerSlide.OpeningEffects>
+                        <md:TransitionEffect Kind="SlideInFromRight"/>
+                        <md:TransitionEffect Kind="SlideInFromBottom"/>
+                    </md:TransitionerSlide.OpeningEffects>
 
-                        <md:TransitionerSlide.BackwardWipe>
-                            <md:SlideOutWipe/>
-                        </md:TransitionerSlide.BackwardWipe>
-                    </md:TransitionerSlide>
-                </md:Transitioner>
-            </ScrollViewer>
+                    <md:TransitionerSlide.BackwardWipe>
+                        <md:SlideOutWipe/>
+                    </md:TransitionerSlide.BackwardWipe>
+                </md:TransitionerSlide>
+            </md:Transitioner>
         </Grid>
 
     </md:DrawerHost>

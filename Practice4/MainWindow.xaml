@@ -23,7 +23,7 @@
 
     <md:DrawerHost x:Name="drawer"
                    HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch"                   
+                   VerticalAlignment="Stretch"        
                    BorderThickness="0"                   
                    IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
                    BorderBrush="{DynamicResource MaterialDesignDivider}"
@@ -99,6 +99,7 @@
                             Width="150"
                             Margin="4"
                             Content="Статистика"
+                            Click="GoToStatistic_Click"
                             HorizontalContentAlignment="Left">
                     </Button>
                 </StackPanel>
@@ -151,7 +152,7 @@
                                           AutomationProperties.Name="HamburgerToggleButton"/>
                             <TextBlock x:Name="PageInfo"
                                        VerticalAlignment="Center"
-                                       Margin="100,0,0,0"
+                                       Margin="15,0,0,0"
                                        FontSize="16"/>
                         </StackPanel>
                         <Button Grid.Column="1"

@@ -90,6 +90,12 @@ namespace Practice4
             MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null, drawer);
         }
 
+        private void GoToStatistic_Click(object sender, RoutedEventArgs e)
+        {
+            SetPage(new StatisticPage());
+            MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null, drawer);
+        }
+
         private void ExitFromApp_Click(object sender, RoutedEventArgs e)
         {
             Close();

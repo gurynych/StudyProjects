@@ -110,6 +110,9 @@
     <Compile Include="UCs\MainMenu\IntemediateTheoryPage.xaml.cs">
       <DependentUpon>IntemediateTheoryPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UCs\MainMenu\StatisticPage.xaml.cs">
+      <DependentUpon>StatisticPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UCs\MainMenu\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
@@ -164,6 +167,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UCs\MainMenu\IntemediateTheoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\MainMenu\StatisticPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

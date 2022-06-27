@@ -20,21 +20,27 @@ namespace Practice4
         
         public DbSet<DbTest> DbTests { get; set; }
 
+        public DbSet<DbStatistic> DbStatistics { get; set; }
+
+
+        private static readonly string DbPath = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.Split('=')[1];
+
         public ApplicationContext() : base("DefaultConnection")
         {
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<ApplicationContext>(modelBuilder, true);
-            Database.SetInitializer(sqliteConnectionInitializer);
+            if (!File.Exists(DbPath))
+            {
+                var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<ApplicationContext>(modelBuilder);
+                Database.SetInitializer(sqliteConnectionInitializer);
+            }
         }
 
         public void Load()
         {
-            string path = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.Split('=')[1];
-
-            if (!File.Exists(path))
+            if (!File.Exists(DbPath))
             {
                 SaveChanges();
                 AddTheory();
@@ -89,7 +95,7 @@ namespace Practice4
                     DbQuestion q = new DbQuestion()
                     {
                         Type = linesInBlock[0][0].ToString(),
-                        QuestionText = linesInBlock[0].Remove(0, 1)
+                        QuestionText = linesInBlock[0].Remove(0, 1),
                     };
 
                     DbQuestions.Add(q);
@@ -103,7 +109,7 @@ namespace Practice4
                             Text = line.Replace("!", ""),
                             DbQuestion = q
                         };
-                        DbAnswers.Add(a);
+                        DbAnswers.Add(a); 
                     }
                 }
 
@@ -122,12 +128,27 @@ namespace Practice4
 
         public string Password { get; set; }
 
-        public List<DbTest> FinishedTests { get; set; }
+        public List<DbStatistic> DbStatistics { get; set; }
 
         public DbUser()
         {
-            FinishedTests = new List<DbTest>();
+            DbStatistics = new List<DbStatistic>();
         }
+    }
+
+    public class DbStatistic
+    {
+        public int Id { get; set; }
+
+        public int DbUserId { get; set; }
+
+        public int DbTestId { get; set; }
+
+        public int Score { get; set; }
+
+        public DbUser DbUser { get; set; }
+
+        public DbTest DbTest  { get; set; }
     }
 
     public class DbTest
@@ -141,13 +162,13 @@ namespace Practice4
 
         public List<DbQuestion> Questions { get; set; }
 
-        public List<DbUser> DbUsers { get; set; }
+        public List<DbStatistic> DbStatistics { get; set; }
 
         public DbTest()
         {
             DbTheories = new List<DbTheory>();
             Questions = new List<DbQuestion>();
-            DbUsers = new List<DbUser>();
+            DbStatistics = new List<DbStatistic>();
         }
     }
 
@@ -200,8 +221,12 @@ namespace Practice4
         public bool IsUserSelected { get; set; }
 
         public DbQuestion DbQuestion { get; set; }
+        public DbAnswer()
+        {
 
-        public DbAnswer(string text = "")
+        }
+
+        public DbAnswer(string text)
         {
             Text = text;
         }

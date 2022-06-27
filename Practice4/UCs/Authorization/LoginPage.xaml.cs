@@ -32,9 +32,9 @@ namespace Practice4.UCs.Authorization
             InitializeComponent();         
         }
 
-        private async void DataVerification_Click(object sender, RoutedEventArgs e)
+        private void DataVerification_Click(object sender, RoutedEventArgs e)
         {
-            password.Password = (EyeIcon.Kind.ToString() == "EyeOutline") ? password.Password : HiddenTextBox.Text;
+            password.Password = EyeIcon.Kind == PackIconKind.EyeOutline ? password.Password : HiddenTextBox.Text;
             if (username.Text.Length == 0)
             {
                 TextBlockNotify.Text = "Ввeдите имя пользователя";
@@ -47,6 +47,7 @@ namespace Practice4.UCs.Authorization
                 BorderNotify.Visibility = Visibility.Visible;
                 return;
             }
+
 
             DbUser user = MainWindow.Instance.db.DbUsers.FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
             if (user == null)
@@ -79,7 +80,8 @@ namespace Practice4.UCs.Authorization
             {
                 return;
             }
-            if (EyeIcon.Kind.ToString() == "EyeOffOutline")
+
+            if (EyeIcon.Kind == PackIconKind.EyeOffOutline)
             {
                 Binding bindingForeground = new Binding();
                 bindingForeground.ElementName = password.Name;

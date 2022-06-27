@@ -31,7 +31,7 @@ namespace Practice4.UCs.Tests
 
         public List<DbAnswer> GetUserAnswers()
         {
-            return new List<DbAnswer>() { Question.DbAnswers.First(x => x.IsUserSelected) };
+            return new List<DbAnswer>() { Question.DbAnswers.FirstOrDefault(x => x.IsUserSelected) };
         }
     }
 }

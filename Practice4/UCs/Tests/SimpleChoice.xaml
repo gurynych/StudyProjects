@@ -8,28 +8,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-
-        <TextBlock Grid.Row="0"
-                   Grid.ColumnSpan="2"
-                   x:Name="QuestionText"
+        <TextBlock x:Name="QuestionText"
                    Margin="50,35,50,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    FontSize="20"
                    TextWrapping="Wrap"/>
-        <md:Card Grid.Row="0"
-                 Grid.ColumnSpan="2"
-                 VerticalAlignment="Center"
+        <md:Card VerticalAlignment="Center"
                  HorizontalAlignment="Center"
-                 Padding="8"
+                 Padding="15"
+                 Margin="15,20,15,0"
                  UniformCornerRadius="8"
                  md:ShadowAssist.ShadowDepth="Depth3"
                  md:ShadowAssist.ShadowEdges="Bottom">
@@ -45,39 +33,13 @@
                                      Margin="10"
                                      IsChecked="{Binding IsUserSelected}"
                                      Tag="{Binding}"
-                                     Style="{StaticResource MaterialDesignAccentRadioButton}" 
-                                     Content="{Binding Text}"/>
+                                     Style="{StaticResource MaterialDesignAccentRadioButton}">
+                            <TextBlock Text="{Binding Text}"
+                                       TextWrapping="Wrap"/>
+                        </RadioButton>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </md:Card>
-
-        <Button Grid.Column="0"
-                Grid.Row="1"
-                HorizontalAlignment="Left"
-                Margin="15,0,0,0"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                Style="{StaticResource MaterialDesignFloatingActionButton}"
-                ToolTip="Предыдущий вопрос">
-            <md:PackIcon Kind="ArrowLeft"
-                         Height="50"
-                         Width="50"
-                         Foreground="{DynamicResource SecondaryHueLightBrush}"/>
-        </Button>
-
-        <Button Grid.Column="1"
-                Grid.Row="1"
-                HorizontalAlignment="Right"
-                Margin="0,0,25,0"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                Style="{StaticResource MaterialDesignFloatingActionButton}"
-                ToolTip="Следующий вопрос">
-            <md:PackIcon Kind="ArrowRight"
-                         Height="50"
-                         Width="50"
-                         Foreground="{DynamicResource SecondaryHueLightBrush}"/>
-        </Button>
     </Grid>
 </UserControl>

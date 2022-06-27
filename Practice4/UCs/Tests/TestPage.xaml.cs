@@ -22,36 +22,55 @@ namespace Practice4.UCs.Tests
     {
         private readonly DbTest Test;
         private int currentQuestion;
-        private IQuestionControl control;
-        private MaterialDesignThemes.Wpf.PackIcon nextIcon;
+        private List<IQuestionControl> controls;
 
         public TestPage(DbTest test)
         {
             InitializeComponent();
 
-            currentQuestion = 0;
-            nextIcon = GoToNext.Content as MaterialDesignThemes.Wpf.PackIcon;
+            currentQuestion = 0;         
             Test = test;
 
-            UpdateButtons();
+            controls = new List<IQuestionControl>();
+            foreach (DbQuestion question in test.Questions)
+            {
+                controls.Add(GetControlForQuestionType(question));
+            }
+
+            ShowCurrentQuestion();
         }
 
         public void ShowCurrentQuestion()
         {
-            DbQuestion question = Test.Questions.ElementAt(currentQuestion);
-            control = GetControlForQuestionType(question);
-            testContainer.Content = control;
+            UpdateButtons();
+            testContainer.Content = controls[currentQuestion];
+        }
+
+        private void GoToPrevious_Click(object sender, RoutedEventArgs e)
+        {
+            currentQuestion--;
+            ShowCurrentQuestion();
+        }
+
+        private void GoToNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentQuestion == Test.Questions.Count - 1)
+            {
+                CalculateResults();
+                return;
+            }
+
+            currentQuestion++;
+            ShowCurrentQuestion();
         }
 
         private void UpdateButtons()
         {
             GoToPrevious.IsEnabled = true;
             GoToNext.IsEnabled = true;
-
-            if (GoToNext.Content != nextIcon)
-            {
-                GoToNext.Content = nextIcon;
-            }
+            GoToNext.ToolTip = "Следующий вопрос";
+            var icon = GoToNext.Content as MaterialDesignThemes.Wpf.PackIcon;
+            icon.Kind = MaterialDesignThemes.Wpf.PackIconKind.ArrowRight;
 
             if (currentQuestion == 0)
             {
@@ -60,23 +79,10 @@ namespace Practice4.UCs.Tests
 
             if (currentQuestion == Test.Questions.Count - 1)
             {
-                GoToNext.Content = "Результаты";
+                icon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Send;
+                GoToNext.ToolTip = "Просмотр результата";
             }
-        }
-
-        private void GoToPrevious_Click(object sender, RoutedEventArgs e)
-        {
-            currentQuestion--;
-            ShowCurrentQuestion();
-            UpdateButtons();
-        }
-
-        private void GoToNext_Click(object sender, RoutedEventArgs e)
-        {
-            currentQuestion++;
-            ShowCurrentQuestion();
-            UpdateButtons();
-        }
+        }        
 
         private static IQuestionControl GetControlForQuestionType(DbQuestion question)
         {
@@ -97,6 +103,61 @@ namespace Practice4.UCs.Tests
             }
 
             return null;
+        }
+
+        private void CalculateResults()
+        {
+            DbStatistic statistic = new DbStatistic();
+            int i = 0;
+            foreach (DbQuestion q in Test.Questions)
+            {                
+                List<DbAnswer> correctAnswers = q.DbAnswers.Where(a => a.IsCorrect).ToList();
+                List<DbAnswer> userAnswer = controls[i].GetUserAnswers();                
+                if (correctAnswers.Count == userAnswer.Count && q.Type != "i")
+                {
+                    if (correctAnswers.All(userAnswer.Contains))
+                    {
+                        statistic.DbTest = Test;
+                        statistic.DbUser = MainWindow.Instance.ActiveUser;
+                        statistic.Score++;
+                    }
+                }
+                else if (q.Type == "i" && q.DbAnswers[0].Text == controls[i].GetUserAnswers()[0].Text)
+                {
+                    controls[i].GetUserAnswers()[0].IsCorrect = true;
+                    statistic.DbTest = Test;
+                    statistic.DbUser = MainWindow.Instance.ActiveUser;
+                    statistic.Score++;
+                }
+                i++;
+            }
+
+            MainWindow.Instance.db.DbStatistics.Add(statistic);
+            MainWindow.Instance.db.SaveChanges();
+            Test.DbStatistics.Add(statistic);
+            MainWindow.Instance.ActiveUser.DbStatistics.Add(statistic);
+            MainWindow.Instance.db.SaveChanges();
+
+            //IEnumerable<DbStatistic> temp = MainWindow.Instance.db.DbStatistics
+            //    .Where(s => s.DbUser.Id == statistic.DbUser.Id && 
+            //    s.DbTestId == statistic.DbUserId);
+
+            //if (!temp.Any())
+            //{
+            //    MainWindow.Instance.db.DbStatistics.Add(statistic);
+            //    MainWindow.Instance.db.SaveChanges();
+            //    Test.DbStatistics.Add(statistic);                
+            //}
+            //else if (Test.Id == 1 || Test.Id == 2)
+            //{
+            //    MainWindow.Instance.db.DbStatistics.Remove(
+            //        MainWindow.Instance.ActiveUser.DbStatistics.FirstOrDefault(s => s.DbTestId == Test.Id));
+            //    MainWindow.Instance.db.DbStatistics.Add(statistic);
+            //    //MainWindow.Instance.ActiveUser.DbStatistics.Remove()
+            //}
+            //else return;
+            //MainWindow.Instance.ActiveUser.DbStatistics.Add(statistic);
+            //MainWindow.Instance.db.SaveChanges();
         }
     }   
 }

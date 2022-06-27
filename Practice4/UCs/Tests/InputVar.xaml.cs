@@ -27,8 +27,8 @@ namespace Practice4.UCs.Tests
         }
 
         public List<DbAnswer> GetUserAnswers()
-        {
-            return new List<DbAnswer>() { new DbAnswer(UserEntryText.Text) };
+        {            
+            return new List<DbAnswer>() { new DbAnswer(UserEntryText.Text.Replace(" ","")) };
         }
     }
 }

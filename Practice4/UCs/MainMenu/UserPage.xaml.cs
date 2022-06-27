@@ -36,7 +36,11 @@ namespace Practice4.UCs.MainMenu
             }
 
             MainWindow.Instance.PageInfo.Text = MainWindow.Instance.ActiveUser.Username;
-            CardConteiner.ItemsSource = MainWindow.Instance.db.DbTheories.Include(x => x.DbTest).Include(x => x.DbTest.Questions).ToList();
+            CardConteiner.ItemsSource = MainWindow.Instance.db.DbTheories
+                .Include(x => x.DbTest)
+                .Include(x => x.DbTest.Questions)
+                .Include(x => x.DbTest.Questions.Select(s => s.DbAnswers))
+                .ToList();
         }
         
         public void GoToTheory_Click(object sender, RoutedEventArgs e)
@@ -48,8 +52,9 @@ namespace Practice4.UCs.MainMenu
 
         public void GoToTest_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.Instance.db.DbTests.Include(t => t.DbTheories).Include(t => t.Questions);
             Button button = sender as Button;
-            DbTest test = button.Tag as DbTest;
+            DbTest test = button.Tag as DbTest;                 
             MainWindow.Instance.SetPage(new TestPage(test));
         }
     }

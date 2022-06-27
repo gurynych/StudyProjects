@@ -38,7 +38,12 @@ namespace Practice4
         public MainWindow() 
         {
             InitializeComponent();
-            Instance = this;         
+            Instance = this;
+
+            SetPage(new AuthorizationSlides());
+            db = new ApplicationContext();
+            db.Load();
+            db.SaveChanges();
         }
 
         private bool IsFirstSlide = false;
@@ -65,10 +70,7 @@ namespace Practice4
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            SetPage(new AuthorizationSlides());
-            db = new ApplicationContext();
-            db.Load();
+        {         
         }
 
         private void GoUserPage_Click(object sender, RoutedEventArgs e)

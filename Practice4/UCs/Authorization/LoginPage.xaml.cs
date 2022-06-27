@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Practice4.UCs.MainMenu;
+using Practice4.UCs.Tests;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,18 +25,16 @@ namespace Practice4.UCs.Authorization
     /// Логика взаимодействия для LoginPage.xaml
     /// </summary>
     public partial class LoginPage : UserControl
-    {
-        private readonly ApplicationContext db;
+    {        
         
         public LoginPage()
         {
-            InitializeComponent();
-            db = new ApplicationContext();         
+            InitializeComponent();         
         }
 
         private void DataVerification_Click(object sender, RoutedEventArgs e)
         {
-            password.Password = (EyeIcon.Kind.ToString() == "EyeOutline") ? password.Password : HiddenTextBox.Text;
+            password.Password = EyeIcon.Kind == PackIconKind.EyeOutline ? password.Password : HiddenTextBox.Text;
             if (username.Text.Length == 0)
             {
                 TextBlockNotify.Text = "Ввeдите имя пользователя";
@@ -49,7 +48,8 @@ namespace Practice4.UCs.Authorization
                 return;
             }
 
-            DbUser user = db.DbUsers.FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
+
+            DbUser user = MainWindow.Instance.db.DbUsers.Include(x => x.DbStatistics).FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
             if (user == null)
             {
                 TextBlockNotify.Text = "Неверный логин или пароль";
@@ -59,7 +59,9 @@ namespace Practice4.UCs.Authorization
 
             MainWindow.Instance.ActiveUser = user;
             MainWindow.Instance.SetPage(new UserPage());
-        }        
+            //MainWindow.Instance.SetPage(new SimpleChoice(MainWindow.Instance.db.DbQuestions.Include(q => q.DbAnswers)
+            //    .First()));
+        }
 
         private void Username_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -78,7 +80,8 @@ namespace Practice4.UCs.Authorization
             {
                 return;
             }
-            if (EyeIcon.Kind.ToString() == "EyeOffOutline")
+
+            if (EyeIcon.Kind == PackIconKind.EyeOffOutline)
             {
                 Binding bindingForeground = new Binding();
                 bindingForeground.ElementName = password.Name;

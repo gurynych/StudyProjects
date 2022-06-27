@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Practice4.UCs.Theory.IntermediateTheoryPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Practice4.UCs.Theory"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid>
+        <TreeView x:Name="TheoryTree"
+                  MinWidth="150"
+                  Margin="30">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Topics}">
+                    <Button Content="{Binding Topic}"
+                            Style="{StaticResource MaterialDesignFlatLightButton}"
+                            Foreground="{DynamicResource PrimaryHueLightBrush}"
+                            Click="GoToTheory_Click"
+                            Tag="{Binding}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
+</UserControl>

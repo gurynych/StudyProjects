@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Practice4.UCs.Tests.TestPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:Practice4.UCs.Tests"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <md:Transitioner x:Name="container"/>
+
+        <Button Grid.Row="1"
+                HorizontalAlignment="Left"
+                Margin="15,0,0,5"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Style="{StaticResource MaterialDesignFloatingActionButton}"
+                ToolTip="Предыдущий вопрос"
+                x:Name="GoToPrevious"
+                Click="GoToPrevious_Click">
+            <md:PackIcon Kind="ArrowLeft"
+                         Height="50"
+                         Width="50"
+                         Foreground="{DynamicResource SecondaryHueLightBrush}"/>
+        </Button>
+
+        <Button Grid.Row="1"
+                HorizontalAlignment="Right"
+                Margin="0,0,15,5"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Style="{StaticResource MaterialDesignFloatingActionButton}"
+                ToolTip="Следующий вопрос"
+                x:Name="GoToNext"
+                Click="GoToNext_Click">
+            <md:PackIcon Kind="ArrowRight"
+                         Height="50"
+                         Width="50"
+                         Foreground="{DynamicResource SecondaryHueLightBrush}"/>
+        </Button>
+    </Grid>
+</UserControl>

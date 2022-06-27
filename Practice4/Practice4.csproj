@@ -33,6 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -93,7 +94,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationContext.cs" />
-    <Compile Include="DataBase.cs" />
+    <Compile Include="StringToAllowedNubmerSymbolConverter.cs" />
     <Compile Include="UCs\Authorization\AuthorizationSlides.xaml.cs">
       <DependentUpon>AuthorizationSlides.xaml</DependentUpon>
     </Compile>
@@ -103,11 +104,36 @@
     <Compile Include="UCs\Authorization\RegistrationPage.xaml.cs">
       <DependentUpon>RegistrationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UCs\MainMenu\IntemediateTestPage.xaml.cs">
+      <DependentUpon>IntemediateTestPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\MainMenu\IntemediateTheoryPage.xaml.cs">
+      <DependentUpon>IntemediateTheoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\MainMenu\StatisticPage.xaml.cs">
+      <DependentUpon>StatisticPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UCs\MainMenu\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UCs\Start\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Tests\InputVar.xaml.cs">
+      <DependentUpon>InputVar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Tests\IQuestionControl.cs" />
+    <Compile Include="UCs\Tests\MultipleChoice.xaml.cs">
+      <DependentUpon>MultipleChoice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Tests\ResultPage.xaml.cs">
+      <DependentUpon>ResultPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Tests\SimpleChoice.xaml.cs">
+      <DependentUpon>SimpleChoice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Tests\TestPage.xaml.cs">
+      <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UCs\Theory\TheoryPage.xaml.cs">
       <DependentUpon>TheoryPage.xaml</DependentUpon>
@@ -136,11 +162,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UCs\MainMenu\IntemediateTestPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\MainMenu\IntemediateTheoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\MainMenu\StatisticPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UCs\MainMenu\UserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UCs\Start\StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Tests\InputVar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Tests\MultipleChoice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Tests\ResultPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Tests\SimpleChoice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Tests\TestPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -184,6 +242,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\blockchain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Images\blokchein_i_ii.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

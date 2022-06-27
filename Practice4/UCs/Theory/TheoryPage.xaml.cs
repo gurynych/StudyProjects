@@ -21,13 +21,13 @@ namespace Practice4.UCs.Theory
     /// </summary>
     public partial class TheoryPage : UserControl
     {
-        public TheoryPage(string path)
+        public TheoryPage(DbTheory theory)
         {
             InitializeComponent();
 
+            MainWindow.Instance.PageInfo.Text = theory.Topic;
             TextRange tr = new TextRange(TheoryRichText.Document.ContentStart, TheoryRichText.Document.ContentEnd);
-
-            using (FileStream fs = File.Open(path, FileMode.Open))
+            using (FileStream fs = File.Open(theory.FilePath, FileMode.Open))
             {
                 tr.Load(fs, DataFormats.Rtf);
             };

@@ -1,11 +1,14 @@
 ﻿using SQLite.CodeFirst;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.IO;
+using System.Linq;
 
 namespace Practice4
 {
-    internal class ApplicationContext : DbContext
+    public class ApplicationContext : DbContext
     {
         public DbSet<DbUser> DbUsers { get; set; }
 
@@ -14,6 +17,13 @@ namespace Practice4
         public DbSet<DbQuestion> DbQuestions { get; set; }
         
         public DbSet<DbAnswer> DbAnswers { get; set; }
+        
+        public DbSet<DbTest> DbTests { get; set; }
+
+        public DbSet<DbStatistic> DbStatistics { get; set; }
+
+
+        private static readonly string DbPath = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.Split('=')[1];
 
         public ApplicationContext() : base("DefaultConnection")
         {
@@ -21,23 +31,26 @@ namespace Practice4
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<ApplicationContext>(modelBuilder, true);
-            Database.SetInitializer(sqliteConnectionInitializer);
+            if (!File.Exists(DbPath))
+            {
+                var sqliteConnectionInitializer = new SqliteCreateDatabaseIfNotExists<ApplicationContext>(modelBuilder);
+                Database.SetInitializer(sqliteConnectionInitializer);
+            }
         }
 
         public void Load()
         {
-            string path = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString.Split('=')[1];
-
-            if (!File.Exists(path))
+            if (!File.Exists(DbPath))
             {
                 SaveChanges();
-                Theory();
+                AddTheory();
+                SaveChanges();
+                AddTests();
                 SaveChanges();
             }
         }
 
-        public void Theory()
+        private void AddTheory()
         {
             DirectoryInfo dirTheory = new DirectoryInfo("Theory");
             List<string> descriptions = new List<string>()
@@ -52,10 +65,57 @@ namespace Practice4
             {
                 DbTheories.Add(new DbTheory()
                 {
-                    Topic = System.IO.Path.GetFileNameWithoutExtension(dirTheory.GetFiles()[i].ToString().Remove(0, 1)),
+                    Topic = Path.GetFileNameWithoutExtension(dirTheory.GetFiles()[i].ToString().Remove(0, 1)),
                     Description = descriptions[i],
-                    FilePath = $"Theory\\{dirTheory.GetFiles()[i].Name}"
+                    FilePath = dirTheory.GetFiles()[i].FullName
                 });
+            }
+        }
+
+        private void AddTests()
+        {
+            DirectoryInfo dirTest = new DirectoryInfo("Tests");
+
+            foreach (FileInfo test in dirTest.GetFiles())
+            {
+                DbTest dbTest = new DbTest();
+                List<string> questionBlock = File.ReadAllText(test.FullName)
+                    .Split(new char[] { '/' }, System.StringSplitOptions.RemoveEmptyEntries)
+                    .ToList();
+
+                if (int.TryParse(test.Name.Split('.')[0], out int id))
+                {                
+                    dbTest.DbTheories.Add(DbTheories.FirstOrDefault(x => x.Id == id));
+                }
+
+                for (int i = 0; i < questionBlock.Count; i++)
+                {
+                    List<string> linesInBlock = questionBlock[i]
+                        .Split(new char[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries)
+                        .ToList();
+                    
+                    DbQuestion q = new DbQuestion()
+                    {
+                        Type = linesInBlock[0][0].ToString(),
+                        QuestionText = linesInBlock[0].Remove(0, 1),
+                    };
+
+                    DbQuestions.Add(q);
+                    dbTest.Questions.Add(q);
+
+                    foreach (string line in linesInBlock.Skip(1))
+                    {
+                        DbAnswer a = new DbAnswer()
+                        {
+                            IsCorrect = line.Last() == '!',
+                            Text = line.Replace("!", ""),
+                            DbQuestion = q
+                        };
+                        DbAnswers.Add(a); 
+                    }
+                }
+
+                DbTests.Add(dbTest);
             }
         }
     }
@@ -69,6 +129,49 @@ namespace Practice4
         public string Email { get; set; }
 
         public string Password { get; set; }
+
+        public List<DbStatistic> DbStatistics { get; set; }
+
+        public DbUser()
+        {
+            DbStatistics = new List<DbStatistic>();
+        }
+    }
+
+    public class DbStatistic
+    {
+        public int Id { get; set; }
+
+        public int DbUserId { get; set; }
+
+        public int DbTestId { get; set; }
+
+        public int Score { get; set; }
+
+        public DbUser DbUser { get; set; }
+
+        public DbTest DbTest  { get; set; }
+    }
+
+    public class DbTest
+    {
+        public int Id { get; set; }
+
+        [NotMapped]
+        public string Name => DbTheories.Any() ? DbTheories.First().Topic : "Итоговый тест";
+
+        public List<DbTheory> DbTheories { get; set; }
+
+        public List<DbQuestion> Questions { get; set; }
+
+        public List<DbStatistic> DbStatistics { get; set; }
+
+        public DbTest()
+        {
+            DbTheories = new List<DbTheory>();
+            Questions = new List<DbQuestion>();
+            DbStatistics = new List<DbStatistic>();
+        }
     }
 
     public class DbTheory
@@ -79,7 +182,11 @@ namespace Practice4
 
         public string Description { get; set; }
 
-        public string FilePath { get; set; }
+        public string FilePath { get; set; }   
+
+        public int DbTestId { get; set; }
+
+        public DbTest DbTest { get; set; }
     }
 
     public class DbQuestion
@@ -89,15 +196,17 @@ namespace Practice4
         public string Type { get; set; }
 
         public string QuestionText { get; set; }
+      
+        public List<DbAnswer> DbAnswers { get; set; }
+        
+        public DbTheory DbTheory { get; set; }
 
-        /// <summary>
-        /// Связь один ко многим
-        /// </summary>
-        public List<DbAnswer> DbAnswers { get; set; } = new List<DbAnswer>();              
+        public int DbTheoryId { get; set; }
 
-        /// <summary>
-        /// https://metanit.com/sharp/entityframeworkcore/3.1.php
-        /// </summary>   
+        public DbQuestion()
+        {
+            DbAnswers = new List<DbAnswer>();
+        }
     }
 
     public class DbAnswer
@@ -110,6 +219,18 @@ namespace Practice4
 
         public bool IsCorrect { get; set; }
 
+        [NotMapped]
+        public bool IsUserSelected { get; set; }
+
         public DbQuestion DbQuestion { get; set; }
+        public DbAnswer()
+        {
+
+        }
+
+        public DbAnswer(string text)
+        {
+            Text = text;
+        }
     }
 }

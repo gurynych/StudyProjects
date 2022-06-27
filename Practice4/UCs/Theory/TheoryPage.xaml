@@ -7,12 +7,15 @@
              xmlns:us="clr-namespace:Practice4.UCs.MainMenu"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    <StackPanel Orientation="Vertical">
-        <TextBlock x:Name="TheoryTitle"/>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="30">
-                <RichTextBox x:Name="TheoryRichText"/>
-            </StackPanel>
-        </ScrollViewer>
-    </StackPanel>
+    <ScrollViewer x:Name="Scroll"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical">
+            <TextBlock x:Name="TheoryTitle"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="30">
+                    <RichTextBox x:Name="TheoryRichText" IsReadOnly="True"/>
+                </StackPanel>
+            </ScrollViewer>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice4"
         xmlns:mainmenu="clr-namespace:Practice4.UCs.MainMenu"
-        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"        
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         Loaded="Window_Loaded"
@@ -17,10 +17,13 @@
         WindowStyle="SingleBorderWindow"
         Title="Blockchain" Height="600" Width="800"
         MinHeight="400" MinWidth="500">
+    <Window.Resources>
+        <local:StringToAllowedNubmerSymbolConverter x:Key="LimitedCountSym"/>
+    </Window.Resources>
 
-
-    <md:DrawerHost HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch"                   
+    <md:DrawerHost x:Name="drawer"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"        
                    BorderThickness="0"                   
                    IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}"
                    BorderBrush="{DynamicResource MaterialDesignDivider}"
@@ -40,7 +43,7 @@
                         <Border.Background>
                             <SolidColorBrush Color="#FF0085CA" Opacity="0.2"/>
                         </Border.Background>
-                        <Image Source="D:\GurilaFolder\Practice4\Images\icon_user.png"
+                        <Image Source="\Images\icon_user.png"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Height="100" Width="100">
@@ -49,23 +52,20 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <md:PackIcon 
+                    <md:PackIcon Foreground="{DynamicResource PrimaryHueLightBrush}"
                                  Kind="TextBoxOutline"
                                  Margin="0,0,10,0"
                                  VerticalAlignment="Center"                                
                                  Height="25" Width="25">
                     </md:PackIcon>
-                    <!--<Button x:Name="TheoryButton"
+                    <Button x:Name="TheoryButton"
                             Style="{StaticResource MaterialDesignFlatLightButton}"
                             HorizontalAlignment="Left"                        
                             Margin="4"
                             Content="Теория"
-                            HorizontalContentAlignment="Left">
-                    </Button>-->
-
-                    <TreeView x:Name="TheoryTree"
-                              MinWidth="120">
-                    </TreeView>
+                            HorizontalContentAlignment="Left"
+                            Click="GoToTreeTheory_Click">
+                    </Button>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -76,13 +76,13 @@
                                  Height="25" Width="25">
                     </md:PackIcon>
 
-
                     <Button x:Name="TestsButton"
                             Style="{StaticResource MaterialDesignFlatLightButton}"
                             HorizontalAlignment="Left"                            
                             Margin="4"
                             Content="Тесты"
-                            HorizontalContentAlignment="Left"/>
+                            HorizontalContentAlignment="Left"
+                            Click="GoToTreeTest_Click"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="5">
@@ -99,6 +99,7 @@
                             Width="150"
                             Margin="4"
                             Content="Статистика"
+                            Click="GoToStatistic_Click"
                             HorizontalContentAlignment="Left">
                     </Button>
                 </StackPanel>
@@ -107,12 +108,12 @@
                     <md:PackIcon Foreground="{Binding ElementName=StatisticButton, Path=Foreground}"
                                  Kind="ExitToApp"
                                  Margin="0,0,10,0"
-                                 VerticalAlignment="Center"                                
+                                 VerticalAlignment="Center"
                                  Height="25" Width="25">
                     </md:PackIcon>
 
                     <Button x:Name="ExitButton"
-                            Command="{x:Static md:DrawerHost.CloseDrawerCommand}"
+                            Click="ExitFromApp_Click"
                             Margin="4"
                             Width="150"
                             Height="50"
@@ -137,41 +138,54 @@
                           md:ShadowAssist.ShadowDepth="Depth2"
                           Grid.Row="0">
                 <DockPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <ToggleButton x:Name="MenuToggleButton"
-                                      Style="{StaticResource MaterialDesignHamburgerToggleButton}"
-                                      Command="{x:Static md:DrawerHost.OpenDrawerCommand}"
-                                      IsChecked="False"
-                                      AutomationProperties.Name="HamburgerToggleButton"/>
-                        <TextBlock x:Name="PageInfo"
-                                   VerticalAlignment="Center"
-                                   Margin="100,0,0,0"/>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Column="0">
+                            <ToggleButton x:Name="MenuToggleButton"
+                                          Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                          Command="{x:Static md:DrawerHost.OpenDrawerCommand}"
+                                          IsChecked="False"
+                                          AutomationProperties.Name="HamburgerToggleButton"/>
+                            <TextBlock x:Name="PageInfo"
+                                       VerticalAlignment="Center"
+                                       Margin="15,0,0,0"
+                                       FontSize="16"/>
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                ToolTip="На главную"                                
+                                Click="GoUserPage_Click"
+                                Content="{md:PackIcon Kind=Home, Size=30}"
+                                Style="{StaticResource MaterialDesignToolButton}"
+                                Margin="0,0,20,0"
+                                VerticalAlignment="Center"                                
+                                Foreground="Black"/>
+                    </Grid>
                 </DockPanel>
             </md:ColorZone>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          Grid.Row="1">
-                <md:Transitioner x:Name="Container"
-                                 SelectedIndex="0"
-                                 AutoApplyTransitionOrigins="True">
-                    <md:TransitionerSlide x:Name="slide1">
-                        <md:TransitionerSlide.ForwardWipe>
-                            <md:SlideOutWipe/>
-                        </md:TransitionerSlide.ForwardWipe>
-                    </md:TransitionerSlide>
-                    <md:TransitionerSlide x:Name="slide2">
-                        <md:TransitionerSlide.OpeningEffects>
-                            <md:TransitionEffect Kind="SlideInFromRight"/>
-                            <md:TransitionEffect Kind="SlideInFromBottom"/>
-                        </md:TransitionerSlide.OpeningEffects>
+            <md:Transitioner x:Name="Container"
+                             SelectedIndex="0"
+                             Grid.Row="1">
+                <md:TransitionerSlide x:Name="slide1">
+                    <md:TransitionerSlide.ForwardWipe>
+                        <md:SlideOutWipe/>
+                    </md:TransitionerSlide.ForwardWipe>
+                </md:TransitionerSlide>
+                <md:TransitionerSlide x:Name="slide2">
+                    <md:TransitionerSlide.OpeningEffects>
+                        <md:TransitionEffect Kind="SlideInFromRight"/>
+                        <md:TransitionEffect Kind="SlideInFromBottom"/>
+                    </md:TransitionerSlide.OpeningEffects>
 
-                        <md:TransitionerSlide.BackwardWipe>
-                            <md:SlideOutWipe/>
-                        </md:TransitionerSlide.BackwardWipe>
-                    </md:TransitionerSlide>
-                </md:Transitioner>
-            </ScrollViewer>
+                    <md:TransitionerSlide.BackwardWipe>
+                        <md:SlideOutWipe/>
+                    </md:TransitionerSlide.BackwardWipe>
+                </md:TransitionerSlide>
+            </md:Transitioner>
         </Grid>
 
     </md:DrawerHost>

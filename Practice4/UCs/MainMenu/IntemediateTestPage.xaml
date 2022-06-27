@@ -8,13 +8,14 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <TreeView x:Name="TheoryTree"
-                  MinWidth="150" SelectedItemChanged="TheoryTree_SelectedItemChanged"
-                  Margin="30">
+                  MinWidth="150"
+                  Margin="30"
+                  SelectedItemChanged="TheoryTree_SelectedItemChanged">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Names}">
                     <TextBlock Text="{Binding Name}"
-                            Foreground="{DynamicResource PrimaryHueLightBrush}"
-                            Tag="{Binding}"/>
+                               Foreground="{DynamicResource PrimaryHueLightBrush}"
+                               Tag="{Binding}"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

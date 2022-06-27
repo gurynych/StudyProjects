@@ -34,11 +34,16 @@ namespace Practice4.UCs.MainMenu
             };
         }                        
 
-        private void TreeViewItem_Click(object sender, RoutedEventArgs e)
+        private void TheoryTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Button button = sender as Button;
-            if (button.Content.ToString() == "Теории") return;
-            DbTheory theory = button.Tag as DbTheory;
+            TreeView tv = sender as TreeView;
+            DbTheory theory = tv.SelectedItem as DbTheory;
+
+            if (theory == null)
+            {
+                return;
+            }
+
             MainWindow.Instance.SetPage(new TheoryPage(theory));
         }
     }

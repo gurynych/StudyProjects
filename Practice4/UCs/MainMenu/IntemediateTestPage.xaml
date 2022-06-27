@@ -8,15 +8,13 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <TreeView x:Name="TheoryTree"
-                  MinWidth="150"
+                  MinWidth="150" SelectedItemChanged="TheoryTree_SelectedItemChanged"
                   Margin="30">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Names}">
-                    <Button Content="{Binding Name}"
+                    <TextBlock Text="{Binding Name}"
                             Foreground="{DynamicResource PrimaryHueLightBrush}"
-                            Tag="{Binding}"
-                            Click="TreeViewItem_Click"
-                            Style="{StaticResource MaterialDesignFlatLightButton}"/>
+                            Tag="{Binding}"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

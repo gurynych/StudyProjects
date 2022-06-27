@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf.Transitions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,16 +35,27 @@ namespace Practice4.UCs.Tests
             controls = new List<IQuestionControl>();
             foreach (DbQuestion question in test.Questions)
             {
-                controls.Add(GetControlForQuestionType(question));
+                IQuestionControl control = GetControlForQuestionType(question);
+                TransitionerSlide slide = new TransitionerSlide()
+                {
+                    Content = control,
+                    OpeningEffect = new TransitionEffect() { Kind = TransitionEffectKind.FadeIn }
+                };
+
+                controls.Add(control);
+                container.Items.Add(slide);
             }
 
+            container.SelectedIndex = 0;
             ShowCurrentQuestion();
         }
+
+        
 
         public void ShowCurrentQuestion()
         {
             UpdateButtons();
-            testContainer.Content = controls[currentQuestion];
+            container.SelectedIndex = currentQuestion;
         }
 
         private void GoToPrevious_Click(object sender, RoutedEventArgs e)
@@ -135,6 +147,7 @@ namespace Practice4.UCs.Tests
                 {
                     score++;
                 }
+
                 q.DbAnswers.ForEach(x => x.IsUserSelected = false);
                 i++;
             }

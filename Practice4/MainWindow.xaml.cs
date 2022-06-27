@@ -89,5 +89,10 @@ namespace Practice4
             SetPage(new IntermediateTestPage(db.DbTests.Include(x => x.DbTheories).Include(x => x.Questions).ToList()));
             MaterialDesignThemes.Wpf.DrawerHost.CloseDrawerCommand.Execute(null, drawer);
         }
+
+        private void ExitFromApp_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }    
 }

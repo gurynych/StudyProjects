@@ -16,20 +16,14 @@ using System.Windows.Shapes;
 namespace Practice4.UCs.Tests
 {
     /// <summary>
-    /// Логика взаимодействия для InputVar.xaml
+    /// Логика взаимодействия для ResultPage.xaml
     /// </summary>
-    public partial class InputVar : UserControl, IQuestionControl
+    public partial class ResultPage : UserControl
     {
-        public InputVar(DbQuestion question)
+        public ResultPage(DbTest test)
         {
             InitializeComponent();
-            QuestionText.Text = question.QuestionText;
-            UserEntryText.Focus();
-        }
-
-        public List<DbAnswer> GetUserAnswers()
-        {            
-            return new List<DbAnswer>() { new DbAnswer(UserEntryText.Text.Replace(" ","").ToLower())};
+            ResultText.Text = MainWindow.Instance.ActiveUser.DbStatistics[0].Score.ToString() + "/" + test.Questions.Count;
         }
     }
 }

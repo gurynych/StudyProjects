@@ -20,7 +20,7 @@
                  UniformCornerRadius="8"
                  md:ShadowAssist.ShadowDepth="Depth3"
                  md:ShadowAssist.ShadowEdges="Bottom">
-            <TextBox x:Name="UserEntryText"                 
+            <TextBox x:Name="UserEntryText"                           
                      md:HintAssist.Hint="Ответ"
                      md:HintAssist.Foreground="{DynamicResource SecondaryHueLightBrush}"
                      md:TextFieldAssist.UnderlineBrush="{DynamicResource PrimaryHueMidBrush}"                             

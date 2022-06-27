@@ -116,15 +116,15 @@
     <Compile Include="UCs\Start\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UCs\Tests\DragAndDrop.xaml.cs">
-      <DependentUpon>DragAndDrop.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UCs\Tests\InputVar.xaml.cs">
       <DependentUpon>InputVar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UCs\Tests\IQuestionControl.cs" />
     <Compile Include="UCs\Tests\MultipleChoice.xaml.cs">
       <DependentUpon>MultipleChoice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UCs\Tests\ResultPage.xaml.cs">
+      <DependentUpon>ResultPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UCs\Tests\SimpleChoice.xaml.cs">
       <DependentUpon>SimpleChoice.xaml</DependentUpon>
@@ -175,15 +175,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UCs\Tests\DragAndDrop.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UCs\Tests\InputVar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UCs\Tests\MultipleChoice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UCs\Tests\ResultPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

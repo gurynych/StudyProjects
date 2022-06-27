@@ -49,7 +49,7 @@ namespace Practice4.UCs.Authorization
             }
 
 
-            DbUser user = MainWindow.Instance.db.DbUsers.FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
+            DbUser user = MainWindow.Instance.db.DbUsers.Include(x => x.DbStatistics).FirstOrDefault(u => u.Username == username.Text && u.Password == password.Password);
             if (user == null)
             {
                 TextBlockNotify.Text = "Неверный логин или пароль";

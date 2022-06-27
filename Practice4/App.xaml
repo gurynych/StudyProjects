@@ -8,7 +8,7 @@
         <ResourceDictionary>
             <!--<SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#FFE0E0"/>-->
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Dark"  PrimaryColor="DeepPurple" SecondaryColor="Orange"/>
+                <materialDesign:BundledTheme BaseTheme="Dark"  PrimaryColor="Indigo" SecondaryColor="Orange"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

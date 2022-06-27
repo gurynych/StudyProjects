@@ -83,8 +83,10 @@ namespace Practice4
                     .Split(new char[] { '/' }, System.StringSplitOptions.RemoveEmptyEntries)
                     .ToList();
 
-                int id = int.Parse(test.Name.Split('.')[0]);
-                dbTest.DbTheories.Add(DbTheories.FirstOrDefault(x => x.Id == id));
+                if (int.TryParse(test.Name.Split('.')[0], out int id))
+                {                
+                    dbTest.DbTheories.Add(DbTheories.FirstOrDefault(x => x.Id == id));
+                }
 
                 for (int i = 0; i < questionBlock.Count; i++)
                 {

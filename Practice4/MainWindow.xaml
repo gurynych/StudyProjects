@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice4"
         xmlns:mainmenu="clr-namespace:Practice4.UCs.MainMenu"
-        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"        
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         Loaded="Window_Loaded"
@@ -107,12 +107,12 @@
                     <md:PackIcon Foreground="{Binding ElementName=StatisticButton, Path=Foreground}"
                                  Kind="ExitToApp"
                                  Margin="0,0,10,0"
-                                 VerticalAlignment="Center"                                
+                                 VerticalAlignment="Center"
                                  Height="25" Width="25">
                     </md:PackIcon>
 
                     <Button x:Name="ExitButton"
-                            Command="{x:Static md:DrawerHost.CloseDrawerCommand}"
+                            Click="ExitFromApp_Click"
                             Margin="4"
                             Width="150"
                             Height="50"

@@ -25,22 +25,23 @@ namespace Practice4.UCs.MainMenu
         public IntermediateTestPage(List<DbTest> ts)
         {
             InitializeComponent();
-
             TheoryTree.ItemsSource = new List<object>()
             {
                 new
                 {
-                    Topics = ts.Select(x => new { Topic = x.Name }),
-                    Topic = "Тесты"
+                    Names = ts,
+                    Name = "Тесты"
                 }
             };
         }
 
-        private void TestTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+
+        private void TreeViewItem_Click(object sender, RoutedEventArgs e)
         {
-            TreeView tv = sender as TreeView;
-            DbTest test = tv.SelectedItem as DbTest;
+            Button button = sender as Button;
+            if (button.Content.ToString() == "Тесты") return;
+            DbTest test = button.Tag as DbTest;
             MainWindow.Instance.SetPage(new TestPage(test));
-        }
+        }        
     }
 }

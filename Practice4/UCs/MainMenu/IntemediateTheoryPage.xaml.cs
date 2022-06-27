@@ -21,12 +21,9 @@ namespace Practice4.UCs.MainMenu
     /// </summary>
     public partial class IntermediateTheoryPage : UserControl
     {
-        List<DbTheory> theories;
-
         public IntermediateTheoryPage(List<DbTheory> ts)
         {
-            InitializeComponent();
-
+            InitializeComponent();     
             TheoryTree.ItemsSource = new List<object>()
             {
                 new
@@ -35,12 +32,13 @@ namespace Practice4.UCs.MainMenu
                     Topic = "Теории"
                 }
             };
-        }                 
+        }                        
 
-        private void TheoryTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void TreeViewItem_Click(object sender, RoutedEventArgs e)
         {
-            TreeView button = sender as TreeView;
-            DbTheory theory = button.SelectedItem as DbTheory;
+            Button button = sender as Button;
+            if (button.Content.ToString() == "Теории") return;
+            DbTheory theory = button.Tag as DbTheory;
             MainWindow.Instance.SetPage(new TheoryPage(theory));
         }
     }

@@ -34,10 +34,14 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Content="{Binding Text}"
+                        <CheckBox MaxWidth="250"
                                   IsChecked="{Binding IsUserSelected}"
                                   Margin="10"
-                                  Style="{StaticResource MaterialDesignAccentCheckBox}"/>
+                                  Padding="10"
+                                  Style="{StaticResource MaterialDesignAccentCheckBox}">
+                            <TextBlock Text="{Binding Text}"
+                                       TextWrapping="Wrap"/>
+                        </CheckBox>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

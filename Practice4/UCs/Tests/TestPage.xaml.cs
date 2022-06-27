@@ -57,6 +57,7 @@ namespace Practice4.UCs.Tests
             if (currentQuestion == Test.Questions.Count - 1)
             {
                 CalculateResults();
+                MainWindow.Instance.SetPage(new ResultPage(Test));
                 return;
             }
 
@@ -107,57 +108,39 @@ namespace Practice4.UCs.Tests
 
         private void CalculateResults()
         {
-            DbStatistic statistic = new DbStatistic();
+            DbStatistic statistic = MainWindow.Instance.ActiveUser.DbStatistics.FirstOrDefault(x => x.DbTestId == Test.Id);
+            if (statistic == null)
+            {
+                statistic = new DbStatistic();
+                statistic.DbTest = Test;
+                statistic.DbUser = MainWindow.Instance.ActiveUser;
+
+                MainWindow.Instance.db.DbStatistics.Add(statistic);
+            }
+
+            int score = 0;
             int i = 0;
             foreach (DbQuestion q in Test.Questions)
             {                
                 List<DbAnswer> correctAnswers = q.DbAnswers.Where(a => a.IsCorrect).ToList();
-                List<DbAnswer> userAnswer = controls[i].GetUserAnswers();                
+                List<DbAnswer> userAnswer = controls[i].GetUserAnswers();
                 if (correctAnswers.Count == userAnswer.Count && q.Type != "i")
                 {
                     if (correctAnswers.All(userAnswer.Contains))
                     {
-                        statistic.DbTest = Test;
-                        statistic.DbUser = MainWindow.Instance.ActiveUser;
-                        statistic.Score++;
+                        score++;
                     }
                 }
-                else if (q.Type == "i" && q.DbAnswers[0].Text == controls[i].GetUserAnswers()[0].Text)
+                else if (q.Type == "i" && correctAnswers[0].Text.ToLower() == userAnswer[0].Text)
                 {
-                    controls[i].GetUserAnswers()[0].IsCorrect = true;
-                    statistic.DbTest = Test;
-                    statistic.DbUser = MainWindow.Instance.ActiveUser;
-                    statistic.Score++;
+                    score++;
                 }
+                q.DbAnswers.ForEach(x => x.IsUserSelected = false);
                 i++;
             }
 
-            MainWindow.Instance.db.DbStatistics.Add(statistic);
+            statistic.Score = score;
             MainWindow.Instance.db.SaveChanges();
-            Test.DbStatistics.Add(statistic);
-            MainWindow.Instance.ActiveUser.DbStatistics.Add(statistic);
-            MainWindow.Instance.db.SaveChanges();
-
-            //IEnumerable<DbStatistic> temp = MainWindow.Instance.db.DbStatistics
-            //    .Where(s => s.DbUser.Id == statistic.DbUser.Id && 
-            //    s.DbTestId == statistic.DbUserId);
-
-            //if (!temp.Any())
-            //{
-            //    MainWindow.Instance.db.DbStatistics.Add(statistic);
-            //    MainWindow.Instance.db.SaveChanges();
-            //    Test.DbStatistics.Add(statistic);                
-            //}
-            //else if (Test.Id == 1 || Test.Id == 2)
-            //{
-            //    MainWindow.Instance.db.DbStatistics.Remove(
-            //        MainWindow.Instance.ActiveUser.DbStatistics.FirstOrDefault(s => s.DbTestId == Test.Id));
-            //    MainWindow.Instance.db.DbStatistics.Add(statistic);
-            //    //MainWindow.Instance.ActiveUser.DbStatistics.Remove()
-            //}
-            //else return;
-            //MainWindow.Instance.ActiveUser.DbStatistics.Add(statistic);
-            //MainWindow.Instance.db.SaveChanges();
         }
     }   
 }

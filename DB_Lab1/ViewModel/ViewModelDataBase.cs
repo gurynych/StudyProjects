@@ -131,14 +131,6 @@ namespace DB_Lab1.ViewModel
 
                 sheets = workbook.Sheets;
 
-                /*for (int i = 0; i < sheets.Count; i++)
-                {
-                    if (tableNames.Contains(((Excel.Worksheet)sheets[i]).Name))
-                    {
-                        ((Excel.Worksheet)workbook.Sheets[i]).Delete();
-                    }                            
-                }*/
-
                 int index = 1;
 
                 foreach (Excel.Worksheet sheet in sheets)
@@ -151,7 +143,6 @@ namespace DB_Lab1.ViewModel
                     }
 
                     index++;
-                    //System.Runtime.InteropServices.Marshal.ReleaseComObject(sheet);
                 }
 
                 newSheet = sheets.Add(sheets[1], Type.Missing, Type.Missing, Type.Missing);
@@ -178,11 +169,7 @@ namespace DB_Lab1.ViewModel
                             cells[i, j] = DataTable.Rows[i][j].ToString();
                         }
                     }
-                newSheet.Range[newSheet.Cells[2, 1], newSheet.Cells[rowsCount + 1, columnsCount]].Value = cells;
-
-                /*workbook.Save();
-                workbook.Close(null, null, null);
-                excelApp.Quit();*/                
+                newSheet.Range[newSheet.Cells[2, 1], newSheet.Cells[rowsCount + 1, columnsCount]].Value = cells;                
             }
             catch
             {
@@ -190,13 +177,6 @@ namespace DB_Lab1.ViewModel
             }
             finally
             {
-                /*System.Runtime.InteropServices.Marshal.ReleaseComObject(newSheet);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(sheets);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
-
-                GC.Collect();*/
-                
                 if (isExists)
                 {
                     workbook.Save();

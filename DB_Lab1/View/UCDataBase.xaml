@@ -1,0 +1,320 @@
+﻿<UserControl x:Class="DB_Lab1.View.UCDataBase"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DB_Lab1.View"
+             xmlns:vm="clr-namespace:DB_Lab1.ViewModel"             
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             DataContext="{Binding ViewModelDataBase, Source={StaticResource vmLocator}}">
+
+    <UserControl.Resources>
+        <ControlTemplate x:Key="validationFailed">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Red" BorderThickness="1.5">
+                    <AdornedElementPlaceholder />
+                </Border>
+                <TextBlock Foreground="Red" 
+                           FontSize="20" 
+                           FontWeight="Bold"
+                           Margin="5,0">!</TextBlock>
+            </StackPanel>
+        </ControlTemplate>
+        <Style TargetType="TextBox"
+               x:Key="validationText">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Self},
+                            Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.75*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid Grid.Column="1"
+                  Grid.RowSpan="10"
+                  ItemsSource="{Binding DataTable}"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,25,0,0">
+                <Expander Header="Задание 1"
+                          Margin="0,5">
+                    <UniformGrid Columns="2" 
+                                 Margin="0,5">
+                        <StackPanel HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="Введите фамилию:"
+                                       Padding="10,0,0,0"
+                                       FontSize="14"/>
+                            <TextBox Width="200"
+                                     FontSize="14"
+                                     Padding="5"
+                                     Margin="10"
+                                     Validation.ErrorTemplate="{StaticResource validationFailed}"                                     
+                                     Style="{StaticResource validationText}">
+                                <TextBox.Text>
+                                    <Binding Path="StudentLastName"
+                                             NotifyOnValidationError="True"
+                                             ValidatesOnDataErrors="True"
+                                             UpdateSourceTrigger="PropertyChanged">
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+                        <Button Content="Найти студентов"
+                                Grid.Row="1"
+                                FontSize="14"    
+                                Padding="5"
+                                Margin="10"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Width="{Binding Width, ElementName=textBox}"
+                                Command="{Binding SelectStudentsByLastname}"/>
+                    </UniformGrid>
+                </Expander>
+
+                <Expander Header="Задание 2"
+                          Margin="0,5">
+                    <Button Content="Вычислить возраст для студентов-юношей"
+                            Grid.Row="2"
+                            FontSize="14"                
+                            Padding="5"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"                
+                            Command="{Binding CalculateAges}"/>
+                </Expander>
+
+                <Expander Header="Задание 3"
+                          Margin="0,5">
+                    <UniformGrid Columns="2" 
+                                 Margin="0,5">
+                        <StackPanel Grid.Row="3"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="Введите номер группы:"                                          
+                                       Padding="10,0,0,0"                       
+                                       FontSize="14"/>
+                            <TextBox Width="200"
+                                     FontSize="14"                 
+                                     Padding="5"              
+                                     Margin="10"
+                                     Style="{StaticResource validationText}"
+                                     Validation.ErrorTemplate="{StaticResource validationFailed}">
+                                <TextBox.Text>
+                                    <Binding Path="StudentGroup"
+                                             NotifyOnValidationError="True"
+                                             ValidatesOnDataErrors="True"
+                                             UpdateSourceTrigger="PropertyChanged">
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+                        <Button Content="Найти студентов"
+                                Grid.Row="3"
+                                FontSize="14"               
+                                Padding="5"
+                                Margin="10"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Width="{Binding Width, ElementName=textBox}"
+                                Command="{Binding SelectStudentsByGroup}"/>
+                    </UniformGrid>
+                </Expander>
+
+                <Expander Header="Задание 4"
+                          Margin="0,5">
+                    <UniformGrid Columns="2"
+                                 Margin="0,5">
+                        <StackPanel Grid.Row="4"                    
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="Введите год рождения:"
+                                       Padding="10,0,0,0"                       
+                                       FontSize="14"/>
+                            <TextBox Width="200"
+                                     FontSize="14"                     
+                                     Padding="5"
+                                     Margin="10"
+                                     Validation.ErrorTemplate="{StaticResource validationFailed}"
+                                     Style="{StaticResource validationText}">
+                                <TextBox.Text>
+                                    <Binding Path="StudentYearOfBirth"
+                                             NotifyOnValidationError="True"
+                                             ValidatesOnDataErrors="True"
+                                             UpdateSourceTrigger="PropertyChanged">
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+                        <Button Content="Найти студентов"
+                                FontSize="14"                            
+                                Padding="5"
+                                Margin="10"                            
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Right"
+                                Width="{Binding Width, ElementName=textBox}"
+                                Command="{Binding SelectStudentsByDateOfBirth}"/>
+                    </UniformGrid>
+                </Expander>
+
+                <Expander Header="Задание 5"
+                          Margin="0,5">
+                    <StackPanel Margin="0,5">
+                        <Button Content="Показать иногородних студентов"
+                                FontSize="14"
+                                Grid.Row="5"
+                                Padding="5"
+                                Margin="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Command="{Binding SelectNonresidentStudents}"/>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Header="Задание 6"
+                          Margin="0,5">
+                    <StackPanel Margin="0,5">
+                        <UniformGrid Columns="2">
+                            <StackPanel HorizontalAlignment="Left">
+                                <TextBlock Text="Введите №St:"
+                                           Padding="10,0,0,0"                           
+                                           FontSize="14"/>
+                                <TextBox x:Name="textBox"
+                                         Width="200"
+                                         FontSize="14"                                    
+                                         Padding="5"
+                                         Margin="10"                                         
+                                         Validation.ErrorTemplate="{StaticResource validationFailed}"
+                                         Style="{StaticResource validationText}">
+                                    <TextBox.Text>
+                                        <Binding Path="StudentNum"
+                                                 NotifyOnValidationError="True"
+                                                 ValidatesOnDataErrors="True"
+                                                 UpdateSourceTrigger="PropertyChanged">
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                            </StackPanel>
+
+                            <StackPanel HorizontalAlignment="Right">
+                                <TextBlock Text="Введите новое имя студента:"
+                                           Padding="10,0,0,0"                       
+                                           FontSize="14"/>
+                                <TextBox Width="200"
+                                         FontSize="14"                     
+                                         Padding="5"
+                                         Margin="10"      
+                                         Validation.ErrorTemplate="{StaticResource validationFailed}"
+                                         Style="{StaticResource validationText}">
+                                    <TextBox.Text>
+                                        <Binding Path="StudentNewName"
+                                                 NotifyOnValidationError="True"
+                                                 ValidatesOnDataErrors="True"
+                                                 UpdateSourceTrigger="PropertyChanged">
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                            </StackPanel>
+
+                            <Button Content="Удалить студента"
+                                    FontSize="14"                
+                                    Padding="5"
+                                    Margin="10"                                
+                                    Width="{Binding Width, ElementName=textBox}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding DeleteStudentsByStudentsNum}"/>
+                            <Button Content="Изменить данные"
+                                    FontSize="14"
+                                    Padding="5"
+                                    Margin="10"
+                                    Width="{Binding Width, ElementName=textBox}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding UpdateStudentsByStudentNum}"/>
+                        </UniformGrid>
+                    </StackPanel>
+                </Expander>
+
+                <Expander Header="Задание 7"
+                          Margin="0,5">
+                    <UniformGrid Columns="2"
+                                 Margin="0,5">
+                        <StackPanel Margin="10,0">
+                            <TextBlock Text="Выберите дату:"
+                                       FontSize="14"
+                                       Padding="5"/>
+                            <DatePicker SelectedDate="{Binding Calendar, UpdateSourceTrigger=PropertyChanged}"
+                                        BorderThickness="0"
+                                        Padding="5"
+                                        HorizontalAlignment="Left"/>
+                        </StackPanel>
+                        <Button Content="Поиск студента по дате рождения"
+                                FontSize="14"                                
+                                Padding="5"
+                                Margin="10"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Command="{Binding SelectStudientsByCalendar}"/>
+                    </UniformGrid>
+                </Expander>
+
+                <Expander Header="Задание 8"
+                          Margin="0,5">
+                    <UniformGrid Columns="2"
+                                 Margin="0,5">
+                        <StackPanel>
+                            <TextBlock Text="Выбирете диапозон дат:"
+                                       Padding="5"
+                                       Margin="10,0"/>
+                            <DatePicker Padding="5"
+                                        Margin="10"
+                                        BorderThickness="0"
+                                        SelectedDate="{Binding FirstDate, UpdateSourceTrigger=PropertyChanged}"/>
+                            <DatePicker Padding="5"
+                                        Margin="10,0"
+                                        BorderThickness="0"
+                                        SelectedDate="{Binding SecondDate, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+
+                        <Button Content="Поиск студента по дате рождения"
+                                FontSize="14"                                
+                                Padding="5"
+                                Margin="10"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Command="{Binding SelectStudientsByDateRange}"/>
+                    </UniformGrid>
+                </Expander>
+
+                <Button Content="Сброс таблицы"
+                        FontSize="14"
+                        Grid.Row="8"
+                        Padding="5"
+                        Margin="10"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding ResetTable}"/>
+
+                <Button Content="Сохранить таблицу"
+                        FontSize="14"
+                        Grid.Row="8"
+                        Padding="5"
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding ChangeDataTable}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

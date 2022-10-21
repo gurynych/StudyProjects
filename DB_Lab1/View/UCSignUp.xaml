@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="DB_Lab1.View.UCSignUp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DB_Lab1.View"
+             xmlns:vm="clr-namespace:DB_Lab1.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d"            
+             d:DesignHeight="500" d:DesignWidth="300"
+             DataContext="{Binding ViewModelSignUp, Source={StaticResource vmLocator}}"
+             Style="{StaticResource UCBackground}">
+
+    <StackPanel VerticalAlignment="Center"
+                HorizontalAlignment="Center">
+        <TextBlock Text="Регистрация"
+                   FontSize="14"
+                   FontWeight="Bold"
+                   Padding="5"
+                   Margin="10"
+                   HorizontalAlignment="Center"/>
+
+        <StackPanel>
+            <TextBlock Text="Логин"
+                       FontSize="14"
+                       Padding="5"/>
+            <local:UCTextBox TextToBind="{Binding Login, UpdateSourceTrigger=LostFocus}"
+                             Description="{Binding TbDescription}"/>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="Пароль"
+                       FontSize="14"
+                       Padding="5"/>
+
+            <local:UCPasswordBox PasswordToBind="{Binding Password}"
+                                 Description="{Binding PbDescription}"/>
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock Text="Повтор пароля"
+                       FontSize="14"
+                       Padding="5"/>
+        
+            <local:UCPasswordBox PasswordToBind="{Binding PasswordRepeat}"
+                                 Description="{Binding PbRepeatDescription}"/>
+        </StackPanel>
+
+        <Button Content="Регистрация"                
+                Padding="5"
+                Margin="0,10"
+                Command="{Binding SignUp}"
+                Style="{StaticResource RoundButton}"/>
+        
+        <Button Content="Войти"                
+                Padding="5"
+                Margin="0,30,0,0"
+                Command="{Binding GoToSingIn}"
+                Style="{StaticResource RoundButton}"/>
+
+    </StackPanel>
+</UserControl>

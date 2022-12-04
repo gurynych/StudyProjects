@@ -1,0 +1,72 @@
+﻿<Window x:Class="DbLab2_Individual.Views.RequestsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DbLab2_Individual.Views"
+        xmlns:lc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="RequestsWindow" Height="450" Width="800"
+        DataContext="{Binding RequestsViewModel, Source={StaticResource vmLocator}}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel HorizontalAlignment="Center"
+                    Grid.Column="0">
+            <TextBlock Text="Запрос на выборку"
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold"
+                       TextWrapping="Wrap"
+                       FontSize="14"
+                       Padding="5"/>
+            <TextBlock Text="Выберите дату для поиска заказа: "
+                       HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       FontSize="14"
+                       Padding="5"/>
+            <DatePicker SelectedDate="{Binding Calendar}"
+                        BorderThickness="0"
+                        Padding="5"/>
+
+            <Button Content="Поиск"
+                    FontSize="14"
+                    Padding="5"
+                    Margin="10"
+                    Command="{Binding FindOrdersByCalendar}"
+                    Style="{StaticResource CornerButton}"/>
+
+            <TextBlock Text="Статистический запрос"
+                       HorizontalAlignment="Center"
+                       FontWeight="Bold"
+                       TextWrapping="Wrap"
+                       FontSize="14"
+                       Padding="5"/>
+            <Button Content="Самый дорогой заказ"
+                    FontSize="14"
+                    Padding="5"
+                    Margin="10"
+                    Command="{Binding FindMostExpensiveOrders}"
+                    Style="{StaticResource CornerButton}"/>
+            <Button Content="Сброс поиска"
+                    FontSize="14"
+                    Padding="5"
+                    Margin="10"
+                    Command="{Binding ResetDataGrid}"
+                    Style="{StaticResource CornerButton}"/>
+            <Button Content="Диаграмма"                    
+                    FontSize="14"
+                    Padding="5"
+                    Margin="10"
+                    Command="{Binding ShowChartWindow}"
+                    Style="{StaticResource CornerButton}"/>
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding OrdersToChange}"
+                  Grid.Column="1"
+                  AutoGeneratingColumn="ChangingTableColumns"
+                  IsReadOnly="True"/>
+    </Grid>
+</Window>

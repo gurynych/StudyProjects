@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -24,8 +25,10 @@ namespace DbLab2_Individual.Models.FirstDatabase
         [Description("Название")]
         public string? GenderName { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Employee>? Employees { get; set; }
-        
+
+        [JsonIgnore]
         [NotMapped]
         public override IEnumerable<PropertyInfo> RelationshipsProperties => relationshipsPropertyInfos;
 

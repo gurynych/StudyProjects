@@ -1,35 +1,34 @@
-﻿using DbLab2_Individual.Models;
+﻿using System;
 using DbLab2_Individual.Models.FirstDatabase;
-using DbLab2_Individual.Models.SecondDatabase;
 using DbLab2_Individual.MVVM;
 using DbLab2_Individual.Views;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Common;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
+using Newtonsoft.Json;
+using System.IO;
+using DbLab2_Individual.Models;
+using System.ComponentModel;
 
 namespace DbLab2_Individual.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private DatabaseItem activeItem;
-        private object activeTable;
         private Messenger msgr;
         private readonly DbContext context;
 
-        public ObservableCollection<ITable> Tables { get; set; }
+        public int KolichestvoKnopok => 4;
 
-        public DatabaseItem ActiveItem { get; set; }        
+        public ObservableCollection<Table> Tables { get; set; }
 
-        public object ActiveTable { get; set; }
+        public DatabaseItem ActiveItem { get; set; }
+
+        public Table ActiveTable { get; set; }
 
         public MainViewModel(Messenger msgr, DbContext context)
         {
@@ -50,7 +49,7 @@ namespace DbLab2_Individual.ViewModels
                     ?.GetConstructor(new[] { prop.PropertyType })
                     ?.Invoke(new[] { value });
 
-                if (objTable is ITable table)
+                if (objTable is Table table)
                 {
                     Tables.Add(table);
                 }
@@ -115,7 +114,7 @@ namespace DbLab2_Individual.ViewModels
                                         .MakeGenericType(type)
                                         .GetConstructor(new[] { list.GetType() })
                                         ?.Invoke(new[] { list });
-                                    
+
                                     property.SetValue(ActiveItem, collection);
                                 }
                                 else if (dataDict.ContainsKey(property.PropertyType))
@@ -139,5 +138,25 @@ namespace DbLab2_Individual.ViewModels
                 msgr.Send<RequestsViewModel>((context as Database_ex3_var1Context).Orders);
 
             }, (obj) => context is Database_ex3_var1Context && Tables.Any());
+
+        public ICommand SaveAsJson => new RelayCommand
+            ((obj) =>
+            {
+                object? value = context.GetType().GetProperties()
+                    .Where(p => p.PropertyType.IsGenericType)
+                    .First(p => p.PropertyType.GetGenericArguments().First() == ActiveTable
+                                                                                    .GetType()
+                                                                                    .GetProperty("Data")
+                                                                                    .GetValue(ActiveTable)
+                                                                                    .GetType()
+                                                                                    .GetGenericArguments()
+                                                                                    .First())
+                    .GetValue(context);
+
+                string path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\{ActiveTable.Name}.txt";
+                string json = JsonConvert.SerializeObject(value, Formatting.Indented);
+                File.WriteAllText(path, json);
+
+            }, (obj) => true);
     }
 }

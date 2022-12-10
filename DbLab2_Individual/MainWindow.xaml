@@ -36,29 +36,25 @@
             </TabControl.ContentTemplate>
         </TabControl>
 
-        <Button Content="ЗАПРОСЫ"
-                Grid.Row="1"
-                Margin="20 0 0 0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"                                
-                Command="{Binding OpenRequestWindow}"
-                Style="{StaticResource CornerButton}"/>
-        
-        
-        <Button Content="СОХРАНИТЬ"
-                Grid.Row="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"                                
-                Command="{Binding SaveTable}"
-                Style="{StaticResource CornerButton}"/>
+        <UniformGrid Grid.Row="1"
+                     VerticalAlignment="Center"
+                     Columns="{Binding KolichestvoKnopok}">
+            <Button Content="ЗАПРОСЫ"                                                                     
+                    Command="{Binding OpenRequestWindow}"
+                    Style="{StaticResource CornerButton}"/>
+            
+            
+            <Button Content="СОХРАНИТЬ"
+                    Command="{Binding SaveTable}"
+                    Style="{StaticResource CornerButton}"/>
 
-        <Button Content="ДОБАВИТЬ СВЯЗЬ"
-                Grid.Row="1"
-                Margin="0 0 20 0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"                
-                Command="{Binding AddRelation}"
-                Style="{StaticResource CornerButton}"/>
+            <Button Content="TO JSON"
+                    Command="{Binding SaveAsJson}"
+                    Style="{StaticResource CornerButton}"/>
 
+            <Button Content="ДОБАВИТЬ СВЯЗЬ"
+                    Command="{Binding AddRelation}"
+                    Style="{StaticResource CornerButton}"/>
+        </UniformGrid>
     </Grid>
 </Window>

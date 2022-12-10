@@ -11,14 +11,15 @@ using System.Threading.Tasks;
 
 namespace DbLab2_Individual.Models
 {
-    public interface ITable
+    public abstract class Table
     {
+        public abstract string Name { get; set; }
     }
 
-    public class Table<T> : ITable
+    public class Table<T> : Table
         where T : class
     {
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
         public IEnumerable<T> Data { get; set; }
 
@@ -49,6 +50,6 @@ namespace DbLab2_Individual.Models
                     }
                 }
             }
-        }
+        }     
     }
 }

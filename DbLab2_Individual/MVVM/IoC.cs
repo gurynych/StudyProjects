@@ -1,5 +1,4 @@
 ﻿using DbLab2_Individual.Models.FirstDatabase;
-using DbLab2_Individual.Models.SecondDatabase;
 using DbLab2_Individual.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +18,8 @@ namespace DbLab2_Individual.MVVM
             services.AddTransient(typeof(CreateRelationViewModel));
             services.AddTransient(typeof(RequestsViewModel));
             services.AddTransient(typeof(ChartViewModel));
-            //services.AddDbContext<DbContext, Database_ex3_var1Context>();
-            services.AddDbContext<DbContext, DataBaseFirst_Ex2Context>();
+            services.AddDbContext<DbContext, Database_ex3_var1Context>();
+            //5services.AddDbContext<DbContext, DataBaseFirst_Ex2Context>();
             services.AddSingleton(typeof(Messenger));
 
             provider = services.BuildServiceProvider();

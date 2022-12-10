@@ -1,4 +1,5 @@
 ﻿using DbLab2_Individual.ViewModels;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +14,6 @@ namespace DbLab2_Individual.Models.FirstDatabase
     [Description("Сотрудники")]
     public partial class Employee : DatabaseItem
     {
-        private Post? post;
         private readonly IEnumerable<PropertyInfo> relationshipsPropertyInfos = new List<PropertyInfo>()
         {
             typeof(Employee).GetProperty(nameof(Orders)),
@@ -40,18 +40,22 @@ namespace DbLab2_Individual.Models.FirstDatabase
 
         public long? PostId { get; set; }
 
+        [JsonIgnore]
         [Description("Должность")]
         [ReadOnly(true)]
         public virtual Post? Post { get; set; }
 
         public long? GenderId { get; set; }
 
+        [JsonIgnore]
         [Description("Пол")]
         [ReadOnly(true)]
         public virtual Gender? Gender { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Order>? Orders { get; set; }
-       
+
+        [JsonIgnore]
         [NotMapped]
         public override IEnumerable<PropertyInfo> RelationshipsProperties => relationshipsPropertyInfos;
 

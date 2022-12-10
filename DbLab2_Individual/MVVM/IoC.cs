@@ -18,8 +18,9 @@ namespace DbLab2_Individual.MVVM
             services.AddTransient(typeof(MainViewModel));
             services.AddTransient(typeof(CreateRelationViewModel));
             services.AddTransient(typeof(RequestsViewModel));
-            services.AddTransient(typeof(ChartViewModel));            
-            services.AddDbContext<DbContext, Database_ex3_var1Context>();
+            services.AddTransient(typeof(ChartViewModel));
+            //services.AddDbContext<DbContext, Database_ex3_var1Context>();
+            services.AddDbContext<DbContext, DataBaseFirst_Ex2Context>();
             services.AddSingleton(typeof(Messenger));
 
             provider = services.BuildServiceProvider();

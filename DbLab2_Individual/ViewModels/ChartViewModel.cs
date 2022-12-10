@@ -37,7 +37,9 @@ namespace DbLab2_Individual.ViewModels
 
                     SeriesCollection = new();
                     Formatter = value => value.ToString("0");
-                    Dictionary<string, int> dict = orders.GroupBy(o => o.OrderDate.Value.ToString("d"))
+
+                    Dictionary<string, int> dict = orders.OrderBy(x => x.OrderDate)
+                        .GroupBy(o => o.OrderDate.Value.ToString("d"))
                         .ToDictionary(x => x.Key, x => x.Count());
 
                     Labels = dict.Select(x => x.Key).ToList();

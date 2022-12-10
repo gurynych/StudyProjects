@@ -1,6 +1,5 @@
 ﻿using DbLab2_Individual.Models;
 using DbLab2_Individual.Models.Controls;
-using DbLab2_Individual.Models.FirstDatabase;
 using DbLab2_Individual.MVVM;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,17 +16,12 @@ namespace DbLab2_Individual.ViewModels
     public class CreateRelationViewModel
     {
         private Messenger msgr;
-        private List<DatabaseItem>? allItems;
-        private DbContext context;
-
-        public ObservableCollection<DatabaseItem> ConnectWith { get; set; }
 
         public ObservableCollection<ControlTemplate> Controls { get; set; }
 
         public CreateRelationViewModel(Messenger msgr, DbContext context)
         {
-            this.msgr = msgr;
-            this.context = context;
+            this.msgr = msgr;            
 
             Controls = new ObservableCollection<ControlTemplate>();
 
@@ -37,9 +31,7 @@ namespace DbLab2_Individual.ViewModels
                     if (message is not IRelationships obj)
                     {
                         throw new ArgumentException();
-                    }                    
-
-                    this.context = context;
+                    }
 
                     List<SelectionWrapper>? allItems;
 
